@@ -1,0 +1,68 @@
+<div class="lay-body">
+    <div class="demoTable">
+        <b>已上架商品</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="layui-inline">
+            <input class="layui-input" placeholder="输入商品名称" name="keywords" id="keywords" autocomplete="off">
+            <input type="hidden" name="book_id" value=""/>
+        </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
+    </div>
+    <div class="table-body">
+        <table id="oneTable" lay-filter="test"></table>
+    </div>
+</div>    
+<script type="text/javascript">
+    var id = "{$info.id}";
+    var url = window.location.href;
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+        elem: '#oneTable'
+        ,method: 'post'
+        ,url: url //数据接口
+        ,page: true //开启分页
+        ,cols: [[ //表头
+          {field: 'thumb', title: '商品图片'}
+          ,{field: 'cat_name', title: '商品分类'}
+          ,{field: 'book_sn', title: '商品编号'}
+          ,{field: 'book_name', title: '商品名称', sort: true}
+          ,{field: 'book_stock', title: '库存'}
+          ,{field: 'oper', title: '操作'} 
+        ]]
+        ,id: 'oneReload'
+        ,size: 'lg'
+        ,even: true
+        });
+        var $ = layui.$, active = {
+            reload: function(){
+                var keywords = $("#keywords");
+                //执行重载
+                table.reload('oneReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        key: {
+                            keywords: keywords.val(),
+                        }
+                    }
+                });
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+        });
+    });
+    $(function(){
+        var windowHeigth = $(document).height();
+        $(".main-body").height(windowHeigth);
+    });
+    
+    //调用父窗口获取商品规格列表
+    function choose(json){
+        window.parent.addBook(json);
+    }
+    
+</script>

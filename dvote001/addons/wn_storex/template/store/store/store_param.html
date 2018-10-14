@@ -1,0 +1,166 @@
+<div class="form-group">
+	<label class="col-xs-12 col-md-2 control-label">提醒接收邮箱</label>
+	<div class="col-md-10" id="email-container" style="padding-left: 0px;">
+		{loop $emails $key $email}
+		<div class="col-sm-5" style="margin: 5px 0px;">
+			<div class="input-group">
+				<input type="text" name="email[{$key}]" class="form-control email-input" value="{$email}" />
+				<span class="input-group-btn">
+					<button class="btn btn-default email-delete" type="button">删除</button>
+				</span>
+			</div>
+		</div>
+		{/loop}
+		<div class="col-sm-5">
+			<button type="button" id="add_email" class="btn btn-default"><i class="fa fa-plus"></i> 添加</button>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-md-2 control-label">提醒接收手机</label>
+	<div class="col-md-10" id="tel-container" style="padding-left: 0px;">
+		{loop $tels $key $tel}
+		<div class="col-sm-5" style="margin: 5px 0px;">
+			<div class="input-group">
+				<input type="text" name="tel[{$key}]" class="form-control tel-input" value="{$tel}" />
+				<span class="input-group-btn">
+					<button class="btn btn-default tel-delete" type="button">删除</button>
+				</span>
+			</div>
+		</div>
+		{/loop}
+		<div class="col-sm-5">
+			<button type="button" id="add_tel" class="btn btn-default"><i class="fa fa-plus"></i> 添加</button>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-md-2 control-label">提醒接收微信</label>
+	<div class="col-md-10" id="openid-container" style="padding-left: 0px;">
+		{loop $openids $key $openid}
+		<div class="col-sm-5" style="margin: 5px 0px;">
+			<div class="input-group">
+				<input type="text" name="openid[{$key}]" class="form-control openid-input" value="{$openid}" />
+				<span class="input-group-btn">
+					<button class="btn btn-default openid-delete" type="button">删除</button>
+				</span>
+			</div>
+		</div>
+		{/loop}
+		<div class="col-sm-5">
+			<button type="button" id="add_openid" class="btn btn-default"><i class="fa fa-plus"></i> 添加</button>
+			(请先关注该公众号，然后填写微信openid)
+		</div>
+	</div>
+</div>
+{if $store_type == 1}
+<div class="form-group">
+	<label class="col-xs-12 col-md-2 control-label">酒店设施</label>
+	<div class="col-md-10" id="device-container" style="padding-left: 0px;">
+		{loop $devices $key $device}
+		<div class="col-sm-5" style="margin: 5px 0px;">
+			<div class="input-group">
+				<span class="input-group-addon">
+					<input type="checkbox" name="show_device[{$key}]" value="1" {if $device['isshow'] > 0}checked{/if} aria-label="Checkbox for following text input">
+						</span>
+				<input type="text" name="device[{$key}]" class="form-control device-input" value="{$device['value']}" />
+				<span class="input-group-btn">
+					<button class="btn btn-default device-delete" type="button">删除</button>
+				</span>
+			</div>
+		</div>
+		{/loop}
+		<div class="col-sm-5">
+			<button type="button" id="add_device" class="btn btn-default"><i class="fa fa-plus"></i> 添加</button>
+		</div>
+	</div>
+</div>
+{/if}
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">主色调自定义</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="color" id="color" name="color" value={if !empty($storex_bases['color'])} {$storex_bases['color']} {else} '#f23030' {/if}>
+		<span class='help-block'>默认：#f23030</span>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$("#add_device").click(function() {
+		var index = $('.device-input').length;
+		var html =
+			'<div class="col-sm-5" style="margin: 5px 0px;">' +
+				'<div class="input-group">' +
+					'<span class="input-group-addon">' +
+						'<input type="checkbox" name="show_device[' + index + ']" value="1" aria-label="Checkbox for following text input">' +
+					'</span>' +
+					'<input type="text" name="device[' + index + ']" class="form-control device-input" value="">' +
+					'<span class="input-group-btn">' +
+						'<button class="btn btn-default device-delete" type="button">删除</button>' +
+					'</span>' +
+				'</div>' +
+			'</div>';
+
+		$(this).parent().before(html);
+	});
+	
+	$("#add_email").click(function() {
+		var index = $('.email-input').length;
+		var html =
+			'<div class="col-sm-5" style="margin: 5px 0px;">' +
+				'<div class="input-group">' +
+					'<input type="text" name="email[' + index + ']" class="form-control email-input" value="">' +
+					'<span class="input-group-btn">' +
+						'<button class="btn btn-default email-delete" type="button">删除</button>' +
+					'</span>' +
+				'</div>' +
+			'</div>';
+
+		$(this).parent().before(html);
+	});
+	
+	$("#add_tel").click(function() {
+		var index = $('.tel-input').length;
+		var html =
+			'<div class="col-sm-5" style="margin: 5px 0px;">' +
+				'<div class="input-group">' +
+					'<input type="text" name="tel[' + index + ']" class="form-control tel-input" value="">' +
+					'<span class="input-group-btn">' +
+						'<button class="btn btn-default tel-delete" type="button">删除</button>' +
+					'</span>' +
+				'</div>' +
+			'</div>';
+
+		$(this).parent().before(html);
+	});
+	
+	$("#add_openid").click(function() {
+		var index = $('.openid-input').length;
+		var html =
+			'<div class="col-sm-5" style="margin: 5px 0px;">' +
+				'<div class="input-group">' +
+					'<input type="text" name="openid[' + index + ']" class="form-control openid-input" value="">' +
+					'<span class="input-group-btn">' +
+						'<button class="btn btn-default openid-delete" type="button">删除</button>' +
+					'</span>' +
+				'</div>' +
+			'</div>';
+
+		$(this).parent().before(html);
+	});
+	$(document).on('click', '.device-delete', function() {
+		$(this).parent().parent().parent().remove();
+	});
+	$(document).on('click', '.email-delete', function() {
+		$(this).parent().parent().parent().remove();
+	});
+	$(document).on('click', '.tel-delete', function() {
+		$(this).parent().parent().parent().remove();
+	});
+	$(document).on('click', '.openid-delete', function() {
+		$(this).parent().parent().parent().remove();
+	});
+	$('#color').change(function(){
+		alert('您选择的颜色是：'+this.value)
+	});
+</script>
+</script>

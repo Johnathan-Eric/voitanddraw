@@ -1,0 +1,501 @@
+{template 'common/header-storex'}
+
+<div class="wn-main">
+	<div class="wn-main__head">应用</div>
+{if $op == 'display'}
+	<div class="wn-main__content">
+		<div class="wn-tabs" style="display:none;">
+			<div class="wn-tabs__item wn-tabs__item--active">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_plugin_group', array('op' => 'display', 'storeid' => $_GPC['storeid']))}">拼团活动列表</a>
+			</div>
+			<div class="wn-tabs__item">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_plugin_group', array('op' => 'grouplist', 'storeid' => $_GPC['storeid']))}">拼团列表</a>
+			</div>
+		</div>
+		
+		
+		<div class="panel wn-panel">
+			<div class="panel-heading">砍价</div>
+			<div class="panel-body">
+				<table class="table table-hover wn-table table-bordered">
+					<thead class="navbar-inner">
+						<tr>
+							<th>砍价成功</th>
+							<th>砍价中</th>
+							<th>砍价成功下单</th>
+							<th>砍价失败</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>数量 -- {$bargain_over_num}</td>
+							<td>数量 -- {$bargain_unover_num}</td>
+							<td>数量 -- {$bargain_success_num}</td>
+							<td>数量 -- {$bargain_faile_num}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="panel wn-panel">
+			<div class="panel-heading">订单</div>
+			<div class="panel-body">
+				<table class="table table-hover wn-table table-bordered">
+					<thead class="navbar-inner">
+						<tr>
+							<th colspan="2">今日成交</th>
+							<th colspan="2">昨日成交</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>成交量 -- {$order_today['nums']}</td>
+							<td>成交额 -- {$order_today['money']}</td>
+							<td>成交量 -- {$order_yestoday['nums']}</td>
+							<td>成交额 -- {$order_yestoday['money']}</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table table-hover wn-table table-bordered">
+					<thead class="navbar-inner">
+						<tr>
+							<th colspan="2">近7日成交</th>
+							<th colspan="2">近1个月成交</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>成交量 -- {$order_seven['nums']}</td>
+							<td>成交额 -- {$order_seven['money']}</td>
+							<td>成交量 -- {$order_month['nums']}</td>
+							<td>成交额 -- {$order_month['money']}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+			
+		<div class="pull-right">
+			<a href="{php echo $this->createWebUrl('shop_plugin_bargain', array('op' => 'post', 'storeid' => $_GPC['storeid']))}" class="btn btn-primary">+添加砍价活动</a>
+		</div>
+		<div class="clearfix">
+			<table class="table table-hover wn-table table-bordered">
+				<thead class="navbar-inner">
+					<tr>
+						<th>序号</th>
+						<th>商品</th>
+						<th>标价</th>
+						<th>底价</th>
+						<th>发起次数限制</th>
+						<th>开始时间</th>
+						<th>结束时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $bargain_list $bargain}
+					<tr>
+						<td>{$bargain['id']}</td>
+						<td>
+							<img src="{php echo $bargain['edit_thumb']}" width="50px">
+							{$bargain['edit_title']}	
+						</td>
+						<td>{$bargain['cprice']}</td>
+						<td>{$bargain['endprice']}</td>
+						<td>{$bargain['stock']}</td>
+						<td>{php echo date('Y-m-d H:i:s', $bargain['starttime'])}</td>
+						<td>{php echo date('Y-m-d H:i:s', $bargain['endtime'])}</td>
+						<td>
+							<a href="{php echo $this->createWebUrl('shop_plugin_bargain', array('op' => 'post', 'id' => $bargain['id'], 'storeid' => $_GPC['storeid']))}" class="wn-table__link__item">查看详情</a>
+							<a href="{php echo $this->createWebUrl('shop_plugin_bargain', array('op' => 'bargain_list', 'id' => $bargain['id'], 'storeid' => $_GPC['storeid']))}" class="wn-table__link__item">发起列表</a>
+							<a href="{php echo $this->createWebUrl('shop_plugin_bargain', array('op' => 'delete', 'id' => $bargain['id'], 'storeid' => $_GPC['storeid']))}" class="wn-table__link__item">删除</a>
+						</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			<div class="pull-right">
+				{$pager}
+			</div>
+		</div>
+	</div>
+{/if}
+
+{if $op == 'bargain_list'}
+	<div class="wn-main__content">
+		<div class="wn-tabs">
+			<div class="wn-tabs__item wn-tabs__item--active">
+				<a class="wn-tabs__link">砍价发起列表</a>
+			</div>
+		</div>
+		<div class="pull-right">
+			<a href="{php echo $this->createWebUrl('shop_plugin_bargain', array('op' => 'display', 'storeid' => $_GPC['storeid']))}" class="btn btn-primary">-返回砍价活动列表</a>
+		</div>
+		<div class="clearfix">
+			<table class="table table-hover wn-table table-bordered">
+				<thead class="navbar-inner">
+					<tr>
+						<th>头像</th>
+						<th>序号</th>
+						<th>活动id</th>
+						<th>发起人</th>
+						<th>现价</th>
+						<th>剩余次数</th>
+						<th>发起时间</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $bargain_list $bargain}
+					<tr>
+						<td>
+							<img src="{php echo $bargain['avatar']}" width="50px">
+						</td>
+						<td>{$bargain['id']}</td>
+						<td>{$bargain['bargainid']}</td>
+						<td>{$bargain['openid']}</td>
+						<td>{$bargain['cprice']}</td>
+						<td>{$bargain['times']}</td>
+						<td>{php echo date('Y-m-d H:i:s', $bargain['time'])}</td>
+						<td>
+							{if $bargain['status'] == 0}
+							进行中
+							{elseif $bargain['status'] == 1}
+							砍价成功
+							{elseif $bargain['status'] == 2}
+							下单成功
+							{elseif $bargain['status'] == 3}
+							砍价失败
+							{/if}
+						</td>
+						<td>
+							<a href="{php echo $this->createWebUrl('shop_plugin_bargain', array('op' => 'bargain_logs', 'id' => $bargain['id'], 'bargainid' => $bargain['bargainid'], 'storeid' => $_GPC['storeid']))}" class="wn-table__link__item">帮砍列表</a>
+						</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			<div class="pull-right">
+				{$pager}
+			</div>
+		</div>
+	</div>
+{/if}
+
+{if $op == 'bargain_logs'}
+	<div class="wn-main__content">
+		<div class="wn-tabs">
+			<div class="wn-tabs__item wn-tabs__item--active">
+				<a class="wn-tabs__link">帮砍列表</a>
+			</div>
+		</div>
+		<div class="pull-right">
+			<a href="{php echo $this->createWebUrl('shop_plugin_bargain', array('op' => 'bargain_list', 'id' => $bargainid, 'storeid' => $_GPC['storeid']))}" class="btn btn-primary">-返回砍价列表</a>
+		</div>
+		<div class="clearfix">
+			<table class="table table-hover wn-table table-bordered">
+				<thead class="navbar-inner">
+					<tr>
+						<th>头像</th>
+						<th>序号</th>
+						<th>昵称</th>
+						<th>发起砍价id</th>
+						<th>帮砍价的用户</th>
+						<th>砍价钱价格</th>
+						<th>砍价后价格</th>
+						<th>砍的钱</th>
+						<th>砍价时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $bargain_logs $log}
+					<tr>
+						<td>
+							<img src="{php echo $log['avatar']}" width="50px">
+						</td>
+						<td>{$log['id']}</td>
+						<td>
+							{if $log['type'] == 0}
+								{$log['nick']}
+							{else}
+								<span style="color:red;">系统</span>
+							{/if}
+						</td>
+						<td>{$log['bargain_list_id']}</td>
+						<td>{$log['openid']}</td>
+						<td>{$log['oprice']}</td>
+						<td>{$log['cprice']}</td>
+						<td>{$log['money']}</td>
+						<td>{php echo date('Y-m-d H:i:s', $log['time'])}</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			<div class="pull-right">
+				{$pager}
+			</div>
+		</div>
+	</div>
+{/if}
+
+{if $op == 'post'}
+<style type="text/css">
+	.wxapp-content .app-list .select{
+		float: left;
+		display: table;
+		vertical-align: middle;
+		text-align: center;
+		width: 129px;
+		height: 138px;
+		border: 1px solid #e7e7eb;
+		margin-right: 25px;
+		margin-bottom: 30px;
+		position: relative;
+	}
+	.wxapp-content .select-more{
+		border-style: dashed!important;
+		cursor: pointer;
+		content: '+';
+		font-size: 35px;
+		color: #98999a;
+		display: table-cell;
+		vertical-align: middle;
+	}
+	.cover-dark{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(64,64,64,.75);
+		padding: 30px;
+		display: none;
+	}
+</style>
+	<div class="wn-main__content" id="sales-package">
+		<div id="goods-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-default modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h3>
+							<ul role="tablist" class="nav nav-pills" style="font-size:14px; margin-top:-20px;">
+								<li role="presentation" class="basic">
+									<a data-toggle="tab" data-type="basic" role="tab" aria-controls="baisc" href="#basic">选择商品</a>
+								</li>
+							</ul>
+						</h3>
+					</div>
+					<div class="modal-body modules-content">
+						<div class="tab-content">
+							<ul class="app-allow-list">
+								{loop $available_list $goods}
+								<li class="js-select-goods" data-id="{$goods['id']}" data-img="{$goods['thumb']}" data-title="{$goods['title']}" data-goods_val_title="{$goods['goods_val_title']}" data-is_spec="{$goods['is_spec']}" data-goodsid="{$goods['goodsid']}" data-cprice="{$goods['cprice']}">
+									<div class="app-info">
+										<img src="{php echo $goods['thumb']}"/>
+										<p>{$goods['title']}</p>
+										<p>{$goods['goods_val_title']}</p>
+									</div>
+									<a href="javascript:;" class="cover-dark">
+										<i class="fa fa-check cover-selected"></i>
+									</a>
+								</li>
+								{/loop}
+							</ul>
+						</div>
+					</div>
+					<div class="modal-footer">
+					</div>
+				</div>
+			</div>
+		</div>
+		<form class="form-horizontal form js-form" method="post" enctype="multipart/form-data" action="{php echo $this->createWebUrl('shop_plugin_bargain', array('storeid' => $_GPC['storeid'], 'op' => 'post'))}">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择商品</label>
+				<div class="col-sm-3 col-xs-12 wxapp-content">
+					<ul class="app-allow-list">
+						<li class="select">
+							<div class="app-info">
+								<img class="js-goods-img" src="{php echo $current_bargain['edit_thumb']}"/>
+								<p class="ng-binding js-goods-title">{$current_bargain['edit_title']}</p>
+								<p class="js-goods-val-title">{$current_bargain['edit_goods_val']}</p>
+							</div>
+							<div class="cover-dark" style="display:none;">
+								<a href="javascript:;" class="cover-delect">
+									<i class="fa fa-minus-circle"></i>删除
+								</a>
+							</div>
+						</li>
+						{if empty($_GPC['id'])}
+						<li class="select select-more js-add-goods">+</li>
+						{/if}
+					</ul>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">标价</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="price" class="form-control" value="{$current_bargain['cprice']}" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">底价</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="endprice" class="form-control" value="{$current_bargain['endprice']}" {if !empty($_GPC['id'])}readonly{/if}>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动时间</label>
+				<div class="col-sm-9">
+					<div class="input-group">
+						{php echo _tpl_form_field_date('starttime', $current_bargain['starttime'], true)}
+						<span class="input-group-addon">至</span>
+						{php echo _tpl_form_field_date('endtime', $current_bargain['endtime'], true)}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">砍价次数</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="number" name="totaltime" class="form-control" min="1" value="{$current_bargain['totaltime']}" {if !empty($_GPC['id'])}readonly{/if}>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">发起次数限制</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="number" name="stock" class="form-control" min="1" value="{$current_bargain['stock']}" {if !empty($_GPC['id'])}readonly{/if}>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">单次砍价概率</label>
+				<div class="col-md-10" id="defined-container" style="padding-left: 0px;">
+					{loop $current_bargain['rand'] $key $rand}
+					<div class="col-sm-11" style="margin: 5px 0px;">
+						<div class="input-group">
+							<input type="number" class="form-control defined-input js-left" maxlength="6" name="rand[{$key}][left]" value="{$rand['left']}" {if !empty($_GPC['id'])}readonly{/if}>
+							<span class="input-group-addon">元 至</span>
+							<input type="number" class="form-control js-right" name="rand[{$key}][right]" value="{$rand['right']}" {if !empty($_GPC['id'])}readonly{/if}>
+							<span class="input-group-addon">元，概率</span>
+							<input type="number" class="form-control js-percent" max=100 name="rand[{$key}][percent]" value="{$rand['percent']}" {if !empty($_GPC['id'])}readonly{/if}>
+							<span class="input-group-addon">%</span>
+							<span class="input-group-btn" style="{if !empty($_GPC['id'])}display:none{/if}">
+								<button class="btn btn-default defined-delete" type="button">删除</button>
+							</span>
+						</div> 
+					</div>
+					{/loop}
+					<div class="col-sm-8" style="{if !empty($_GPC['id'])}display:none{/if}">
+						<button type="button" id="add_defined" class="btn btn-default"><i class="fa fa-plus"></i> 添加</button>
+						<span class="help-block">例如单次砍价范围在-1到1之间，概率相加必须等于100%</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-sm-12" style="{if !empty($_GPC['id'])}display:none{/if}">
+				<input type="submit" value="提交" name="submit" class="btn btn-primary col-lg-1">
+				<input type="hidden" name="id" value="{$current_bargain['id']}"/>
+				<input type="hidden" name="goodsid" value="{$current_bargain['goodsid']}"/>
+				<input type="hidden" name="is_spec" value="{$current_bargain['is_spec']}"/>
+				<input type="hidden" name="type" value="{$_GPC['type']}"/>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		$('.js-add-goods').click(function() {
+			$('#goods-modal').modal('show');
+		});
+		$('.js-select-goods').click(function() {
+			img = $(this).data('img');
+			title = $(this).data('title');
+			goods_val_title = $(this).data('goods_val_title');
+			is_spec = $(this).data('is_spec');
+			cprice = $(this).data('cprice');
+			id = $(this).data('id');
+			goodsid = $(this).data('goodsid');
+			$('.js-goods-title').text(title);
+			$('.js-goods-val-title').text(goods_val_title);
+			$('.js-goods-img').attr('src', img);
+			$('input[name="goodsid"]').val(id);
+			$('input[name="is_spec"]').val(is_spec);
+			$('input[name="price"]').val(cprice);
+			$('#goods-modal').modal('hide');
+		});
+		$('#add_defined').click(function() {
+			var index = $('.defined-input').length;
+			var html =
+				'<div class="col-sm-11" style="margin: 5px 0px;">' +
+					'<div class="input-group">' +
+						'<input type="number" class="form-control defined-input js-left" maxlength="6" name="rand[' + index + '][left]" value="">' +
+						'<span class="input-group-addon">元 至</span>' +
+						'<input type="number" class="form-control js-right" name="rand[' + index + '][right]" value="">' +
+						'<span class="input-group-addon">元，概率</span>' +
+						'<input type="number" class="form-control js-percent" max=100 name="rand[' + index + '][percent]" value="">' +
+						'<span class="input-group-addon">%</span>' +
+						'<span class="input-group-btn">' +
+							'<button class="btn btn-default defined-delete" type="button">删除</button>' +
+						'</span>' +
+					'</div> '+
+				'</div>';
+			$(this).parent().before(html);
+		});
+		$(document).on('click', '.defined-delete', function() {
+			$(this).parent().parent().parent().remove();
+		});
+		$('input[name="submit"]').click(function() {
+			var endprice = $('input[name="endprice"]').val();
+			var starttime = $('input[name="starttime"]').val();
+			var endtime = $('input[name="endtime"]').val();
+			var totaltime = $('input[name="totaltime"]').val();
+			var stock = $('input[name="stock"]').val();
+			var goodsid = $('input[name="goodsid"]').val();
+			totaltime = Number(totaltime);
+			stock = Number(stock);
+			if (!endprice) {
+				util.message('请填写底价', '', 'error');
+				return false;
+			}
+			if (!totaltime || totaltime < 1) {
+				util.message('请填写砍价次数', '', 'error');
+				return false;
+			}
+			if (!stock || stock < 1) {
+				util.message('请填写发起次数限制', '', 'error');
+				return false;
+			}
+			if (!goodsid) {
+				util.message('请选择商品', '', 'error');
+				return false;
+			}
+			if (starttime >= endtime) {
+				util.message('开始时间应小于结束时间', '', 'error');
+				return false;
+			}
+			$('.js-left').each(function() {
+				if (!$(this).val()) {
+					util.message('请填写砍价范围', '', 'error');
+					return false;
+				}
+			});
+			$('.js-right').each(function() {
+				if (!$(this).val()) {
+					util.message('请填写砍价范围', '', 'error');
+					return false;
+				}
+			});
+			var total = 0;
+			$('.js-percent').each(function() {
+				var percent = 0;
+				percent = Number($(this).val());
+				total += percent;
+			});
+			if (total != 100) {
+				util.message('概率总和应等于100%', '', 'error');
+				return false;
+			}
+			$('form').submit();
+		})
+	</script>
+{/if}
+</div>
+{template 'common/footer-storex'}

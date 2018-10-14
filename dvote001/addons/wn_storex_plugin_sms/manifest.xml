@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.qincewang.com" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[万能小店短信服务]]></name>
+		<identifie><![CDATA[wn_storex_plugin_sms]]></identifie>
+		<version><![CDATA[1.1]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[万能小店短信服务]]></ability>
+		<description><![CDATA[万能小店短信服务]]></description>
+		<author><![CDATA[新睿社区]]></author>
+		<url><![CDATA[https://www.qincewang.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="短信消息" do="smsnotice" state="" direct="false" />
+			<entry title="短信接入" do="smsset" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

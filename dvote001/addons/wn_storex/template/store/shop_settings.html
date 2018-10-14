@@ -1,0 +1,61 @@
+{template 'common/header-storex'}
+{if $op == 'post'}
+<div class="wn-main">
+	<div class="wn-main__head">店铺设置</div>
+	<div class="wn-main__content">
+		<div class="wn-tabs">
+			<div class="wn-tabs__item {if $_GPC['do'] == 'shop_settings'}wn-tabs__item--active{/if}">
+				{if $_GPC['action'] != 'add'}
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_settings', array('storeid' => $_GPC['storeid']))}">店铺设置</a>
+				{else}
+				<a class="wn-tabs__link" href="javascript:;">店铺设置</a>
+				{/if}
+			</div>
+			{if $_GPC['action'] != 'add'}
+			<div class="wn-tabs__item {if $op == 'homepage'}wn-tabs__item--active{/if}">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_share', array('op' => 'homepage', 'storeid' => $_GPC['storeid']))}">首页分享设置</a>
+			</div>
+			<!-- 
+			<div class="wn-tabs__item {if $op == 'category'}wn-tabs__item--active{/if}">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_share', array('op' => 'category', 'storeid' => $_GPC['storeid']))}">分类分享设置</a>
+			</div>
+			 -->
+			{/if}
+		</div>
+		<form class="form-horizontal form" method="post" enctype="multipart/form-data">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					{if empty($id)}添加店铺{else}编辑店铺{/if}
+				</div>
+				<input type="hidden" name="id" value="{$item['id']}">
+				<input type="hidden" name="store_type" value="{$store_type}">
+				<div class="panel-body" style="padding: 30px">
+					<ul class="nav nav-tabs" id="myTab" style="margin-bottom: 30px;">
+						<li class="active" ><a href="#tab_basic" aria-controls="profile" role="tab" data-toggle="tab">基本信息</a></li>
+						<!-- <li><a href="#tab_des" aria-controls="profile" role="tab" data-toggle="tab">店铺描述</a></li> -->
+						<li><a href="#tab_param" aria-controls="profile" role="tab" data-toggle="tab">自定义属性</a></li>
+						<li><a href="#tab_express" aria-controls="profile" role="tab" data-toggle="tab">运费设置</a></li>
+						<li><a href="#tab_return" aria-controls="profile" role="tab" data-toggle="tab">退款/退货</a></li>
+						<li><a href="#tab_template" aria-controls="profile" role="tab" data-toggle="tab">模板设置</a></li>
+						<li><a href="#tab_other" aria-controls="profile" role="tab" data-toggle="tab">其他设置</a></li>
+					</ul>
+					<div class="tab-content col-sm-12" >
+						<div class="tab-pane  active" id="tab_basic">{template 'store/store/store_basic'}</div>
+						<div class="tab-pane" id="tab_des">{template 'store/store/store_des'}</div>
+						<div class="tab-pane" id="tab_param">{template 'store/store/store_param'}</div>
+						<div class="tab-pane" id="tab_express">{template 'store/store/store_express'}</div>
+						<div class="tab-pane" id="tab_return">{template 'store/store/store_return'}</div>
+						<div class="tab-pane" id="tab_template">{template 'store/store/store_template'}</div>
+						<div class="tab-pane" id="tab_other">{template 'store/store/store_other'}</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-sm-12">
+				<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</form>
+	</div>
+</div>
+{/if}
+{template 'common/footer-storex'}

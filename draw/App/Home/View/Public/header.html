@@ -1,0 +1,46 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand logo" href="/">
+						<img src="__PUBLIC__/home/img/logo_noword.png" alt="微小服" />
+					</a>
+				</div>
+				<?php 
+					if(!empty(session('member'))){?>
+					
+<div class="collapse navbar-collapse navbar-right">
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="#">
+								<span class="span-icon">
+									<img src="__PUBLIC__/home/img/user.jpg" />
+								</span>
+								<span class="span-desc">+86 <?php echo session('member')->mobile ?></span>
+							</a>
+						</li>
+						<li>
+							<a href="/Home/Public/chooseShop">
+								<span class="span-icon">
+									<img src="__PUBLIC__/home/img/backend.jpg" />
+								</span>
+								<span class="span-desc">管理后台</span>
+							</a>
+						</li>
+						<li>
+							<a href="/Home/Public/logout">
+								<span class="span-icon">
+									<img src="__PUBLIC__/home/img/exit.jpg" />
+								</span>
+								<span class="span-desc">退出</span>
+							</a>
+						</li>
+					</ul>
+					<?php } ?>
+				</div>
+
+				
+
+				
+				
+			</div>
+		</nav>

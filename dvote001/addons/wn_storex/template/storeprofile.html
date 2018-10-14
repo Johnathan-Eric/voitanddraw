@@ -1,0 +1,197 @@
+{template 'common/header'}
+<style>
+	.account-stat-num > div{width:33%; float:left; font-size:16px; text-align:center;}
+	.account-stat-num > div span{display:block; font-size:30px; font-weight:bold;}
+</style>
+<div class="main">
+	<ul class="nav nav-tabs">
+		{if !empty($actions_permit['wn_storex_menu_storeprofile'])}
+		<li {if $_GPC['do'] == 'storeprofile'}class="active"{/if}><a href="{php echo $this->createWebUrl('storeprofile', array('op'=>'profile', 'days' => 'today'));}">店铺概况</a></li>
+		{/if}
+		<li {if $_GPC['do'] == 'storemanage' && $op == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('storemanage', array('op'=>'list'));}">店铺列表</a></li>
+		{if !empty($actions_permit['wn_storex_menu_storeprofile'])}
+		<li {if $op == 'assign_store'}class="active"{/if}><a href="{php echo $this->createWebUrl('storemanage', array('op'=>'assign_store'));}">操作员分配店铺</a></li>
+		<li {if $_GPC['do'] == 'admin_logs'}class="active"{/if}><a href="{php echo $this->createWebUrl('admin_logs', array('op'=>'display'));}">操作日志</a></li>
+		{/if}
+	</ul>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			订单操作
+		</div>
+		<div class="panel-body">
+			<div class="account-stat-num row">
+				<div>待确认订单<span>{$order_confirm_num}</span></div>
+				<div>待发货订单<span>{$order_send_num}</span></div>
+				<div>待入住订单<span>{$order_checked_num}</span></div>
+			</div>
+		</div>
+	</div>
+	<div class="page-header clearfix">
+		<ul class="nav nav-tabs">
+			<li {if $_GPC['do'] == 'storeprofile' && (empty($days) || $days == 'today')}class="active"{/if}><a href="{php echo $this->createWebUrl('storeprofile', array('op'=>'profile', 'days' => 'today'));}">今日</a></li>
+			<li {if $_GPC['do'] == 'storeprofile' && $days == 'yesterday'}class="active"{/if}><a href="{php echo $this->createWebUrl('storeprofile', array('op'=>'profile', 'days' => 'yesterday'));}">昨日</a></li>
+			<li {if $_GPC['do'] == 'storeprofile' && $days == 'sevendays'}class="active"{/if}><a href="{php echo $this->createWebUrl('storeprofile', array('op'=>'profile', 'days' => 'sevendays'));}">近七日</a></li>
+			<li {if $_GPC['do'] == 'storeprofile' && $days == 'month'}class="active"{/if}><a href="{php echo $this->createWebUrl('storeprofile', array('op'=>'profile', 'days' => 'month'));}">本月</a></li>
+		</ul>
+	</div>
+	<div class="modal fade" id="storetype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">选择你要创建的店铺类型</h4>
+				</div>
+				<div class="modal-body clearfix form-horizontal">
+					<div class="form-group marbot0">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+						<div class="col-sm-9 col-xs-12">
+							<label class="radio-inline">
+								<input type="radio" name="store_type" value="1"/> 酒店类型
+							</label>
+							<div class="help-block"></div>
+						</div>
+					</div>
+					<div class="form-group marbot0">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+						<div class="col-sm-9 col-xs-12">
+							<label class="radio-inline">
+								<input type="radio" name="store_type" value="0"/> 普通店铺类型
+							</label>
+							<div class="help-block"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-select-store" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			订单概述
+		</div>
+		<div class="panel-body">
+			<div class="account-stat-num row">
+				<div>成交订单<span>{$total_num}</span></div>
+				<div>成交额（元）<span>{$total_money}</span></div>
+				<div>人均消费（元）<span>{$avg_money}</span></div>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<div class="panel panel-default wn-panel">
+		<div class="panel-body">
+			<div id="myChart" style="height: 500px"></div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="entry-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">入口查看</h4>
+			</div>
+			<div class="modal-body clearfix form-horizontal">
+				<div class="form-group clip-store">
+					<label class="col-xs-12 col-sm-4 col-md-2 control-label">店铺首页</label>
+					<div class="col-sm-8 col-xs-12">
+						<p class="form-control-static"> <a href="javascript:;" id="store_entry"></a></p>
+					</div>
+				</div>
+				<div class="form-group clip-mc">
+					<label class="col-xs-12 col-sm-4 col-md-2 control-label">个人中心</label>
+					<div class="col-sm-8 col-xs-12">
+						<p class="form-control-static"> <a href="javascript:;" id="mc_entry"></a></p>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('.js-add-store').click(function() {
+		$('#storetype-modal').modal();
+	});
+	$('.js-select-store').click(function() {
+		type = $('#storetype-modal input[type=radio]:checked').val() ? $('#storetype-modal input[type=radio]:checked').val() : 1;
+		location.href = "{php echo $this->createWeburl('shop_settings', array('op' => 'post', 'action' => 'add'))}&store_type=" + type;
+	});
+	$('#entry-modal').on('shown.bs.modal', function () {
+		util.clip($('.clip-store p a'), $('.clip-store p a').text());
+		util.clip($('.clip-mc p a'), $('.clip-mc p a').text());
+	})
+	$('.js-entry-modal').click(function() {
+		store_entry = $(this).data('store_entry');
+		mc_entry = $(this).data('mc_entry');
+		$('#store_entry').text(store_entry);
+		$('#mc_entry').text(mc_entry);
+		$('#entry-modal').modal();
+	});
+	require({
+		paths: {
+			'echart': "{php echo SCRIPT_URL . '/echarts'}"
+		}
+	});
+	var chart_data = {php echo json_encode($chart_data);};
+	require(['echart', 'daterangepicker'], function(echarts) {
+		$('.daterange').on('apply.daterangepicker', function(ev, picker) {
+			$('#stat-form')[0].submit();
+		});
+		var myChart = echarts.init(document.getElementById('myChart'));
+		// 指定图表的配置项和数据
+		option = {
+			title: {
+				text: '交易趋势图'
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			legend: {
+				data:['成交额', '成交量']
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			},
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			xAxis: {
+				type: 'category',
+				boundaryGap: false,
+				data: chart_data.label
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [
+				{
+					name:'成交额',
+					type:'line',
+					stack: '总量',
+					data: chart_data.series_data.money
+				},
+				{
+					name:'成交量',
+					type:'line',
+					stack: '总量',
+					data: chart_data.series_data.number
+				}
+			]
+		};
+		// 使用刚指定的配置项和数据显示图表。
+		myChart.setOption(option);
+	});
+</script>
+{template 'common/footer'}

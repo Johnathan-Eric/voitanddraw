@@ -1,0 +1,47 @@
+<?php
+namespace Vendor\Wechat;
+
+include_once 'wxBizMsgCrypt.php';
+class Test{
+	
+	
+	public function index(){
+		// 第三方发送消息给公众平台
+		$encodingAesKey = "R1I8ET2Uy78XQ18E1uu8EeuzeT858ix1TzE1x2II8q1";
+		$token = "GtrhLn4RU94h5aR9RaRqqruuXRnqUurA";
+		$timeStamp = "1409304348";
+		$appSecrect='d2442132ae7c0942d7da04b90d5513e3';
+		$nonce = "12345";
+		$appId = "wxaaffdd8fab86feb0";
+		$text = "<xml><ToUserName><![CDATA[oia2Tj我是中文jewbmiOUlr6X-1crbLOvLw]]></ToUserName><FromUserName><![CDATA[gh_7f083739789a]]></FromUserName><CreateTime>1407743423</CreateTime><MsgType><![CDATA[video]]></MsgType><Video><MediaId><![CDATA[eYJ1MbwPRJtOvIEabaxHs7TX2D-HV71s79GUxqdUkjm6Gs2Ed1KF3ulAOA9H1xG0]]></MediaId><Title><![CDATA[testCallBackReplyVideo]]></Title><Description><![CDATA[testCallBackReplyVideo]]></Description></Video></xml>";
+		
+		
+		$pc = new WXBizMsgCrypt($token, $encodingAesKey, $appId);
+		$encryptMsg = '';
+		$errCode = $pc->encryptMsg($text, $timeStamp, $nonce, $encryptMsg);
+		if ($errCode == 0) {
+			print("加密后: " . $encryptMsg . "\n");
+		} else {
+			print($errCode . "\n");
+		}
+		
+		$xml_tree = new DOMDocument();
+		$xml_tree->loadXML($encryptMsg);
+		$array_e = $xml_tree->getElementsByTagName('Encrypt');
+		$array_s = $xml_tree->getElementsByTagName('MsgSignature');
+		$encrypt = $array_e->item(0)->nodeValue;
+		$msg_sign = $array_s->item(0)->nodeValue;
+		
+		$format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+		$from_xml = sprintf($format, $encrypt);
+		
+		// 第三方收到公众号平台发送的消息
+		$msg = '';
+		$errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
+		if ($errCode == 0) {
+			print("解密后: " . $msg . "\n");
+		} else {
+			print($errCode . "\n");
+		}
+	}
+}

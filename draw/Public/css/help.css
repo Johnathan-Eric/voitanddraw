@@ -1,0 +1,316 @@
+/****************************常见问题页面开始****************************/
+.Flo-Que-banner img{
+	width: 100%;
+    height: auto;
+}
+.Flo-Que-banner-main .selcet-WL{
+	margin: 0;
+}
+.Flo-Que-banner-main .selcet-WL a{
+	color: black!important;
+	}	
+.Flo-Que-banner-main .selcet-WL a i{
+	color: #C8C8CD;
+}
+/****************************新用户送花瓶攻略页面开始****************************/
+.newUser-bg{
+	background-color: #fff;
+	font-size:1.5rem;
+}
+
+.newUser-main,.me-main,.city-main{
+	margin: 5rem 1.4rem 0 1.4rem;
+}
+.newUser-main .user-head,.me-head{
+	font-size:1.6rem;
+	line-height: 5rem;	
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-bottom: 0.1rem solid #F1F1F1;
+}
+
+.newUser-main .m1{
+	border-bottom: 1rem solid #3A393F;
+}
+.newUser-main .m1-small,.me-small{
+	color: #008000;	
+	margin:1rem 0 2rem 0;
+}
+.newUser-main .m1 p{
+	line-height: 2.8rem;
+}
+.newUser-main .m1 p:last-child{
+	margin: 3rem 0 2rem 0;
+}
+.newUser-main .m2{
+	margin: 0 2.6rem 3rem 2.8rem;
+	color: #A5A6A9;
+	font-size: 1.2rem;
+	position: relative;
+}
+.newUser-main .m2-small{
+	font-size: 2rem;
+	color: #53515B;
+	margin: 0.2rem 0 0.6rem 0;
+}
+.newUser-main .m2-small+p+p span{
+	font-size: 2.4rem;
+}
+.newUser-main .m2 .month{	
+	border: 0.6rem solid #FB3838;
+}
+.newUser-main .m2 .month>p:last-child{padding: 0 0.2rem;box-sizing: border-box;-webkit-box-sizing: border-box;}
+.newUser-main .m2 .month>p:last-child span{
+	width: 31%;margin: 0 auto;
+	height: 3rem;
+	line-height: 3rem;
+	text-align: center;	
+	display: inline-block;
+	border: 0.1rem solid #E6E6E6;
+}
+.newUser-main .m2 .month>p:last-child span:nth-child(2),.m2 .month>p:last-child span:nth-child(3){
+	margin-left: 0.2rem;
+}
+.newUser-main .meal{
+	margin: 0 0.6rem 3rem 0.6rem;
+	padding-bottom: 0.8rem;
+	border-bottom: 0.1rem solid #E6E6E6;
+}
+.newUser-main .meal>h4{
+	color: #53515B;
+	margin-bottom: 0.6rem;
+}
+.newUser-main .meal div{
+	margin-bottom: 1rem;
+}
+.newUser-main .meal div h6{
+	color: #53515B;
+	font-size: 1rem;
+}
+.newUser-main .meal div p span{
+	width: 11rem;margin: 0 auto;
+	height: 3rem;
+	line-height: 3rem;
+	text-align: center;	
+	display: inline-block;
+	margin:0.5rem 0.8rem 0.2rem 0;
+	border: 0.1rem solid #E6E6E6;
+}
+.newUser-main .meal div:last-child{
+	position: relative;
+}
+.newUser-main .meal div>div{
+	width: 18rem;
+	border: 0.6rem solid #FB3838;
+	position: absolute;
+	top:-1.6rem;
+	left:5rem;
+}
+.newUser-main .m2 .warn{
+	color: red;
+	position: absolute;
+	bottom: 9.8rem;
+	left: 0;
+}
+.newUser-main .m2 .slogan{
+	width: 20rem;
+	text-align: center;
+	padding: 1rem 2rem;
+	box-sizing: border-box;
+	margin-top: 3rem;
+	margin:auto;
+	border: 0.1rem solid #E6E6E6;
+	border-bottom: none;
+}
+.newUser-main .m2 .purchase{
+	display: -webkit-box;   
+    border: 0.1rem solid #E6E6E6;
+    border-left: none;
+    border-right: none;
+}
+.newUser-main .m2 .purchase>img{
+	width: 3.5rem;
+    height: 2.5rem;
+    margin: 0.6rem 1.5rem;
+}
+.newUser-main .m2 .purchase>span:last-child{
+	-webkit-box-flex: 1;
+    display: block;
+    padding: 0.8rem 0;
+    text-align: center;
+    font-size: 1.5rem;
+    letter-spacing: 0.1rem;
+    background-color: #FB3838;
+    color: white;
+    border: 0.1rem solid #FB3838;
+	
+}
+.newUser-main .m3>p:first-child {
+	line-height: 4rem;
+	margin-bottom: 1.8rem;
+}
+.newUser-main .m3 .vase{
+	width: 100%;
+}
+.newUser-main .m3 .vase img{
+	width: 100%;
+	height: auto;
+}
+.newUser-main .m3 .vase+p{
+	margin: 2rem 0;
+}
+.newUser-main .m3 .vase+p+p{
+	margin-bottom: 9rem;
+}
+
+
+/***********************************联系客服-售后**************************/
+.cal-service-SH{
+	width:100%;
+	margin-top: 5rem;
+
+	overflow: hidden;
+	
+	background-color: #FBFBFC;
+}
+.cal-service-SH li{
+	width:50%;
+	float: left;
+	/*line-height: 2.5rem;*/
+	text-align: center;
+	box-sizing: border-box;
+	margin: 1rem 0;
+	-webkit-box-sizing: border-box;
+	}
+.cal-service-SH li:first-child{
+	border-right: 0.1rem solid #D0D0D0;
+}
+	
+.cal-service-SH li:first-child a {
+	display: block;
+	color: #808080;	
+} 
+.cal-service-SH li:last-child a {
+	display: block;
+	color: #04BE02;
+}
+.cal-service-SH+.null{	
+	padding: 21.7rem 0;
+	text-align: center;
+	background-color:#ECF0F3 ;
+}
+.cal-service-SH+.null div{
+	width:6rem;
+	height:6rem;
+	margin: 0 auto;
+	border: 0.1rem solid #C8CAC7;
+	border-radius: 100%;
+}
+.cal-service-SH+.null div .iconfont{
+	display: block;
+	color: #C8CAC7;
+	padding-top: 1rem;
+	font-size: 3rem;
+}
+.show{
+	width: 100%;
+	border-top: 0.1rem solid #E1E1E2;
+	border-bottom: 0.1rem solid #E1E1E2;
+	border-radius:0.5rem;
+	background-color: #fff;
+}
+.show a{
+	color: #04BE02;
+}
+
+.show,.show-list li{
+	width: 100%;
+	line-height: 4.4rem;
+	text-align: center;
+	background-color: #fff;
+}
+.show-list li a{
+   color: #808080;
+}
+.show-list li:nth-child(2){
+	margin-bottom: 0.6rem;
+	border-top:0.1rem solid #E1E1E2;
+}
+.show-list li:nth-child(2) a{
+	color: #04BE02 !important;
+}
+
+
+/****************************么么哒推荐人页面开始****************************/
+.memed .m1{
+	margin-bottom: 4.6rem;	
+}
+.memed .m2 h3+p{
+	margin-bottom:2rem;
+}
+.memed .m2 div img{
+	width: 100%;
+	height: auto;
+}
+.memed .m2 div small{
+	font-size: 1.2rem;
+}
+.memed .m3{
+	margin-top: 4.6rem;
+}
+.memed .m3>h3{
+	font-size: 1.6rem;
+}
+
+.memed .m3>h4{
+	font-size: 1.4rem;
+	line-height: 2.5rem;
+}
+.memed .m3>p>img{
+	width: 100%;
+	height: auto;
+}
+.memed .m3>p{
+	margin-bottom: 4rem;
+}
+
+/****************************配送城市页面开始****************************/
+
+.city .me-small{
+	margin-bottom: 0;
+}
+.city-main{
+	line-height: 2.2rem;
+}
+.city-main div img{
+	width:100%;
+	height:auto;
+	margin-top: 2rem;
+}
+/****************************如何预定页面开始****************************/
+.reseve-ques{
+	overflow: hidden;
+}
+.reseve-ques li{
+	margin-left: 1rem;
+	padding-right:1rem ;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-bottom:0.1rem solid #C8C8CC;
+	line-height: 4rem;
+}
+.reseve-ques li:last-child{
+	border-bottom: none;
+}
+.reseve-ques li a{
+	color: #000;
+}
+.reseve-ques li a .iconfont{
+	font-size: 1.4rem;
+	float: right;
+	color: #C8C8CC;
+	margin: 0;
+}
+.reseve-main{
+	margin-top: 7rem;
+}

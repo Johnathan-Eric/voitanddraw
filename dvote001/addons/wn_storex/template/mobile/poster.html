@@ -1,0 +1,80 @@
+<html>
+<head>
+	<title>海报</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script src="../addons/wn_storex/template/style/js/qrcode.min.js"></script>
+	<script src="../addons/wn_storex/template/style/js/html2canvas.min.js"></script>
+	<style>
+		body {
+			background-image: url("{php echo 'index.php?i=' . $_W['uniacid'] . '&c=entry&m=wn_storex&do=image&op=image&url=' . $poster['background'];}");
+			background-position: center;
+			background-size: cover;
+			background-repeat: no-repeat;
+			color: #fff;
+			position: relative;
+			padding: 0;
+			margin: 0;
+			width: 100vw;
+		}
+		img, div {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+		div {
+			text-align: center;
+		}
+		#content {
+			position: relative;
+			overflow: auto;
+			z-index: -1;
+			width: 100%;
+		}
+		
+		#body-img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+	</style>
+</head>
+<body>
+<div id="content">
+	{loop $poster['items'] $key $item}
+	{if $item['type'] == 'avatar' || $item['type'] == 'img'}
+		<img src="{php echo 'index.php?i=' . $_W['uniacid'] . '&c=entry&m=wn_storex&do=image&op=image&url=' . $item['url'];}" alt="" style="width: {$item['width']}px; height: {$item['height']}px;top: {$item['top']}px;left: {$item['left']}px; z-index: {$item['zIndex']}">
+	{/if}
+	{if $item['type'] == 'qr'}
+	{if $poster['type'] == 3}
+		<img src="{php echo 'index.php?i=' . $_W['uniacid'] . '&c=entry&m=wn_storex&do=image&op=image&url=' . $item['url'];}" alt="" style="width: {$item['width']}px; height: {$item['height']}px;top: {$item['top']}px;left: {$item['left']}px; z-index: {$item['zIndex']}">
+	{else}
+		<div id="qr-{$key}" style="width: {$item['width']}px; height: {$item['height']}px;top: {$item['top']}px;left: {$item['left']}px; z-index: {$item['zIndex']}"></div>
+	{/if}
+	{/if}
+	{if $item['type'] == 'nickname'}
+		<div style="color: {$item['color']}; font-size: {$item['fontSize']}px; width: {$item['width']}px; height: {$item['height']}px;top: {$item['top']}px;left: {$item['left']}px; z-index: {$item['zIndex']}"> {$item['url']}</div>
+	{/if}
+	{/loop}
+</div>
+<img src="" alt="" id="body-img">
+</body>
+<script type="text/javascript">
+	{loop $poster['items'] $key $item}
+	{if $item['type'] == 'qr' && $poster['type'] != 3}
+			new QRCode("qr-{$key}", {
+				width: '{$item['width']}',
+				height: '{$item['height']}',
+				text: '{$item['url']}',
+			});
+	{/if}
+	{/loop}
+	
+    html2canvas(document.body).then(function(canvas) {
+        document.getElementById("body-img").src = canvas.toDataURL();
+    })
+</script>
+<script>
+</script>
+</html>

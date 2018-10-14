@@ -1,0 +1,196 @@
+{template 'common/header-storex'}
+<div class="wn-main">
+	<div class="wn-main__head">退货管理</div>
+	<div class="wn-main__content">
+		<div class="wn-tabs">
+			<div class="wn-tabs__item {if $op == 'returnlist'}wn-tabs__item--active{/if}">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_return_goods', array('op' => 'returnlist', 'storeid' => $_GPC['storeid']))}">退货列表</a>
+			</div>
+		</div>
+		<div class="modal fade" id="refuse_reason" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">不同意退货原因</h4>
+					</div>
+					<div class="modal-body clearfix form-horizontal">
+						<input type="text" class="form-control" name="refuse_reason" />
+						<div class="help-block">填写不同意退货的原因</div>
+						<input type="hidden" name="return_id">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary" onclick="refuse_reason()">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table  class="table wn-table wn-table--order">
+			<thead>
+			<tr class="wn-table--border text-center">
+				<th class="wn-table--left">序号</th>
+				<th class="text-center">申请用户</th>
+				<th class="text-center">申请时间</th>
+				<th class="text-center">退货原因</th>
+				<th class="text-center">退货金额</th>
+				<th class="text-center">退货备注</th>
+				<th class="text-center">退货单号</th>
+				<th class="text-center">快递类型</th>
+				<th class="text-center">操作</th>
+			</tr>
+			</thead>
+			{if empty($returnlist)}
+			<tr class="wn-table__separation">
+				<td colspan="7">暂无退货申请。。。</td>
+			</tr>
+			{else}
+			{loop $returnlist $row}
+			<tbody>
+			<tr class="wn-table__separation">
+				<td colspan="6"></td>
+			</tr>
+			<tr class="wn-table--border wn-table--order__head">
+				<td>
+					<p>
+						订单ID：{$row['orderid']}
+					</p>
+				</td>
+				<td>
+					{if $row['goodsid']}
+					<p>商品ID：{$row['goodsid']}</p>
+					{/if}
+				</td>
+				<td>
+					<p>商品名称：{$row['title']}</p>
+				</td>
+				<td>
+					<p>商品副标题：{$row['sub_title']}</p>
+				</td>
+				<td>
+					{if $row['spec_id']}
+					<p>规格ID：{$row['spec_id']}</p>
+					{/if}
+				</td>
+				
+				<td>
+					{if $row['good']}
+					<p>购物车商品：{$row['good']}</p>
+					{/if}
+				</td>
+				<td>
+					<p>退货数量：{$row['nums']}</p>
+				</td>
+				<td>
+					<p>退货类型：
+					{if empty($row['type'])}
+					退货退款
+					{else}
+					仅退款
+					{/if}
+					</p>
+				</td>
+				<td class="text-center" colspan="1">
+					<a href="{php echo $this->createWebUrl('shop_order', array('op' => 'edit', 'id' => $row['orderid'], 'roomid' => $row['goodsid'], 'storeid' => $row['storeid'])); }" class="color-default">查看该商品订单</a>
+				</td>
+			</tr>
+			<tr class="wn-table--border text-center">
+				<td class="wn-table--border">{$row['id']}</td>
+				<td class="wn-table--border">{$row['openid']}</td>
+				<td class="wn-table--border">
+					{php echo date('Y-m-d H:i:s', $row['time'])}
+				</td>
+				<td class="wn-table--border">{$row['reason']}</td>
+				<td class="wn-table--border">{$row['money']}</td>
+				<td class="wn-table--border">{$row['content']}</td>
+				<td class="wn-table--border">
+					<span class="label label-info">{$row['track_number']}</span><br/>
+				</td>
+				<td class="wn-table--border">
+					<span class="label label-info">{$express[$row['express_type']]}</span><br/>
+				</td>
+				<td class="text-left">
+					<div class="wn-table__link">
+						{if empty($row['status'])}
+							<a onclick="return confirm('是否同意退货？同意后客户将发货回商家');return false;" href="{php echo $this->createWebUrl('shop_return_goods', array('op' => 'edit', 'id' => $row['id'], 'storeid' => $row['storeid'], 'status' => 1))}" class="wn-table__link__item">同意退货</a>
+							<a href="javascript:;" class="wn-table__link__item refuse_reason" data-id="{$row['id']}">不同意退货</a>
+						{elseif $row['status'] == 1}
+							{if empty($row['type'])}
+								{if empty($row['goods_status'])}
+									客户未发货
+								{elseif $row['goods_status'] == 1}
+									<a href="{php echo $this->createWebUrl('shop_return_goods', array('op' => 'edit', 'id' => $row['id'], 'storeid' => $row['storeid'], 'goods_status' => 2))}" class="wn-table__link__item">收货</a>
+								{elseif $row['goods_status'] == 2}
+									{if empty($row['refund_status'])}
+										<a href="{php echo $this->createWebUrl('shop_return_goods', array('op' => 'edit', 'id' => $row['id'], 'storeid' => $row['storeid'], 'refund_status' => 1))}" class="wn-table__link__item">退款（只更改状态，不参与退款）</a>
+									{elseif $row['refund_status'] == 1}
+										已退款
+									{/if}
+								{/if}
+							{else}
+								{if empty($row['refund_status'])}
+									<a href="{php echo $this->createWebUrl('shop_return_goods', array('op' => 'edit', 'id' => $row['id'], 'storeid' => $row['storeid'], 'refund_status' => 1))}" class="wn-table__link__item">退款（只更改状态，不参与退款）</a>
+								{elseif $row['refund_status'] == 1}
+									已退款
+								{/if}
+							{/if}
+						{elseif $row['status'] == 2}
+							不同意退货(原因：{$row['refuse_reason']})
+						{/if}
+					</div>
+				</td>
+			</tr>
+			<tr class="wn-table--border text-center">
+				<td class="text-center">商品图片</td>
+				<td class="text-center">
+					<img src="{php echo $row['thumb'];}" width='40' height="40" style='padding:1px;border: 1px solid #ccc;float:left;' />
+				</td>
+				<td class="text-center">凭证</td>
+				<td class="text-center" colspan="6">
+					{if !empty($row['thumbs'])}
+						{loop $row['thumbs'] $thumb}
+							<img src="{php echo $thumb;}" width='40' height="40" style='padding:1px;border: 1px solid #ccc;float:left;' />
+						{/loop}
+					{/if}
+				</td>
+			</tr>
+			</tbody>
+			{/loop}
+			{/if}
+		</table>
+		<div class="clearfix"></div>
+		<div class="pull-right">
+			{$pager}
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	require(['bootstrap'],function($) {
+		$("[data-toggle='tooltip']").tooltip();
+	});
+	$('.refuse_reason').click(function() {
+		return_id = $(this).data('id');
+		$('input[name="return_id"]').val(return_id);
+		$('#refuse_reason').modal();
+	});
+
+	function refuse_reason() {
+		var refuse_reason = $('input[name=refuse_reason]').val();
+		var return_id = $('input[name=return_id]').val();
+		if (!refuse_reason) {
+			util.message('请填写原因！', 'refresh', 'error');
+			return;
+		} else {
+			$.post("{php echo $this->createWebUrl('shop_return_goods', array('op' => 'refuse_reason', 'storeid' => $storeid, 'status' => 2))}", {refuse_reason:refuse_reason, id:return_id}, function(data) {
+				if (data.message.errno == 0) {
+					util.message(data.message.message, 'refresh', 'success');
+					return;
+				} else {
+					util.message(data.message.message);
+					return;
+				}
+			}, 'json');
+		}
+	}
+</script>
+{template 'common/footer'}

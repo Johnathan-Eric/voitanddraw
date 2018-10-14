@@ -1,0 +1,338 @@
+{template 'common/header-storex'}
+
+{if $op == 'display'}
+<div class="wn-main">
+	<div class="wn-main__head">应用</div>
+	<div class="wn-main__content">
+		<div class="wn-tabs">
+			<div class="wn-tabs__item wn-tabs__item--active">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_dispatch', array('storeid' => $_GPC['storeid'], 'op' => 'display'))}">配送方式管理</a>
+			</div>
+		</div>
+		<div class="pull-right">
+			<a href="{php echo $this->createWebUrl('shop_dispatch', array('op' => 'post', 'storeid' => $_GPC['storeid']))}" class="btn btn-primary">+添加配送方式</a>				
+		</div>
+		<div class="clearfix">
+			<table class="table table-hover wn-table table-bordered">
+				<thead class="navbar-inner">
+					<tr>
+						<th width="400px">名称</th>
+						<th width="150px">计费方式</th>
+							<th width="100px">首重(件)价格</th>
+							<th width="100px">续重(件)价格</th>
+							<th width="150px">状态</th>
+							<th width="100px">默认</th>
+							<th width="200px">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $dispatch}
+						<tr>
+							<td>{$dispatch['name']}</td>
+							<td>
+								{if $dispatch['calculate_type'] == 1}
+								按重量计费
+								{else}
+								按件数计费
+								{/if}
+							</td>
+							<td>{$dispatch['default_firstprice']}</td>
+							<td>{$dispatch['default_secondprice']}</td>
+						<td>
+							{if $dispatch['status'] == 1}
+							<a class="wn-table__link__item" href="{php echo $this->createWebUrl('shop_dispatch', array('op' => 'status', 'storeid' => $_GPC['storeid'], 'id' => $dispatch['id'], 'status' => 2))}">开启中</a>
+							{elseif $dispatch['status'] == 2}
+							<a class="wn-table__link__item" href="{php echo $this->createWebUrl('shop_dispatch', array('op' => 'status', 'storeid' => $_GPC['storeid'], 'id' => $dispatch['id'], 'status' => 1))}">已关闭</a>
+							{/if}
+						</td>
+						<td>
+							{if $dispatch['isdefault'] == 1}
+							<a class="wn-table__link__item" href="{php echo $this->createWebUrl('shop_dispatch', array('op' => 'default', 'storeid' => $_GPC['storeid'], 'id' => $dispatch['id']))}">是</a>
+							{elseif $dispatch['isdefault'] == 2}
+							<a class="wn-table__link__item" href="{php echo $this->createWebUrl('shop_dispatch', array('op' => 'default', 'storeid' => $_GPC['storeid'], 'id' => $dispatch['id']))}">否</a>
+							{/if}
+						</td>
+						<td>
+							<a href="{php echo $this->createWebUrl('shop_dispatch', array('op' => 'post', 'id' => $dispatch['id'], 'storeid' => $_GPC['storeid']))}" class="wn-table__link__item">编辑</a>
+							<a onclick="return confirm('确定删除吗?')" href="{php echo $this->createWebUrl('shop_dispatch', array('op' => 'delete', 'id' => $dispatch['id'], 'storeid' => $_GPC['storeid']))}" class="wn-table__link__item">删除</a>
+						</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</div>
+</div>
+{/if}
+
+{if $op == 'post'}
+<link href="{php echo MODULE_URL . '/template/style/css/area.css'}" type="text/css" rel="stylesheet">
+<div class="wn-main js-main">
+	<div class="wn-main__head">应用</div>
+	<div class="wn-main__content">
+		<div class="wn-tabs">
+			<div class="wn-tabs__item wn-tabs__item--active">
+				<a class="wn-tabs__link" href="javascript:;">添加配送方式</a>
+			</div>
+		</div>
+		<div class="clearfix">
+			<form action="" method="post" class="article-post form form-horizontal" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="" class="control-label col-sm-2">配送方式名称</label>
+					<div class="form-controls col-sm-8">
+						<input type="text" class="form-control" name="name" value="{$dispatch_info['name']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">计费方式</label>
+					<div class="form-controls col-sm-8">
+						<label class="radio-inline">
+							<input type="radio" name="calculate_type" value="1" {if $dispatch_info['calculate_type'] == 1 || empty($dispatch_info['calculate_type'])}checked{/if}>按重量计费
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="calculate_type" value="2" {if $dispatch_info['calculate_type'] == 2}checked{/if}>按件数计费
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="" class="control-label col-sm-2">物流公司</label>
+					<div class="form-controls col-sm-8">
+						<select name="express" class="form-control input-medium">
+							<option value="">其他快递</option>
+							{loop $express $type $value}
+							<option value="{$type}" {if $type == $dispatch_info['express']} selected="selected" {/if}>{$value}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="" class="control-label col-sm-2">配送区域</label>
+					<div class="form-controls col-sm-8">
+						<table class="table we7-table js-area-table">
+							<col width="400px"/>
+							<col width="200px"/>
+							<col width="200px"/>
+							<col width="200px"/>
+							<col width="200px"/>
+							<col width="200px"/>
+							<col width="200px"/>
+							<tr>
+								<th>区域</th>
+								<th>首重/首件</th>
+								<th>首费(元)</th>
+								<th>续重/续件</th>
+								<th>续费(元)</th>
+								<th>满额包邮(元)</th>
+								<th>编辑</th>
+							</tr>
+							<tr>
+								<td>全国[默认运费]</td>
+								<td>
+									<div class="input-group">
+										<input type="text" name="default_first" class="form-control" value="{$dispatch_info['default_first']}">
+										<span class="input-group-addon">克/个</span>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" name="default_firstprice" class="form-control" value="{$dispatch_info['default_firstprice']}">
+										<span class="input-group-addon">元</span>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" name="default_second" class="form-control" value="{$dispatch_info['default_second']}">
+										<span class="input-group-addon">克/个</span>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" name="default_secondprice" class="form-control" value="{$dispatch_info['default_secondprice']}">
+										<span class="input-group-addon">元</span>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="text" name="default_nopostage" class="form-control" value="{$dispatch_info['default_nopostage']}">
+										<span class="input-group-addon">元</span>
+									</div>
+								</td>
+								<td>
+									
+								</td>
+							</tr>
+						</table>
+						<input type="button" id="add_area" value="添加新区域" data-value="" class="btn btn-primary js-add-area" click="addArea()">
+					</div>
+				</div>
+				<div class="form-group">
+					<h4>特殊区域设置</h4>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">类型</label>
+					<div class="form-controls col-sm-8">
+						<label class="radio-inline">
+							<input type="radio" name="isdispatcharea" value="1" {if $dispatch_info['isdispatcharea'] == 1 || empty($dispatch_info['isdispatcharea'])}checked{/if}>不配送区域
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="isdispatcharea" value="2" {if $dispatch_info['isdispatcharea'] == 2}checked{/if}>只配送区域
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">区域选择</label>
+					<div class="form-controls col-sm-8">
+						<div width="300px" class="js-show-special-area"></div>
+						<input type="button" value="选择" data-value="" class="btn btn-primary js-select-special-area">
+						<input type="hidden" name="selectedareas_code" value="{$dispatch_info['selectedareas_code']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">是否开启</label>
+					<div class="form-controls col-sm-8">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" {if $dispatch_info['status'] == 1 || empty($dispatch_info['status'])}checked{/if}>开启
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="2" {if $dispatch_info['status'] == 2}checked{/if}>不开启
+						</label>
+					</div>
+				</div>
+				<input name="submit" value="发布" class="btn btn-primary btn-submit" type="submit">
+				<a href="{php echo $this->createWebUrl('shop_dispatch', array('storeid' => $storeid))}" class="btn btn-success btn-submit">返回列表</a>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+				<input type="hidden" name="id" value="{$_GPC['id']}">
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{php echo MODULE_URL . '/template/style/js/area-select/City_data.js'}"></script>
+<script type="text/javascript" src="{php echo MODULE_URL . '/template/style/js/area-select/areadata.js'}"></script>
+<script type="text/javascript" src="{php echo MODULE_URL . '/template/style/js/area-select/auto_area.js'}"></script>
+<script type="text/javascript">
+	dispatch_content = '{php echo json_encode($dispatch_content)}';
+	dispatch_content = $.parseJSON(dispatch_content);
+	citylist = __LocalDataCities.list;
+	special_city_code = "{$dispatch_info['selectedareas_code']}";
+	cityname = '';
+	special_cityname = '';
+	function prepare() {
+		var content = '';
+		for (var i in dispatch_content) {
+			dispatch_info =  dispatch_content[i];
+			city_code = dispatch_content[i].city_area;
+			cityname = GetCityname(city_code);
+			content += 
+			'<tr>' +
+				'<td>'+
+					'<a href="javascript:;" class="js-select-area" data-value="' + city_code + '">' + cityname + '</a>' +
+					'<input type="hidden" name="city_area[]" value="' + city_code + '">' +
+				'</td>' +
+				'<td>' +
+					'<div class="input-group">' +
+						'<input type="text" value="' + dispatch_info.first + '" name="first[]" class="form-control">' +
+				 		'<span class="input-group-addon">克/个</span>' +
+					'</div>' +
+				'</td>' +
+				'<td>' +
+					'<div class="input-group">' +
+						'<input type="text" value="' + dispatch_info.firstprice + '" name="firstprice[]" class="form-control">' +
+						'<span class="input-group-addon">元</span>' +
+					'</div>' +
+				'</td>' +
+				'<td>' +
+					'<div class="input-group">' +
+						'<input type="text" value="' + dispatch_info.second + '" name="second[]" class="form-control">' +
+						'<span class="input-group-addon">克/个</span>' +
+					'</div>' +
+				'</td>' +
+				'<td>' +
+					'<div class="input-group">' +
+						'<input type="text" value="' + dispatch_info.secondprice + '" name="secondprice[]" class="form-control">' +
+						'<span class="input-group-addon">元</span>' +
+					'</div>' +
+				'</td>' +
+				'<td>' +
+					'<div class="input-group">' +
+						'<input type="text" value="' + dispatch_info.nopostage + '" name="nopostage[]" class="form-control">' +
+						'<span class="input-group-addon">元</span>' +
+					'</div>' +
+				'</td>' +
+				'<td>' +
+					'<a href="javascript:;" class="js-delete-area">删除</a>' +
+				'</td>' +
+			'</tr>';
+		}
+		if (special_city_code) {
+			special_cityname = GetCityname(special_city_code);
+			$('.js-select-special-area').data('value', special_cityname);
+			$('.js-show-special-area').text(special_cityname);
+		}
+		$('.js-area-table').append(content);
+	}
+	function GetCityname(city_list) {
+		city_area_arr = city_list.split('-');
+		name = '';
+		for (var j in city_area_arr) {
+			name += citylist[city_area_arr[j]][0] + '-';
+		}
+		if (name != '') {
+			name = name.substring(0, name.lastIndexOf('-'));
+		}
+		return name;
+	}
+	if (dispatch_content) {
+		prepare();
+	}
+	$(document).on('click', '.js-add-area', function () {
+		html = '';
+		html += 
+		'<tr>' +
+			'<td>'+
+				'<a href="javascript:;" class="js-select-area" data-value="">设置区域</a>' +
+				'<input type="hidden" name="city_area[]">' +
+			'</td>' +
+			'<td>' +
+				'<div class="input-group">' +
+					'<input type="text" value="" name="first[]" class="form-control">' +
+			 		'<span class="input-group-addon">克/个</span>' +
+				'</div>' +
+			'</td>' +
+			'<td>' +
+				'<div class="input-group">' +
+					'<input type="text" value="" name="firstprice[]" class="form-control">' +
+					'<span class="input-group-addon">元</span>' +
+				'</div>' +
+			'</td>' +
+			'<td>' +
+				'<div class="input-group">' +
+					'<input type="text" value="" name="second[]" class="form-control">' +
+					'<span class="input-group-addon">克/个</span>' +
+				'</div>' +
+			'</td>' +
+			'<td>' +
+				'<div class="input-group">' +
+					'<input type="text" value="" name="secondprice[]" class="form-control">' +
+					'<span class="input-group-addon">元</span>' +
+				'</div>' +
+			'</td>' +
+			'<td>' +
+				'<div class="input-group">' +
+					'<input type="text" value="" name="nopostage[]" class="form-control">' +
+					'<span class="input-group-addon">元</span>' +
+				'</div>' +
+			'</td>' +
+			'<td>' +
+				'<a href="javascript:;" class="js-delete-area">删除</a>' +
+			'</td>' +
+		'</tr>';
+		$('.js-area-table').append(html);
+	});
+	$(document).on('click', '.js-delete-area', function () {
+		$(this).parent().parent().html('');
+	});
+</script>
+{/if}
+
+{template 'common/footer-storex'}

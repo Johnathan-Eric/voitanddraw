@@ -1,0 +1,14 @@
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品已售</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="sold_num" id="sold_num" value="{$item['sold_num']}" class="form-control">
+	</div>
+</div>
+{if $card_status == 1}
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买积分</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="score" id="score" class="form-control" value="{$item['score']}" placeholder='此积分为会员购买该商品时赠送的积分' />
+	</div>
+</div>
+{/if}

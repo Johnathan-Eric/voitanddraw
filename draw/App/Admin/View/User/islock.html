@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="robots" content="all" />
+<title>帐户已锁定 {$Think.config.app_admin_title}</title>
+<meta name="description" content=" {$Think.config.app_title}" />
+<meta name="keywords" content=" {$Think.config.app_title}" />
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link href="__CSS__/layout.css" type="text/css" rel="stylesheet">
+<link href="__CSS__/login.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="logindiv">
+    <div class="login_top">
+        <div class="logo"><img src="__IMG__/logo.jpg" alt="用户登录"></div>
+        <div class="title">系统提示</div>
+        <div class="link"><a href="{:U('/Index/index')}">返回首页</a> | <a href="{:U('/About/server')}" target="_blank">服务条款</a>
+        </div>
+    </div>
+    <div class="login_body">
+        <div class="ads_banner">
+            <a href="http://www.dage100.com/" target="_blank">
+                <img src="__IMG__/login_banner.jpg" />
+            </a>
+        </div>
+        <div class="login_form">
+            <div class="user_login">
+                    您的管理帐户{$user_name}已被锁定停用!
+                </div>
+                <div class="account">
+                    <div class="account_1">
+                        管理帐户:
+                    </div>
+                    <div class="account_2">
+                    	<font>{$user_name}</font>
+                    </div>
+                </div>
+               
+                <div class="account2">
+                   <p style="color:red">您的帐户已被锁定停用! 如果有问题请联系客服!<br />
+					服务电话：{$Think.config.service_tel};
+                   </p>
+                </div>
+
+            <div class="account3">
+				你可以:<a href="{:U('User/login','reload=1')}">重新登陆</a>,或者联系管理员!
+            </div>
+            <div class="account2">
+               
+            </div>
+            <div class="account4">
+                遇到问题请发邮件至 <a href='mailto:{$Think.config.service_mail}'>{$Think.config.service_mail}</a>
+            </div>
+        </div>
+    </div>
+    <div class="xmodule_row3">
+        Copyright &copy; 2014-2015 DAGE100.com All Rights Reserved.
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+.list_br{ width:1035px; border:1px solid #ccc; padding:10px 10px 0}
+.list_br .sku-title{ float:left; width:87px; text-align:right; padding-right:12px;}
+.list_br .sku-wrap{ background:#F8F8F8; border:1px solid #ECECEC; overflow:hidden}
+.list_br .sku-wrap .sku-group{margin:5px 20px 15px}
+.list_br .sku-wrap .sku-group .sku-label{ display:inline-block; margin-bottom:5px; float:none; line-height:1.5; padding:0; text-align:left; width:auto}
+.list_br .sku-wrap .sku-group .sku-box{ overflow:hidden}
+.sku-group .sku-box.sku-color .sku-list .sku-item{ display:inline-block; height:25px; overflow:hidden; vertical-align:middle; width:145px;}
+.sku-box.sku-color .sku-list .sku-item .J_Checkbox{ vertical-align:middle}
+.sku-list .sku-item .labelname{ padding-left:5px; width:80px; display:inline-block; height:22px; line-height:20px; overflow:hidden; white-space: nowrap; vertical-align:middle;}
+.sku-wrapper{margin:10px 10px 10px 100px}
+.sku-wrapper div table thead tr th{ background-color:#EDEDED;border:1px solid #D7D7D7; padding:3px 5px; height:25px; text-align:center; vertical-align:middle; font-weight:normal}
+.sku-wrapper div table tbody tr .title{ padding-left:10px; text-align:left; max-width:80px;}
+.sku-wrapper div table tbody tr td{ border:1px solid #D7D7D7; height:25px; max-width:200px; min-width:40px; padding:3px 5px; text-align:center; vertical-align:middle}
+.sku-wrapper div table tbody tr td input{ border:1px solid #A7A6AA;; height:auto; margin:0;}
+.sku-wrapper div table tbody tr .price input{ width:78px;}
+.sku-wrapper div table tbody tr .quantity input{ width:58px;}
+.sku-wrapper div table tbody tr .tsc input{ width:98px;}
+.sku-wrapper div table tbody tr .batch input{ width:16px; min-width:16px}
+.sku-wrapper div table tbody tr .batch .sku-batch{ width:16px; height:16px; cursor: not-allowed; display:inline-block; background:url(../Images/T1EytvXt4bXXXIZFfX-14-30.png) no-repeat scroll 1px -14px;}
+.sku-wrapper div table tbody tr .batch .sku-delete{ width:16px; height:16px; cursor: pointer; display:inline-block; background:url(../Images/T1EytvXt4bXXXIZFfX-14-30.png) no-repeat scroll 1px -14px;}

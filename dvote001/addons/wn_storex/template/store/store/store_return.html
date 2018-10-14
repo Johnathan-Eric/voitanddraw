@@ -1,0 +1,132 @@
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">申请退款</label>
+	<div class="col-sm-9 col-xs-12">
+		<label class="radio-inline">
+			<input type="radio" value="1" name="refund" {if (empty($storex_bases['refund']) || $storex_bases['refund'] == 1)} checked {/if}/> 可以
+		</label>
+		<label class="radio-inline">
+			<input type="radio" value="2" name="refund" {if $storex_bases['refund'] == 2} checked {/if}/> 不可以
+		</label>
+		<span class="help-block">用户没有入住前或者没有发货时是否可以申请退款</span>
+	</div>
+</div>
+
+{if $store_type != 1}
+<div class="form-group credit_ratio">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">自动收货</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="number" name="auto_receipt" class="form-control" value="{$storex_bases['auto_receipt']}" />
+		<span class="help-block">订单发货后，用户收货的天数，如果在期间未确认收货，系统自动完成收货，空为不自动收货。</span>
+	</div>
+</div>
+<div class="form-group credit_ratio">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">退货天数</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="number" name="return_days" class="form-control" value="{$return_info['return_days']}" />
+		<span class="help-block">订单完成多少天内可以退款，例如： 7，即订单在完成7天内可以退货，超过7天不能申请退货，不填就是不能退货。</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">退货说明</label>
+	<div class="col-sm-9 col-xs-12">
+		<textarea style="height:100px;" class="form-control" name="return_content" cols="70" id="reply-add-text">{$return_info['return_content']}</textarea>
+		<span class="help-block">退货说明</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">退货联系人</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="return_people" class="form-control" value="{$return_info['return_people']}" />
+		<span class="help-block">退货指定地址</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">退货联系电话</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="return_phone" class="form-control" value="{$return_info['return_phone']}" />
+		<span class="help-block">退货指定地址</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">退货指定地址</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="return_address" class="form-control" value="{$return_info['return_address']}" />
+		<span class="help-block">退货指定地址</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-md-2 control-label">货物状态</label>
+	<div class="col-md-10" id="tel-container" style="padding-left: 0px;">
+		{loop $return_info['goods_status'] $key $status}
+		<div class="col-sm-5" style="margin: 5px 0px;">
+			<div class="input-group">
+				<input type="text" name="goods_status[{$key}]" class="form-control status-input" value="{$status}" />
+				<span class="input-group-btn">
+					<button class="btn btn-default status-delete" type="button">删除</button>
+				</span>
+			</div>
+		</div>
+		{/loop}
+		<div class="col-sm-5">
+			<button type="button" id="add_goods_status" class="btn btn-default"><i class="fa fa-plus"></i> 添加</button>
+			（何种状态的货物可以退款，例如：已收货，未收货等）
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-md-2 control-label">退款原因</label>
+	<div class="col-md-10" id="tel-container" style="padding-left: 0px;">
+		{loop $return_info['refund_reason'] $key $reason}
+		<div class="col-sm-5" style="margin: 5px 0px;">
+			<div class="input-group">
+				<input type="text" name="refund_reason[{$key}]" class="form-control reason-input" value="{$reason}" />
+				<span class="input-group-btn">
+					<button class="btn btn-default reason-delete" type="button">删除</button>
+				</span>
+			</div>
+		</div>
+		{/loop}
+		<div class="col-sm-5">
+			<button type="button" id="add_refund_reason" class="btn btn-default"><i class="fa fa-plus"></i> 添加</button>
+			（退款的条件）
+		</div>
+	</div>
+</div>
+{/if}
+<script type="text/javascript">
+	$("#add_goods_status").click(function() {
+		var index = $('.status-input').length;
+		var html =
+			'<div class="col-sm-5" style="margin: 5px 0px;">' +
+				'<div class="input-group">' +
+					'<input type="text" name="goods_status[' + index + ']" class="form-control status-input" value="">' +
+					'<span class="input-group-btn">' +
+						'<button class="btn btn-default status-delete" type="button">删除</button>' +
+					'</span>' +
+				'</div>' +
+			'</div>';
+
+		$(this).parent().before(html);
+	});
+	
+	$("#add_refund_reason").click(function() {
+		var index = $('.reason-input').length;
+		var html =
+			'<div class="col-sm-5" style="margin: 5px 0px;">' +
+				'<div class="input-group">' +
+					'<input type="text" name="refund_reason[' + index + ']" class="form-control reason-input" value="">' +
+					'<span class="input-group-btn">' +
+						'<button class="btn btn-default reason-delete" type="button">删除</button>' +
+					'</span>' +
+				'</div>' +
+			'</div>';
+
+		$(this).parent().before(html);
+	});
+	$(document).on('click', '.status-delete', function() {
+		$(this).parent().parent().parent().remove();
+	});
+	$(document).on('click', '.reason-delete', function() {
+		$(this).parent().parent().parent().remove();
+	});
+</script>

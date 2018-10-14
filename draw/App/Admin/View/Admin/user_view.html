@@ -1,0 +1,68 @@
+<div class="body-form">
+    <div style='margin: 20px auto auto;'>
+        <form class="layui-form" action="" method="post">
+            <div class="lay-form-div">
+                <!-- <input type="hidden" name="ds_id" value="{$admin['ds_id']}" /> -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>角色：</label>
+                    <div class="layui-input-block">
+                        <select name="rid" class="selectStyle" lay-filter="dType">
+                            <volist name="roleList" id="vo">
+                                <option value="{$key}" <if condition="$vo['rid'] eq $info['rid']">selected="selected"</if> >{$vo.role_name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>登录账号：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="username" value="{$info.username}" required lay-verify="required" placeholder="请输入登录账号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>登录密码：</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" value="{$info.password}" required lay-verify="required" autocomplete="off" placeholder="请输入登录密码" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin:20;">
+                <div class="layui-input-block">
+                	<input type="hidden" name="id" value="{$info.id}">
+                    <button class="layui-btn" lay-submit lay-filter="formSub">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['form'], function(){
+        var form = layui.form
+        ,$ = layui.jquery;
+        //监听提交
+        form.on('submit(formSub)', function(data){
+            var date = data.field;
+            var url = window.location.href;
+            var lod_index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post(url, date ,function(a){
+                    layer.close(lod_index);
+                    var jsonDate = jQuery.parseJSON(a);
+                    if(jsonDate.status == 1){
+                        layer.msg(jsonDate.msg,{
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);  
+                            parent.layer.close(index);
+                        });
+                    }else{
+                        layer.msg(jsonDate.msg);
+                    }
+            });
+            return false;
+        });
+    });
+</script>

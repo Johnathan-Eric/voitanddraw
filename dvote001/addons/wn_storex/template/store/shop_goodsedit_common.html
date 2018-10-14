@@ -1,0 +1,50 @@
+{template 'common/header-storex'}
+<div class="wn-main">
+	<div class="wn-main__head">
+		<a href="{php echo $this->createWebUrl('shop_goodsmanage', array('storeid' => $storeid));}">
+			管理商品
+		</a>
+		{if $_GPC['op'] == 'edit' && $_GPC['id'] != ''}
+			/编辑商品
+		{else}
+			/添加商品
+		{/if}
+	</div>
+	<div class="wn-main__content">
+		<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					{if empty($item['id'])}添加商品{else}编辑商品{/if}
+				</div>
+				<input type="hidden" name="id" value="{$item['id']}">
+				<div class="panel-body" style="padding: 30px">
+					<ul class="nav nav-tabs" id="myTab" style="margin-bottom: 30px;">
+						<li class="active" ><a href="#tab_basic" aria-controls="profile" role="tab" data-toggle="tab">基本信息</a></li>
+						<li><a href="#tab_des" aria-controls="profile" role="tab" data-toggle="tab">商品描述</a></li>
+						<li><a href="#tab_param" aria-controls="profile" role="tab" data-toggle="tab">自定义属性</a></li>
+						<li><a href="#tab_option" aria-controls="profile" role="tab" data-toggle="tab">规格/库存</a></li>
+						<li><a href="#tab_permit" aria-controls="profile" role="tab" data-toggle="tab">购买权限</a></li>
+						<li><a href="#tab_market" aria-controls="profile" role="tab" data-toggle="tab">商品营销</a></li>
+						<li><a href="#tab_share" aria-controls="profile" role="tab" data-toggle="tab">分享设置</a></li>
+						<li><a href="#tab_other" aria-controls="profile" role="tab" data-toggle="tab">其他设置</a></li>
+					</ul>
+					<div class="tab-content col-sm-12" >
+						<div class="tab-pane  active" id="tab_basic">{template 'store/goods/goods_basic'}</div>
+						<div class="tab-pane" id="tab_des">{template 'store/goods/goods_des'}</div>
+						<div class="tab-pane" id="tab_param">{template 'store/goods/goods_param'}</div>
+						<div class="tab-pane" id="tab_option">{template 'store/goods/goods_option'}</div>
+						<div class="tab-pane" id="tab_permit">{template 'store/goods/goods_permit'}</div>
+						<div class="tab-pane" id="tab_market">{template 'store/goods/goods_market'}</div>
+						<div class="tab-pane" id="tab_share">{template 'store/goods/goods_share'}</div>
+						<div class="tab-pane" id="tab_other">{template 'store/goods/goods_other'}</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-sm-12">
+				<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</form>
+	</div>
+</div>
+{template 'common/footer-storex'}

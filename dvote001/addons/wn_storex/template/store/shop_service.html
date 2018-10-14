@@ -1,0 +1,176 @@
+{template 'common/header-storex'}
+<div class="wn-main">
+	<div class="wn-main__head">客服管理</div>
+	<div class="wn-main__content">
+		<div class="wn-main__search clearfix">
+			<div class="wn-main__search__action">
+				<a href="javascript:;" class="btn btn-primary we7-padding-horizontal js-add-service">+添加客服</a>
+			</div>
+		</div>
+		<div class="modal fade" id="service-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">选择你要创建的客服</h4>
+					</div>
+					<div class="modal-body clearfix form-horizontal">
+						{if !empty($service_list)}
+						{loop $service_list $kf}
+						<table class="table table-hover wn-table table-bordered">
+							<tr>
+								<th>客服信息</th>
+								<th>绑定微信号</th>
+								<th>选择</th>
+							</tr>
+							<tr>
+								<td>
+									<img src="{$kf['kf_headimgurl']}" width="50px">
+									{$kf['kf_nick']}
+								</td>
+								<td>
+									{$kf['kf_wx']}
+								</td>
+								<td>
+									<input type="radio" name="kf_id" value="{$kf['kf_id']}"/>	
+								</td>
+							</tr>
+						</table>
+						{/loop}
+						{else}
+							<div>请在微信后台->客服功能中添加客服</div>
+						{/if}
+					</div>
+					{if !empty($service_list)}
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary js-select-service">确定</button>
+					</div>
+					{/if}
+				</div>
+			</div>
+		</div>
+		{if $op == 'display'}
+		<div class="alert alert-info">
+			<div>
+				<i class="fa fa-info-circle"></i>
+				客服管理接入的是微信客服，要求公众号为微信认证过的服务号或订阅号.
+			</div>
+		</div>
+		<table class="table table-hover wn-table table-bordered">
+			<thead class="navbar-inner">
+				<tr>
+					<th style='width:100px'>客服编号</th>
+					<th style='width:210px'>客服帐号</th>
+					<th style='width:150px'>客服昵称</th>
+					<th style='width:150px'>客服头像</th>
+					<th style='width:150px'>微信号</th>
+					<th style="width:200px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $list $item}
+			<tr>
+				<td>{$item['kf_id']}</td>
+				<td>{$item['kf_account']}</td>
+				<td>{$item['kf_nick']}</td>
+				<td>
+					<img src="{php echo $item['kf_headimgurl']}" width="50px">
+				</td>
+				<td>{$item['kf_wx']}</td>
+				<td>
+					<a href="https://mpkf.weixin.qq.com/cgi-bin/kfloginpage" class="btn btn-default" target="_blank">客服登录</a>
+					<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" href="#" onclick="drop_confirm('您确定要删除吗?', '{php echo $this->createWebUrl('shop_service', array('op' => 'delete', 'id' => $item['id'], 'storeid' => $_GPC['storeid']))}');" title="删除" ><i class="fa fa-times"></i></a>
+				</td>
+			</tr>
+			{/loop}
+			</tbody>
+			<input name="token" type="hidden" value="{$_W['token']}" />
+		</table>
+		{/if}
+		{$pager}
+	</div>
+</div>
+<script>
+	require(['bootstrap'],function() {
+		$('.btn').tooltip();
+	});
+	require(['jquery.qrcode'], function(){
+		$('.js-clerk-entry').click(function() {
+			url = $(this).data('url');
+			$('.js-url').val(url);
+			$('#entry-modal').modal('show');
+			$('.js-qrcode-block').html('').qrcode({
+				render: 'canvas',
+				width: 300,
+				height: 300,
+				text: url,
+			});
+		});
+	});
+	$(function() {
+		$('.js-add-service').click(function() {
+			$('#service-modal').modal('show');
+		});
+		$('.js-select-service').click(function() {
+			kf_id = $('#service-modal input[type="radio"]:checked').val();
+			$.post("{php echo $this->createWebUrl('shop_service', array('op' => 'add_service', 'storeid' => $storeid))}", {kf_id : kf_id}, function(data) {
+				console.dir(data);
+			}, 'json');
+		});
+		$(".check_all").click(function() {
+			var checked = $(this).get(0).checked;
+			$(':checkbox').each(function(){
+				this.checked = checked;
+			});
+		});
+		$(".edit_all").click(function() {
+			var name = $(this).attr('name');
+			var check = $("input:checked");
+			if (check.length < 1) {
+				util.message('请选择要操作的记录!');
+				return;
+			}
+			var id = new Array();
+			check.each(function(i) {
+				id[i] = $(this).val();
+			});
+			$.post("{php echo create_url('site/entry', array('do' => 'shop_clerk', 'op' => 'showall', 'm' => $_GPC['m'], 'storeid' => $_GPC['storeid']))}", {idArr : id, show_name : name},function(data){
+				if (data.message.errno ==0) {
+					util.message(data.message.message, 'refresh', 'success');
+				} else {
+					util.message(data.message.message);
+				}
+			}, 'json');
+		});
+
+		$("input[name=deleteall]").click(function() {
+			var check = $("input:checked");
+			if (check.length < 1) {
+				util.message('请选择要删除的记录!');
+				return;
+			}
+			if (confirm("确认要删除选择的记录?")) {
+				var id = new Array();
+				check.each(function(i) {
+					id[i] = $(this).val();
+				});
+				$.post("{php echo create_url('site/entry', array('do' => 'shop_clerk', 'op' => 'deleteall', 'm' => $_GPC['m'], 'storeid' => $_GPC['storeid']))}", {idArr : id},function(data) {
+					if (data.message.errno ==0) {
+						util.message(data.message.message, 'refresh', 'success');
+					} else {
+						util.message(data.message.message);
+					}
+				}, 'json');
+			}
+
+		});
+	});
+	
+	function drop_confirm(msg, url) {
+		if (confirm(msg)) {
+			window.location = url;
+		}
+	}
+</script>
+{template 'common/footer'}

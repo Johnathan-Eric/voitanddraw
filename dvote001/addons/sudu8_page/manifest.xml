@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.qincewang.com" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[万能门店小程序]]></name>
+		<identifie><![CDATA[sudu8_page]]></identifie>
+		<version><![CDATA[6.4.1]]></version>
+		<type><![CDATA[biz]]></type>
+		<ability><![CDATA[本地商户门店小程序，比官方微信门店功能更强大]]></ability>
+		<description><![CDATA[本地商户门店小程序，比官方微信门店功能更强大]]></description>
+		<author><![CDATA[新睿社区]]></author>
+		<url><![CDATA[https://www.qincewang.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<supports>
+			<item type="wxapp" />
+		</supports>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="基础信息" do="base" state="" direct="false" />
+			<entry title="预约管理" do="forms" state="" direct="false" />
+			<entry title="样式DIY" do="diy" state="" direct="false" />
+			<entry title="栏目管理" do="cate" state="" direct="false" />
+			<entry title="公司介绍" do="about" state="" direct="false" />
+			<entry title="首页导航栏" do="nav" state="" direct="false" />
+			<entry title="底部菜单栏" do="tabbar" state="" direct="false" />
+			<entry title="内容--文章" do="items" state="" direct="false" />
+			<entry title="内容--组图" do="pics" state="" direct="false" />
+			<entry title="内容--小程序" do="wxapps" state="" direct="false" />
+			<entry title="内容--商品" do="products" state="" direct="false" />
+			<entry title="订单管理" do="orders" state="" direct="false" />
+			<entry title="用户管理" do="user" state="" direct="false" />
+			<entry title="版权参数管理" do="copyright" state="" direct="false" />
+			<entry title="优惠券管理" do="coupon" state="" direct="false" />
+		</menu>
+		<page>
+			<entry title="首页" do="/sudu8_page/index/index" state="" direct="false" />
+		</page>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

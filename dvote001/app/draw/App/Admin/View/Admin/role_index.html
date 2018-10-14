@@ -1,0 +1,196 @@
+<div class="main-body">
+    <div class="nav_title" style="left: 0; width: 100%;">
+        <div class="panel_title">
+            <div class="p_div">
+                <div class="p_text" style="visibility: inherit; top: 0px; transform-origin: 84px 9px 0px;">
+                    <p><span>{$page_title}</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="refresh_div">
+            <button class="layui-btn layui-btn-small layui-btn-primary" onclick="javascript:location.reload();">
+                <i class="layui-icon">&#x1002;</i>
+            </button>
+        </div>
+    </div>
+    <div class="lay-body">
+        <div class="table-body" id="tyep">
+            <form class="layui-form">
+            <div class="nav_header">
+                <div class="p-search">
+                    <div class="p_text">
+                        <p><ic><img src='/Public/new/img/i_list.png'/></ic><span>{$page_header}</span></p>
+                    </div>
+                </div>
+                <div class="pub_menu_left">
+                    <div class="m_left">
+                        <div class="layui-form-item">
+                            <if condition = "$acc['role_add']">
+                                <div class="layui-unselect layui-form-select" onclick="layer_show('{$acc['role_add']['auth_name']}','{:U($acc['role_add']['auth_path'])}','500','450')">
+                                    <div class="layui-select-title">
+                                        <input type="button" class="layui-input layui-unselect" value="添加"><i class="layui-edge"></i>
+                                    </div>
+                                </div>
+                            </if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-table">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="50%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">编号</th>
+                            <th style="text-align: center;">角色名称</th>
+                            <th style="text-align: center;">权限</th>
+                            <th style="text-align: center;">操作</th>
+                            
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <volist name="lists" id="vo" key="k">
+                            <tr style="text-align: center;">
+                                <td>{$vo.rid}</td>
+                                <td>
+                                    <if condition = "$acc['user_role']">
+                                        <if condition = "$vo['is_system'] neq 1">
+                                            <a href="javascript:void(0);" onclick="layer_show('{$acc['user_role']['auth_name']}','{:U($acc['user_role']['auth_path'],array('id'=>$vo['rid']))}','500','450')">{$vo.role_name|default='未分配角色'}</a>
+                                            <else/>
+                                            {$vo.role_name|default='未分配角色'}
+                                        </if>
+                                    <else/>
+                                        {$vo.role_name|default='未分配角色'}
+                                    </if>
+                                </td>
+                                <td>{$vo.auth_name|default='未分配权限'}</td>
+                                <td>
+                                    <if condition = "$vo['rid'] neq 1">
+                                        <if condition = "$acc['role_edit']">
+                                            <a href="javascript:void(0);" onclick="layer_show('{$acc['role_edit']['auth_name']}','{:U($acc['role_edit']['auth_path'],array('id'=>$vo['rid']))}','500','450')">编辑</a>
+                                        </if>
+                                        <!-- <if condition = "$acc['role_del']">
+                                            <a href="javascript:void(0);" onclick="areaDel('{:U($acc['role_del']['auth_path'],array('id'=>$vo['rid']))}')">删除</a>
+                                        </if> -->
+                                    </if>
+                                </td>
+                            </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <div class="tab-footer">
+                    <div class="right-oper">
+                        <div id="layPage"></div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>    
+</div>
+<script type="text/javascript">
+    var allTotal = {$_total|default=0};
+    var curr = {$_curr|default=1};
+    var limit = {$_limit|default=10};
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+        ,layer = layui.layer;
+        laypage.render({
+            elem: 'layPage'
+            ,count: allTotal
+            ,limit: limit
+            ,curr : curr
+            ,layout: ['count', 'prev', 'page', 'next', 'skip']
+            ,jump: function(obj,first){
+                if(!first){
+                    var activity_name = $("input[name='activity_name']").val();
+                    var date = $("input[name='date']").val();
+                    jsPost('', {curr: obj.curr,activity_name:activity_name,date:date}); 
+                }
+            }
+        });
+    });
+    
+    layui.use('form', function(){
+        var form = layui.form
+        ,layer = layui.layer;
+        
+        form.on('switch(switchOpen)', function(data){
+            var id = $(this).val();
+            var nval = this.checked ? 1 : 2;
+            var ntype = 'is_open';
+            setOper([id],nval,ntype);
+        });
+        
+        form.on('checkbox(allChoose)', function(data){  
+            var child = $(data.elem).parents('table').find('tbody input[name="checkId[]"]');  
+            child.each(function(index, item){  
+                item.checked = data.elem.checked;  
+            });  
+            form.render('checkbox');  
+        });
+        
+        form.on('select(showNum)', function(data){
+            var order_num = $("input[name='order_num']").val();
+            var take = $("input[name='take']").val();
+            var reg_time = $("input[name='reg_time']").val();
+            var order_status = $('[name="order_status"]').val();
+            var showNum = data.value;
+            var showOrder = $("[name='showOrder']").val();
+            jsPost('', {order_num:order_num,take:take,reg_time:reg_time,order_status:order_status,showNum:showNum,showOrder:showOrder}); 
+        });
+        
+    });
+    
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#subTime' //指定元素
+            ,theme: 'molv'
+        });
+    });
+    
+    function subForm()
+    {
+        $("#searchForm").submit();
+    }
+    
+    function setOper(ids,nval,ntype)
+    {
+        var lod_index = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $.post('/Merchant/Config/ajax_area', { ids: ids,nval: nval,ntype: ntype },function(data){
+            layer.close(lod_index);
+            var parsedJson = jQuery.parseJSON(data);
+            if(parsedJson.status == 1){
+                layer.msg(parsedJson.msg);
+                window.location.reload();
+            }else{
+                layer.msg(parsedJson.msg);
+            }
+        });
+    }
+    
+    function areaDel(url)
+    {
+        var lod_index = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $.get(url, {} ,function(a){
+            layer.close(lod_index);
+            var jsonDate = jQuery.parseJSON(a);
+            if(jsonDate.status == 1){
+                layer.msg(jsonDate.msg);
+                window.location.reload();
+            }else{
+                layer.msg(jsonDate.msg);
+            }
+        });
+    }
+</script>

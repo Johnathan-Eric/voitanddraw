@@ -1,0 +1,244 @@
+body {
+	background-color: rgb(246,246,246);
+}
+.mr10 {
+	margin-right: 10px;
+}
+.bottomWrap {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.panel-create-shop {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -600px;
+	margin-top: -215px;
+}
+.small-routine {
+    height: 800px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.small-routine .s-title {
+    line-height: 40px;
+    margin: 0 15%;
+    /* border-bottom: 1px solid #ebeff4; */
+    font-size: 24px;
+}
+.small-routine .s-title-desc {
+    line-height: 20px;
+    margin: 0 15%;
+    /* border-bottom: 1px solid #ebeff4; */
+    font-size: 10px;
+}
+.small-routine .line {
+    display: inline-block;
+    width: 70px;
+    border-top: 2px solid #ccc;
+}
+.small-routine .txt {
+    color: rgb(147,147,147);
+    vertical-align: -4px;
+    padding: 0 5px;
+}
+.panel-create-shop .panel-shop-type {width: 94%;margin: 0 auto;overflow:hidden;zoom:1;}
+.p5 {
+	padding: 5px;
+	background-color: rgb(255,255,255);
+}
+.p5 img {
+	width: 100%;
+	height: 100%;
+}
+.p5 .caseName {
+	margin: 20px 0;
+	padding: 0 10px;
+	text-align: left;
+	overflow: hidden;
+	zoom: 1;
+}
+.p5 .caseDesc {
+	padding: 0 10px;
+	font-size: 12px;
+	text-align: left;
+	color: rgb(151,151,151);
+}
+.p5 .panel-btn-shop {
+	margin-top: 30px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+.p5 .btn-shop {
+	background-color: rgb(26,188,156);
+	color: rgb(255,254,254);
+}
+.p5 .btn-other {
+	background-color: rgb(153,153,153);
+	color: rgb(255,254,254);
+}
+
+.panel-shop-basic {
+	width: 520px;
+	height: 400px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -200px;
+	margin-left: -260px;
+}
+.panel-input {
+	height: 325px;
+	margin-top: 15px;
+	background-color: #FFFFFF;
+	-moz-box-shadow:2px 2px 2px #888888;/*firefox*/  
+	-webkit-box-shadow:2px 2px 2px #888888;/*webkit*/ 
+	box-shadow: 2px 2px 2px #888888;
+	-moz-border-radius: 8px; /* Firefox */
+  	-webkit-border-radius: 8px; /* Safari 和 Chrome */
+  	border-radius: 8px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+}
+.panel-input .col-sm-12 {
+	padding: 40px 40px 30px 40px;
+}
+.form-horizontal .form-group {
+	margin: 0;
+	margin-bottom: 15px;
+}
+.must-text {
+	display: inline-block;
+	height: 20px;
+	color: red;
+	padding-left: 2px;
+	line-height: 20px;
+}
+label.label-title {
+	width: 80px;
+	float: left;
+	font-weight: normal;
+}
+.form-input {
+	width: 390px;
+	float: left;
+	padding: 0 8px;
+	text-align: left;
+}
+.select30 {
+	width: 95px;
+}
+.select40 {
+	width: 164px;
+}
+.panel-upload .btn,.panel-upload .btn:hover {
+	padding: 6px 25px;
+	color: rgb(26,188,156);
+	border: 1px solid rgb(26,188,156);
+	background-color: #FFFFFF;
+}
+.panel-submit .btn {
+	width: 180px;
+}
+.panel-submit .btn-submit,.panel-submit .btn-submit:hover {
+	background-color: rgb(26,188,156);
+	color: rgb(255,254,254);
+	border: 0;
+}
+.panel-submit .btn-cancel,.panel-submit .btn-cancel:hover {
+	background-color: #FFFFFF;
+	border-color: #ccc;
+}
+.panel-have .btn {
+	padding: 10px 12px;
+}
+.btn-have,.btn-have:hover,.btn-have:visited,.btn-have:active,.btn-have:focus,
+.btn-have:active:focus, .btn-have:active:hover {
+	background-color: rgb(26,188,156);
+	color: rgb(255,254,254);
+	border: 0;
+	margin-bottom: 20px;
+}
+.btn-no,.btn-no:hover,.btn-no:visited,.btn-no:active,.btn-no:focus,
+.btn-no:active:focus, .btn-no:active:hover {
+	background-color: #FFFFFF;
+	border-color: #ccc;
+}
+.modal-header {
+	border: 0;
+	padding-top: 5px;
+	padding-bottom: 15px;
+	padding-right: 8px;
+}
+.modal-body {
+	padding: 0 60px 10px 60px;
+}
+.modal-footer {
+	border: 0;
+	text-align: center;
+	padding-bottom: 40px;
+	padding-left: 60px;
+	padding-right: 60px;
+}
+.modal-dialog .s-title {
+	font-size: 24px;
+	line-height: 40px;
+	text-align: center;
+}
+.modal-dialog .s-desc {
+	margin-top: 20px;
+	line-height: 30px;
+}
+.modal-footer .btn {
+	width: 123px;
+}
+.modal-footer .btn-problem,.modal-footer .btn-problem:hover,.modal-footer .btn-problem:visited,
+.modal-footer .btn-problem:active,.modal-footer .btn-problem:focus,
+.modal-footer .btn-problem:active:focus, .modal-footer .btn-problem:active:hover {
+	background-color: #FFFFFF;
+	border-color: #ccc;
+	color: rgb(153,153,153);
+}
+.modal-footer .btn-authorize-success,.modal-footer .btn-authorize-success:hover,.modal-footer .btn-authorize-success:visited,
+.modal-footer .btn-authorize-success:active,.modal-footer .btn-authorize-success:focus,
+.modal-footer .btn-authorize-success:active:focus, .modal-footer .btn-authorize-success:active:hover {
+	background-color: rgb(26,188,156);
+	border-color: 0;
+	color: rgb(255,254,254);
+}
+@media only screen and (min-width: 768px) {
+	.navbar-nav>li>a {
+		width: auto;
+	}
+	.navbar-nav>li>a>.span-icon {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.navbar-nav>li>a>.span-desc {
+		margin-left: 15px;
+		color: rgb(156,156,156);
+	}
+	span-icon img {
+		width: 22px;
+		height: 22px;
+	}
+	.small-routine .s-title {
+    	margin: 0 35%;
+    	font-size: 24px;
+	}
+	.small-routine .s-title-desc {
+	    margin: 0 20%;
+	    font-size: 10px;
+	}
+	.modal-dialog {
+	    width: 380px;
+	    height: 260px;
+	    position: absolute;
+	    left: 50%;
+	    top: 50%;
+	    margin-top: -130px;
+	    margin-left: -190px;
+	}
+}

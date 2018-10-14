@@ -1,0 +1,205 @@
+<style>
+    .lisel{
+        cursor: pointer;
+        float: left;
+        margin: 5px;
+        color: #22DDB8;
+    }
+    .checked{
+        background-color: #0081C2;
+    }
+</style>
+<div class="body-form">
+    <div style='margin: 20px auto auto;'>
+        <form class="layui-form" action="" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色：</label>
+                <div class="layui-input-block">
+                    <select name="rid" class="selectStyle" lay-filter="dType">
+                        <option value="0" <if condition="'0' eq $info['rid']">selected="selected"</if>>未分配</option>
+                        <volist name="rlists" id="vo">
+                            <option value="{$vo.rid}" <if condition="$vo['rid'] eq $info['rid']">selected="selected"</if> >{$vo.role_name}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+            <div id="agencyRegion">
+
+            </div>
+            <div class="layui-form-item" style="margin:20;">
+                <div class="layui-input-block">
+                	<input type="hidden" name="aid" value="{$info.aid}">
+                    <button class="layui-btn" lay-submit lay-filter="formSub">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    //默认取值
+    $(document).ready(function(){  
+        var rid = $("select[name='rid']").find("option:selected").val();
+        var lod_index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+        $.post('/Admin/Ajax/get_role', {rid: rid} ,function(a){
+            layer.close(lod_index);
+            var jsonDate = jQuery.parseJSON(a);
+            if(jsonDate.status == 1){
+                setFromItem(jsonDate.is_agency);
+                $("input[name='reids']").val("{$info['reids']}");
+                $("input[name='renames']").val("{$info['renames']}");
+            }
+        });
+    });
+    layui.use(['form'], function(){
+        var form = layui.form
+        ,$ = layui.jquery;
+        //监听角色选择
+        form.on('select(dType)', function(data){
+            var rid = data.value; //角色id
+            var lod_index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post('/Admin/Ajax/get_role', {rid: rid} ,function(a){
+                layer.close(lod_index);
+                var jsonDate = jQuery.parseJSON(a);
+                if(jsonDate.status == 1){
+                    setFromItem(jsonDate.is_agency);
+                }
+            });
+        });
+        //监听提交
+        form.on('submit(formSub)', function(data){
+            var date = data.field;
+            var url = window.location.href;
+            var lod_index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post(url, date ,function(a){
+                    layer.close(lod_index);
+                    var jsonDate = jQuery.parseJSON(a);
+                    if(jsonDate.status == 1){
+                        layer.msg(jsonDate.msg,{
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);  
+                            parent.layer.close(index);
+                        });
+                    }else{
+                        layer.msg(jsonDate.msg);
+                    }
+            });
+            return false;
+        });
+    });
+    
+    function setFromItem(type){
+        var isAgency = $("input[name='is_agency']").val();
+        $("#agencyRegion").empty();
+        if(type == 1){
+            var htmlDOM = "";
+            htmlDOM += '<div class="layui-form-item">';
+            htmlDOM += '<label class="layui-form-label">代理省份：</label>';
+            htmlDOM += '<div class="layui-input-block">';
+            htmlDOM += '<input class="layui-input selReg" type="type" name="renames" value="">';
+            htmlDOM += '<input type="hidden" name="reids" value="">';
+            htmlDOM += '</div>';
+            htmlDOM += '</div>';
+            $("#agencyRegion").append(htmlDOM);
+            layui.use(['form'], function(){
+                var form = layui.form;
+                if(isAgency == 1){
+                    var flag = true;
+                }else{
+                    var flag = false;
+                }
+                $("input[name='open']").attr("checked",flag);
+                form.render();
+            });
+        }
+    }
+    
+    $(document).on('click','.selReg',function(){
+        var ids = $(this).next().val();
+        var arrs = ids.split(',');
+        var lod_index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+        $.post('/Admin/Ajax/get_pro_region', {} ,function(a){
+            layer.close(lod_index);
+            var jsonDate = jQuery.parseJSON(a);
+            var htmlDOM = "";
+            htmlDOM += '<div class="layui-form-item">';
+            htmlDOM += '<ul>';
+            $.each(jsonDate, function(index,item){
+                htmlDOM += '<li class="lisel">';
+                if($.inArray(item.region_id,arrs) >= 0){
+                    htmlDOM += '<button class="layui-btn layui-btn-xs newli" type="button">'+item.region_name+'</button>';
+                }else{
+                    htmlDOM += '<button class="layui-btn layui-btn-xs layui-btn-primary newli" type="button">'+item.region_name+'</button>';
+                }
+                htmlDOM += '<input type="hidden" value="'+item.region_id+'">';
+                htmlDOM += '</li>';
+            });
+            htmlDOM += '</ul>';
+            htmlDOM += '</div>';
+            htmlDOM += '<div class="layui-form-item" style="text-align: center;">';
+            htmlDOM += '<button class="layui-btn" id="notarize">确认选择</button>';
+            htmlDOM += '</div>';
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                var index = layer.open({
+                    type: 1,
+                    area: ['500px', '300px'],
+                    title: '选择省份',
+                    content: htmlDOM
+                });
+            });
+        });
+    });
+    
+    $(document).on('click','.newli',function(){
+        var ids = $("input[name='reids']").val();
+        var nameIds = $("input[name='renames']").val();
+        var arrs = ids.split(',');
+        var nameArrs = nameIds.split(',');
+        var id = $(this).next().val();
+        var name = $(this).text();
+        if($(this).hasClass("layui-btn-primary")){
+            arrs.push(id);
+            nameArrs.push(name);
+            $(this).removeClass("layui-btn-primary");
+        }else{
+            arrs.splice($.inArray(id,arrs),1);
+            nameArrs.splice($.inArray(name,nameArrs),1);
+            $(this).addClass("layui-btn-primary");
+        }
+        arrs = newUnique(arrs);
+        nameArrs = newUnique(nameArrs);
+        var newNames = nameArrs.join(',');
+        var newIds = arrs.join(',');
+        $("input[name='reids']").val(newIds);
+        $("input[name='renames']").val(newNames);
+    });
+    
+    $(document).on('click','#notarize',function(){
+        layer.closeAll('page');
+    });
+    
+    function newUnique(arr)
+    {
+        var arr1=$.grep(arr,function(n,i){
+		return n;
+	},false);
+	var r = arr1.filter(function (s) {
+            return s && s.trim(); // 注：IE9(不包含IE9)以下的版本没有trim()方法
+	});
+        ret = r.filter(function (element, index, self) {
+            return self.indexOf(element) === index;
+	});
+	return ret;
+    }
+</script>

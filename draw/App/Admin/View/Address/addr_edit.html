@@ -1,0 +1,74 @@
+<div class="body-form">
+    <div class="lay-body">
+        <form class="layui-form" action="" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>抽奖人：&nbsp;&nbsp;&nbsp;</label>
+                <div class="layui-col-xs6">
+                    <input type="text" name="uname" value="{$info.uname}" required lay-verify="required" readonly placeholder="请输入抽奖人" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>收件人：&nbsp;&nbsp;&nbsp;</label>
+                <div class="layui-col-xs6">
+                    <input type="text" name="name" value="{$info.name}" required lay-verify="required" placeholder="请输入收件人" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>电话：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <div class="layui-col-xs6">
+                    <input type="text" name="tel" value="{$info.tel}" required lay-verify="required" placeholder="请输入电话" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>收件地址：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <div class="layui-col-xs6">
+                    <input type="text" name="address" value="{$info.address}" required lay-verify="required" placeholder="请输入收件人地址" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>邮政编码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <div class="layui-col-xs6">
+                    <input type="text" name="postcode" style="width: 80px;" value="{$info.postcode}" required lay-verify="required" placeholder="请输入邮政编码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="hidden" name="id" value="{$info.id}"/>
+                    <button class="layui-btn" lay-submit lay-filter="formSub">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['form'], function(){
+        var form = layui.form
+            ,$ = layui.jquery;
+
+        //监听提交
+        form.on('submit(formSub)', function(data){
+            var date = data.field;
+            var url = window.location.href;
+            var lod_index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post(url, date ,function(a){
+                layer.close(lod_index);
+                var jsonDate = jQuery.parseJSON(a);
+                if(jsonDate.status == 1){
+                    layer.msg(jsonDate.msg,{
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        parent.location.reload();
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
+                }else{
+                    layer.msg(jsonDate.msg);
+                }
+            });
+            return false;
+        });
+    });
+</script>

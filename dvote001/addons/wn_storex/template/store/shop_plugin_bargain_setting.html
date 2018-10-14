@@ -1,0 +1,27 @@
+{template 'common/header-storex'}
+<div class="wn-main">
+{if $op == 'display'}
+	<div class="wn-main__content">
+		<form class="form-horizontal form js-form" method="post" enctype="multipart/form-data" action="{php echo $this->createWebUrl('shop_plugin_bargain_setting', array('storeid' => $_GPC['storeid'], 'op' => 'post'))}">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">轮播图设置</label>
+				<div class="col-sm-9 col-xs-12">
+					{php echo tpl_form_field_multi_image('thumbs', $setting_info['thumbs'])}
+					<span class="help-block">轮播图图片尺寸为346*750</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">砍价规则</label>
+				<div class="col-sm-9 col-xs-12">
+					{php echo tpl_ueditor('rules', $setting_info['rules']);} 
+					<span class="help-block"></span>
+				</div>
+			</div>	
+			<div class="form-group col-sm-12">
+				<input type="submit" value="提交" name="submit" class="btn btn-primary col-lg-1">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</form>
+	</div>
+{/if}
+{template 'common/footer-storex'}

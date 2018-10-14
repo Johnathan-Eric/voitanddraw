@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<title>数码顶呱呱</title>
+<meta charset="utf-8">
+<meta content="width=device-width, minimum-scale=1,initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<link href="/Public/css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/Public/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/Public/js/TouchSlide.1.1.js"></script>
+<script type="text/javascript">
+function onBridgeReady(){
+  WeixinJSBridge.call('hideOptionMenu');
+}
+
+if (typeof WeixinJSBridge == "undefined"){
+    if( document.addEventListener ){
+        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+    }else if (document.attachEvent){
+        document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+    }
+}else{
+    onBridgeReady();
+}
+</script>
+</head>
+<body>
+<div id="pageload"></div>
+<header>
+	<a href="#" class="back"></a>
+	<h1>错误提示</h1>
+</header>
+<div class="layout clearfix">
+	<div class="pay-status">
+	<p class="pay-no"><span class="pay-icon"></span><span>
+    您访问的页面不存在</span></p>
+	<p> 页面自动 <a id="href" href="/">跳转</a> 等待时间： <b id="wait"></b>秒!</p>
+	</div>
+</div>
+<script type="text/javascript">
+(function(){
+var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+var interval = setInterval(function(){
+	var time = --wait.innerHTML;
+	if(time <= 0) {
+		location.href = href;
+		clearInterval(interval);
+	};
+}, 1000);
+})();
+</script>
+
+<!--nav-buttom end-->
+<footer>
+	<div class="footer">
+		<p>数码顶呱呱</p>
+		<p>赣ICP备07000530号</p>
+	</div>
+</footer>
+<!--footer end-->
+<div class="nav-buttom">
+	<ul>
+		<li>
+			<a href="/">
+				<span class="shouye"></span>首页
+			</a>
+		</li>
+		<li >
+			<a href="/index.php/cart.html">
+				<span class="shpcart"></span>购物车
+			</a>
+		</li>
+		<li >
+			<a href="/index.php/Orders.html">
+				<span class="order"></span>我的订单
+			</a>
+		</li>
+		<li >
+			<a href="/index.php/member.html">
+				<span class="fenxiao"></span>个人中心
+			</a>
+		</li>
+	</ul>
+</div>
+<script type="text/javascript" src="/Public/js/mutual.js"></script>
+<script type="text/javascript" src="/Public/js/jquery.validate.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+.sitestats h1 { height:30px;line-height:30px;font-size:14px;padding-left:15px;background:#EEE;border-bottom:1px solid #ddd;border-right:1px solid #ddd;overflow:hidden;zoom:1;margin-bottom:5px;}
+.sitestats h1 b {color:#3865B8;}
+.sitestats h1 span {color:#666;font-size:12px; font-weight:normal; margin-left:10px;}
+.sitestats {width:100%;margin:5px 0  0 0;overflow:hidden;}
+.sitestats div {_width:99.5%;overflow:hidden;zoom:1;}
+.sitestats td{ font-family:Verdana;}
+
+td.money{text-align:right; padding-right:5px;}
+.sitestats table tr td{ text-align:center;}
+.sitestats table tr td{ line-height:30px;}
+.sitestats table .top td{ background:#EEF3F7}
+.sitestats table tbody tr.row2{background:#eff;}
+.sitestats table tbody tr.row2:hover{background:#fbffe4;}
+.sitestats table tbody tr:hover{ background:#fbffe4;}
+.sitestats table td.money{text-align:right; padding-right:5px;}

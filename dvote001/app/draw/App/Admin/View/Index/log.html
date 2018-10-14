@@ -1,0 +1,62 @@
+<table  class="search_table" width="100%">
+<tr>
+	<td>
+		<form id="searchform" name="searchform" action="{:U('Index/log')}" method="post">
+			<input type="hidden" name="menuid" value="{$menuid}" />
+			<strong>{:L('SEARCH_LABEL')}:</strong>
+			<input type="text" name="keyword" id="keyword" class="input-text" value="{$keyword}" placeholder="{:L('PLEASE_INPUT_KEYWORD')}"/>
+			<input type="text" class='input-text' name='sdate' id='sdate' value="{$starttime}" placeholder="{:L('SDATE')}" onfocus="WdatePicker();" />
+			<input type="text" class='input-text' name='edate' id='edate' value="{$endtime}" placeholder="{:L('EDATE')}" onfocus="WdatePicker();" />
+			<input type="button" value="{:L('SEARCH_LABEL')}"  class="btn btn-primary" onclick="searchform.action='{:U('/Admin/index/log?opt=search')}';$('#searchform').submit();" />
+			<input type="button" value="{:L('clear')}" id="clear" class="btn btn-danger reset"/>
+		</form>
+	</td>
+</tr>
+</table>
+<form name="myform" id="myform" action="" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+			<th width="40">ID</th>
+            <th>{:L('username')}</th>
+            <th>{:L('log_type')}</th>
+            <th align="left">{:L('log_message')}</th>
+			<th>{:L('ip')}</th>
+			<th>{:L('log_time')}</th>
+            <eq name="show_logs_detail" value="1">
+            		<th style="width: 40%;">日志数据</th>
+            </eq>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="logs" id="vo" key="k">
+      		<tr>
+				<td align="center">{$vo['logid']}</td>
+                <td align="center">{$vo['uname']}</td>
+                <td align="center">{$vo.type}</td>
+	      		<td align="left" style="word-wrap:break-word;word-break:break-all;">{$vo['message']}</td>
+				<td align="center" title="来源:{$vo['referer']}"><a href="http://www.ip138.com/ips138.asp?ip={$vo['ip']}&action=2" target="_blank">{$vo['ip']}</a></td>
+				<td align="center">{$vo['addtime']|time_format}</td>
+                <eq name="show_logs_detail" value="1">
+	                <td align="left" style="word-wrap:break-word;word-break:break-all;">
+	                {$vo.data}
+	                </td>
+                </eq>
+      		<tr>
+      		</volist>
+            <Logic:perm access="system_log_clear">
+                  <tr><td colspan="7" style="padding:5px;">
+                    <input type="button" class="btn btn-primary btn-small" name="dosubmit" value="{:L('DELETE_30_DAY')}" onclick="myform.action='{:U('/Admin/index/log?day=30')}';$('#myform').submit();"/>
+                    <input type="button" class="btn btn-warning btn-small" name="dosubmit" value="{:L('DELETE_90_DAY')}" onclick="myform.action='{:U('/Admin/index/log?day=90')}';$('#myform').submit();"/>
+                    <if condition="$Think.const.app_debug eq 1">
+                    <input type="button" class="btn btn-danger btn-small" name="dosubmit" value="{:L('DELETE_ALL_LOG')}" onclick="myform.action='{:U('/Admin/index/log?day=0')}';$('#myform').submit();"/>
+                    </if>
+                  </td></tr>
+            </Logic:perm>
+      	</tbody>
+    </table>
+	</div>
+</div>
+</form>
+<div id="pages" class="page">{$page}</div>

@@ -1,0 +1,130 @@
+<div class="body-form">
+    <div style='margin: 20px auto auto;'>
+        <form class="layui-form" lay-filter="releFrom" action="" method="post">
+            <div class="lay-form-div">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>角色名称：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="role_name" value="{$info.role_name}" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>权限列表：</label>
+                    <div class="layui-input-block" id="tipmsg">
+                        <input type="text" name="role_auth_ac" readonly="true" value="{$info.role_auth_ac}" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div id="agency">
+                    
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin:20;">
+                <div class="layui-input-block">
+                    <input type="hidden" name="rid" value="{$info.rid}">
+                    <input type="hidden" name="is_agency" value="{$info.is_agency|default=2}">
+                    <input type="hidden" name="role_auth_ids" value="{$info.role_auth_ids}">
+                    <button class="layui-btn" lay-submit lay-filter="formSub">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    //默认取值
+    $(document).ready(function(){  
+        var d_val = $("select[name='d_type']").find("option:selected").val();
+        setFromItem(d_val);
+    });
+    layui.use(['form'], function(){
+        var form = layui.form
+        ,$ = layui.jquery;
+        //监听选择框
+        form.on('select(dType)', function(data){
+            setFromItem(data.value); //得到被选中的值
+        });
+        //监听代理
+        form.on('switch(openAgen)', function(data){
+            if(data.elem.checked){
+                $("input[name='is_agency']").val(1);
+            }else{
+                $("input[name='is_agency']").val(2);
+            }
+        });
+        //监听提交
+        form.on('submit(formSub)', function(data){
+            var date = data.field;
+            var url = window.location.href;
+            var subJudge = false;
+            if(data.field.role_auth_ac != ""){
+                subJudge = true;
+            }else{
+                layer.tips('因有些功能只有超管才能操作所以不开放全部权限，所以必须选择角色所属操作权限',"#tipmsg", {
+                    tips: 1
+                });
+                subJudge = false;
+                return false;
+            }
+            if(subJudge){
+                var lod_index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                $.post(url, date ,function(a){
+                        layer.close(lod_index);
+                        var jsonDate = jQuery.parseJSON(a);
+                        if(jsonDate.status == 1){
+                            layer.msg(jsonDate.msg,{
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);  
+                                parent.layer.close(index);
+                            });
+                        }else{
+                            layer.msg(jsonDate.msg);
+                        }
+                });
+            }
+            return false;
+        });
+    });
+    
+    $("input[name='role_auth_ac']").on('focus',function(){
+        var d_type = $("select[name='d_type'] option:selected ").val();
+        var raids = $("input[name='role_auth_ids']").val();
+        var url = '/Admin/Admin/role_allot/d_type/'+d_type+"/raids/"+raids;
+        //多窗口模式，层叠置顶
+        layer.open({
+            type: 2 //此处以iframe举例
+            ,title: '选择权限'
+            ,area: ['500px', '400px']
+            ,content: url
+        });
+    });
+    
+    function setFromItem(type){
+        var isAgency = $("input[name='is_agency']").val();
+        $("#agency").empty();
+        if(type == 1){
+            var htmlDOM = "";
+            htmlDOM += '<div class="layui-form-item">';
+            htmlDOM += '<label class="layui-form-label">是否代理:</label>';
+            htmlDOM += '<div class="layui-input-block">';
+            htmlDOM += '<input type="checkbox" name="open" lay-skin="switch" lay-filter="openAgen" lay-text="是|否">';
+            htmlDOM += '</div>';
+            htmlDOM += '</div>';
+            $("#agency").append(htmlDOM);
+            layui.use(['form'], function(){
+                var form = layui.form;
+                if(isAgency == 1){
+                    var flag = true;
+                }else{
+                    var flag = false;
+                }
+                $("input[name='open']").attr("checked",flag);
+                form.render();
+            });
+        }
+    }
+    
+</script>

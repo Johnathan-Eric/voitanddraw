@@ -1,0 +1,45 @@
+<div class="form-group">
+	{if $storex_bases['store_type'] != 1}
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送距离</label>
+	{else}
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">显示距离</label>
+	{/if}
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" id="distance" name="distance"  class="form-control" value="{$storex_bases['distance']}">
+		<span class='help-block'>配送距离或者是搜索店铺显示的距离范围（单位：公里），0则不限距离</span>
+	</div>
+</div>
+{if $store_type != 1}
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">购物车统一运费</label>
+	<div class="col-sm-9 col-xs-12">
+		<div class="input-group">
+			<span class="input-group-addon">默认运费</span>
+			<input type="text" id="express" name="express"  class="form-control" value="{$storex_bases['express']['express']}">
+			<span class="input-group-addon">满</span>
+			<input type="text" class="form-control" name="full_free" value="{$storex_bases['express']['full_free']}"/>
+			<span class="input-group-addon">免运费</span>
+		</div>
+		<span class='help-block'>购物车结算的时候统一运费，单个商品按单个商品选择的运费模板计算。</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">单件商品运费模板</label>
+	<div class="col-sm-9 col-xs-12">
+		<label class="radio-inline">
+			<input type="radio" name="goods_express" value="1" {if $storex_bases['goods_express'] == 1 || empty($storex_bases['goods_express'])}checked{/if}/>模板A: 满X元，Y元运费
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="goods_express" value="2" {if $storex_bases['goods_express'] == 2}checked{/if}/>模板B: 满X件，Y元运费
+		</label>
+	</div>
+</div>
+<div class="form-group credit_pw_mode">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">提货方式</label>
+	<div class="col-sm-9 col-xs-12">
+		<label class='checkbox-inline'><input type="checkbox" name="pick_up_mode[self_lift]" value="1" {if !empty($storex_bases['pick_up_mode']) && $storex_bases['pick_up_mode']['self_lift'] == 1 } checked {/if}> 自提 </label>
+		<label class='checkbox-inline'><input type="checkbox" name="pick_up_mode[express]" value="2" {if !empty($storex_bases['pick_up_mode']) && $storex_bases['pick_up_mode'][express] == 2 } checked {/if}> 配送 </label>
+		<span class="help-block">选择提货方式后会在结算订单的时候选择提货方式，请根据店铺实际情况设置。</span>
+	</div>
+</div>
+{/if}

@@ -1,0 +1,238 @@
+{template 'common/header-storex'}
+<div class="wn-main">
+	<div class="wn-main__head">预约管理</div>
+	<div class="wn-main__content">
+		<div class="wn-tabs">
+			<div class="wn-tabs__item {if $op == 'booking_set'}wn-tabs__item--active{/if}">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_booking', array('op' => 'booking_set', 'storeid' => $_GPC['storeid']))}">预约设置</a>
+			</div>
+			<div class="wn-tabs__item {if $op == 'booking_list'}wn-tabs__item--active{/if}">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_booking', array('op' => 'booking_list', 'storeid' => $_GPC['storeid']))}">预约列表</a>
+			</div>
+		</div>
+		{if $op == 'booking_set'}
+		<div class="wn-main__content">
+			<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="op" value="booking_set" />
+				<div class="form-group">
+					<label class="col-xs-12 col-md-2 control-label">文本框</label>
+					<div class="col-md-10" id="text-container" style="padding-left: 0px;">
+						{loop $booking_set['text'] $key $text}
+						<div class="col-sm-11" style="margin: 5px 0px;">
+							<div class="input-group">
+								<input type="hidden" class="form-control" name="text[{$key}][order]" value="{$text['order']}">
+								<input type="text" class="form-control text-input" name="text[{$key}][title]" value="{$text['title']}"> 
+								<span class="input-group-addon " style="width: 0;padding: 0;font-size: 0;margin: 0;border: 0;">
+								</span> 
+								<select name="text[{$key}][type]" class="form-control">
+									{loop $types $type $v}
+									<option value="{$type}" {if $text['type'] == $type} selected = "selected" {/if}>{$v}</option>
+									{/loop}
+								</select>
+								<span class="input-group-addon">
+									<label>
+										<input type="checkbox" name="text[{$key}][status]" value="1" {if $text['status'] == 1} checked {/if}>启用
+									</label>
+								</span> 
+								<span class="input-group-addon">
+									<label>
+										<input type="checkbox" name="text[{$key}][write]" value="1" {if $text['write'] == 1} checked {/if}>必填
+									</label>
+								</span>
+								<span class="input-group-btn js-select-set" style="{if $text['type'] == radio || $text['type'] == 'checkbox'}{else}display:none;{/if}	">
+									<input type="hidden" name="value[{$key}]" value="{$booking_set['value'][$key]}" class="js-input-value">
+									<button class="btn btn-default js-set" type="button">设置</button>
+								</span>
+								<span class="input-group-btn">
+									<button class="btn btn-default text-delete" type="button">删除</button>
+								</span>
+							</div>
+						</div>
+						{/loop}
+						<div class="col-sm-5">
+							<button type="button" id="add_text" class="btn btn-default"><i class="fa fa-plus"></i> 添加文本框</button>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">上传提示语</label>
+					<div class="col-sm-6 col-xs-12">
+						<input type="text" name="prompt" id="prompt" class="form-control" value="{$booking_set['prompt']}"/>
+					</div>
+				</div>
+				<div class="form-group col-sm-12">
+					<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</div>
+			</form>
+		</div>
+		{/if}
+		{if $op == 'booking_list'}
+		<table class="table table-hover wn-table table-bordered" >
+			<thead class="navbar-inner">
+				<tr>
+					<th class='with-checkbox' style='width:30px;'>
+						<input type="checkbox" class="check_all" />
+					</th>
+					<th>预约用户</th>
+					<th style="width:400px">文本框</th>
+					<th>系统-预约-时间</th>
+					<th>预约状态</th>
+					<th style="width:420px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $booking_list $item}
+			<tr>
+				<td class="with-checkbox">
+					<input type="checkbox" name="check" value="{$item['id']}">
+				</td>
+				<td>{$item['openid']}</td>
+				<td>
+					{loop $item['text'] $info}
+						{$info['title']} : {$info['value']}{if isset($info['write']) && $info['write'] == 1}{/if}</br>
+					{/loop}
+				</td>
+				<td>{php echo date('Y-m-d H:i', $item['booking_time']);}</td>
+				<td>{if $item['status'] == 0}
+					预约提交
+					{elseif $item['status'] == 1}
+					预约确认
+					{elseif $item['status'] == 2}
+					预约已关闭
+					{/if}
+				</td>
+				<td>
+					<div class="wn-table__link">
+						<a href="{php echo $this->createWebUrl('shop_booking', array('op' => 'delete', 'storeid' => $storeid, 'id' => $item['id']))}" class="wn-table__link__item">删除</a>
+						{if $item['status']== 0}
+							<a href="{php echo $this->createWebUrl('shop_booking', array('op' => 'status', 'storeid' => $storeid, 'id' => $item['id'], 'status' => 1))}" class="wn-table__link__item">预约确认</a>
+							<a href="{php echo $this->createWebUrl('shop_booking', array('op' => 'status', 'storeid' => $storeid,  'id' => $item['id'], 'status' => 2))}" class="wn-table__link__item">关闭</a>
+						{/if}
+						{if $item['status']== 1}
+							<a href="{php echo $this->createWebUrl('shop_booking', array('op' => 'status', 'storeid' => $storeid, 'id' => $item['id'], 'status' => 2))}" class="wn-table__link__item">关闭</a>
+						{/if}
+					</div>
+				</td>
+			</tr>
+			{/loop}
+			<tr>
+				<td colspan="11">
+					<input type="button" class="btn btn-primary" name="deleteall" value="批量删除" />
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</td>
+			</tr>
+			</tbody>
+			<input name="token" type="hidden" value="{$_W['token']}" />
+		</table>
+		<div class="clearfix"></div>
+		<div class="pull-right">
+			{$pager}
+		</div>
+		{/if}
+	</div>
+</div>
+<div id="dialog" class="modal fade" tabindex="-1">
+    <div class="modal-dialog" style='width: 920px;'>
+        <div class="modal-content">
+            <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>设置选项</h3></div>
+            <div class="modal-body" >  
+				<div class="well re-value">
+					<textarea id="re-value" class="form-control" rows="6"></textarea>
+					<span class="help-block"><strong>设置预约条目的选项(如果有需要的话.) 每行一条记录, 例如: 性别 男, 女</strong></span>
+				</div>
+                <div id="module-menus" style="padding-top:5px;"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-ok" data-dismiss="modal" aria-hidden="true">确 定</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关 闭</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	$('#add_text').click(function() {
+		var index = $('.text-input').length;
+		index += 1;
+		var html =
+			'<div class="col-sm-11" style="margin: 5px 0px;">' +
+				'<div class="input-group">' +
+					'<input type="hidden" class="form-control" maxlength="6" name="text[' + index + '][order]" value="' + index + '">' +
+					'<input type="text" class="form-control text-input" name="text[' + index + '][title]" value="">' +
+					'<span class="input-group-addon " style="width: 0;padding: 0;font-size: 0;margin: 0;border: 0;">' +
+					'</span>' +
+					'<select name="text[' + index + '][type]" class="form-control js-select">' +
+						'{loop $types $type $v}' +
+						'<option value="{$type}">{$v}</option>' +
+						'{/loop}' +
+					'</select>' +
+					'<span class="input-group-addon">' +
+						'<label>' +
+							'<input type="checkbox" name="text[' + index + '][status]" value="1" checked>启用' +
+						'</label>' +
+					'</span>' +
+					'<span class="input-group-addon">' +
+						'<label>' +
+							'<input type="checkbox" name="text[' + index + '][write]" value="1" checked>必填' +
+						'</label>' +
+					'</span>' +
+					'<span class="input-group-btn js-select-set" style="display:none;">' +
+						'<input type="hidden" name="value[' + index + ']" class="js-input-value">' +
+						'<button class="btn btn-default js-set" type="button">设置</button>' +
+					'</span>' +
+					'<span class="input-group-btn">' +
+						'<button class="btn btn-default text-delete" type="button">删除</button>' +
+					'</span>' +
+				'</div>' +
+			'</div>';
+		$(this).parent().before(html);
+	});
+	$(document).on('click', '.text-delete', function() {
+		$(this).parent().parent().parent().remove();
+	});
+	$('.wn-main__content').on('change', '.js-select', function() {
+		var type = $(this).val();
+		if (type == 'radio' || type == 'checkbox') {
+			$(this).parent().find('.js-select-set').show();
+		} else {
+			$(this).parent().find('.js-select-set').hide();
+		}
+	});
+	$(document).on('click', '.js-set', function() {
+		var v = $(this).parent().find('.js-input-value').val();
+		$('#dialog #re-value').val(v.replace(/,/g, '\n'));
+		$('#dialog').modal('show');
+		currentItem = this;
+	});
+	var currentItem = null;
+	$('#dialog .btn-ok').on('click', function(){
+		if(currentItem == null) return;
+		var v = $('#dialog #re-value').val();
+		$(currentItem).parent().find('.js-input-value').val(v.replace(/\n/g, ','));
+	});
+	$('input[name=deleteall]').click(function() {
+		var check = $("input[name='check']:checked");
+		if (check.length < 1) {
+			util.message('请选择要删除的预约!');
+			return;
+		}
+		if (confirm("确认要删除选中的预约么?")) {
+			var id = new Array();
+			check.each(function(i) {
+				id[i] = $(this).val();
+			});
+			$.post("{php echo $this->createWebUrl('shop_booking', array('op' => 'deleteall', 'storeid' => $storeid))}", {idArr : id}, function(data) {
+				if (data.message.errno ==0) {
+					util.message(data.message.message, 'refresh', 'success');
+					return;
+				} else {
+					util.message(data.message.message);
+					return;
+				}
+			},'json');
+		}
+	});
+</script>
+{template 'common/footer-storex'}

@@ -1,0 +1,39 @@
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品已售数量</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="sold_num" id="sold_num" value="{$item['sold_num']}" class="form-control">
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">单位</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="unit" id="unit" value="{$item['unit']}" class="form-control">
+		<span class="help-block">单位只能是2个字符</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">重量</label>
+	<div class="col-sm-9 col-xs-12">
+		<div class="input-group">
+			<input type="text" name="weight" id="weight" value="{$item['weight']}" class="form-control">
+			<span class="input-group-addon">千克</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$('#weight').blur(function() {
+		var weight = $('#weight').val();
+		if (weight <= 0) {
+			$('#weight').val(0.1);
+			util.message('重量不能小于0');
+		}
+	});
+	$('#unit').blur(function() {
+		var unit = $('#unit').val();
+		if (unit.length > 2) {
+			slice_unit = unit.slice(0, 2);
+			$('#unit').val(slice_unit);
+			util.message('单位超出范围');
+		}
+	});
+</script>

@@ -1,0 +1,139 @@
+{template 'common/header'}
+<script type="text/javascript">
+  $(document).ready(function(){
+ var str = $('div#count').html();   
+    var nstr = str.replace(/\n\r/gi,"<br/>"); 
+    nstr = str.replace(/\r/gi,"<br/>"); 
+    nstr = str.replace(/\n/gi,"<br/>"); 
+    $('div#count').html(nstr); 
+    });
+</script>
+<div class="upgrade-content">
+	<div class="upgrade-heading we7-padding-vertical text-center">
+		<img src="/addons/{$_GPC['m']}/icon.jpg"  style="width: 60px; height: 60px;" alt=""/>
+		<h2 class="upgrade-version">系统当前版本: V{TG_VERSION}（{$release}）</h2>
+	</div>
+{if !empty($upgrade['version'])}
+	<form action="" class="form we7-form">
+		<div class="upgrade-info we7-padding-bottom">
+			<div class="panel we7-panel">
+				<div class="panel-heading we7-padding">
+					<span class="col-sm-2 we7-padding-none color-gray">系统最新版本</span>
+					<span class="col-sm-7 we7-padding-none">V {$upgrade['version']} ({$upgrade['release']})</span>
+				</div>
+				<div class="panel-body we7-padding">
+					<div class="form-group">
+					<label for="" class="control-label color-gray col-sm-2">需要更新文件</label>
+					<div class="form-controls col-sm-7 form-control-static">{php echo count($upgrade['files'])} 个</div>
+					<span class="color-default col-sm-3 text-right"><a href="#upgrade-file" data-toggle="modal" >查看</a></span>
+				</div>
+				<div class="form-group">
+					<label for="" class="control-label color-gray col-sm-2">更新内容说明</label>
+					<div class="form-controls col-sm-7 form-control-static">更新内容</div>
+					<span class="color-default col-sm-3 text-right"><a href="#upgrade-scripts" data-toggle="modal" >查看</a></span>
+					</div>
+					<div class="form-group  we7-padding-none">
+					<label for="" class="control-label color-gray col-sm-2">更新协议事项</label>
+                    <div class="form-controls col-sm-10 form-control-static">
+                      <div class="">
+                        <input id='agreement_0' type="checkbox" name='agreement_0' autocomplete="off" />
+                        <label for="agreement_0">确保您的系统文件官方文件保持一致，避免被非法篡改，远离盗版</label>
+                      </div>
+                      <div class="">
+                        <input id='agreement_1' type="checkbox" name='agreement_1' autocomplete="off"/>
+                        <label for="agreement_1">已经做好了相关文件的备份工作，认同官方的更新行为并自愿承担更新所存在的风险</label>
+                      </div>
+                      <div class="">
+                        <input id='agreement_2' type="checkbox" name='agreement_2' autocomplete="off"/>
+                        <label for="agreement_2">认同“购买系统商业授权后进行商业化运营”的协议</label>
+                      </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<input type="button" name="" id="forward" value="立即更新" class="btn btn-danger" />
+		</div>
+	</div>
+</form>
+{else}
+<form action="" method="post">
+	<div class="upgrade-info we7-padding-bottom">
+		<div class="panel we7-panel">
+			<div class="panel-heading we7-padding">
+				<span class="we7-padding-none color-gray">当前版本为最新版本，您可以点击此按钮, 立即检查是否有新版本。</span>
+			</div>
+		</div>
+		<div class="text-center">
+			<input name="submit" type="submit" value="立即检查新版本" class="btn btn-danger" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</div>
+</form>
+{/if}
+</ul>
+</div>
+</div>
+</div>
+<div class="modal fade" id="upgrade-file" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog we7-modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">更新文件</h4>
+			</div>
+			<div class="modal-body color-dark">
+				{loop $upgrade['files'] $line}
+				<div><span style="display:inline-block; width:30px;">{if is_file($line['entry'])}M{else}A{/if}</span>{$line['path']}</div>
+				{/loop}
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary"  data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="upgrade-scripts" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog we7-modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">更新内容</h4>
+			</div>
+			<div class="modal-body color-dark">
+			<div id='count'></span>{$upgrade['message']}</div>	
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+{if !empty($upgrade)}
+<script type="text/javascript">
+    $('#forward').click(function () {
+        var a = $("#agreement_0").is(':checked');
+        var b = $("#agreement_1").is(':checked');
+
+        if (a && b) {
+
+            if (confirm('更新将直接覆盖本地文件, 请注意备份文件和数据. \n\n**另注意** 更新过程中不要关闭此浏览器窗口.')) {
+                location.href = 'index.php?c={$_GPC['c']}&a={$_GPC['a']}&m={$_GPC['m']}&do=process';
+            }
+
+        } else {
+
+            util.message("抱歉，更新前请仔细阅读更新协议！", '', 'error');
+            return false;
+        }
+
+    });
+</script>
+{/if}
+{template 'common/footer'}

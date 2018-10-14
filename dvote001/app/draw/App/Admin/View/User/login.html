@@ -1,0 +1,127 @@
+{__NOLAYOUT__}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="robots" content="all" />
+<title>{:C('site_title')}-{:L("admin_login")}</title>
+<meta name="description" content=" {$Think.config.app_title}" />
+<meta name="keywords" content=" {$Think.config.app_title}" />
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link href="__CSS__/layout.css" type="text/css" rel="stylesheet">
+<link href="__CSS__/login.css" type="text/css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+    <script type="text/javascript" src="__JS__/jquery-1.11.0.min.js"></script>
+    <![endif]-->
+<!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="__JS__/jquery-2.1.0.min.js"></script>
+<!--<![endif]-->
+<script language="JavaScript">
+if (self != top) {
+		//window.top.location.href = self.location.href;
+	}
+$(function(){
+	$(".input_out").hover(function(){$(this).addClass("input_in")},function(){$(this).removeClass("input_in")});
+	$(".loginform").submit(function(){
+		if($(this).find("input[name='uname']").val()==""){
+				alert("请输入您的管理帐号!");
+				$(this).find("input[name='uname']").focus();
+				return false;
+			}
+		if($(this).find("input[name='password']").val()==""){
+				alert("请输入您的登录密码!");
+				$(this).find("input[name='password']").focus();
+				return false;
+			}
+		<if condition="$Think.config.admin_login_verify eq 1">
+			if($(this).find("input[name='verify']").val()==""){
+				alert("请输入验证码!");
+				$(this).find("input[name='verify']").focus();
+				return false;
+			}
+		</if>
+		});
+	<if condition="$Think.config.admin_login_verify eq 1">
+	 $(".verify").click(function(){
+			var key = new Date().getTime();
+			$(this).attr("src","{:U('Verify/index','',false)}?"+key);
+		});
+	</if>
+})
+
+</script>
+</head>
+<body onload="dage_scm.uname.focus()">
+<div class="logindiv">
+    <div class="login_top">
+        <div class="logo"><img height="70"  src="__IMG__/login_logo.png" alt="管理员登录"></div>
+        <div class="title">管理员登录</div>
+        <div class="link"><a href="{:U('/')}">返回首页</a></div>
+    </div>
+    <div class="login_body">
+        <div class="ads_banner" style="padding:0; margin:0">
+            <a href="{:U('/')}" target="_blank">
+                <img src="__IMG__/login_banner.jpg" />
+            </a>
+        </div>
+        <div class="login_form">
+            <form action="{:U('User/login')}" method="post" class="loginform" name="dage_scm">
+                <input type="hidden" name="referer" value="{$referer}"/>
+                <div class="user_login">
+                	管理员登录
+                </div>
+                <div class="account">
+                    <div class="account_1" id="uname">
+                	管理帐号
+                    </div>
+                    <div class="account_2">
+                        <input name="uname" type="text" class="input_out" size="20" />
+                    </div>
+                </div>
+                <div class="account">
+                    <div class="account_1" id="password">
+                	登陆密码
+                    </div>
+                    <div class="account_2">
+                        <input name="password" class="input_out" type="password" size="20" />
+                    </div>
+                </div>
+                <if condition="$Think.config.admin_login_verify eq 1">
+                <div class="account">
+                    <div class="account_1">
+                        验证码
+                    </div>
+                    <div class="account_2">
+                        <input name="verify" style="width:60px" class="input_out" type="text" size="4" />
+                        <img class="verify" src="{:U('Verify/index','',false)}" align="absmiddle"/>
+                    </div>
+                </div>
+                </if>
+                <div class="account2">
+                    <div class="account_1">
+                    </div>
+                    <div class="account_3">
+                        <input type="image" name="loginsubmit" src="__IMG__/loginbt.jpg">
+                    </div>
+                </div>
+                <notempty name="error">
+                <div class="login_err">
+                {$error}
+                </div>
+                </notempty>
+            </form>
+            <div class="account2">
+
+            </div>
+            <div class="account4">
+                遇到问题请发邮件至 <a href='mailto:{$Think.config.service_mail}'>{$Think.config.service_mail}</a>
+            </div>
+        </div>
+    </div>
+    <div class="xmodule_row3">
+        {:C('copyright')}
+		<!--技术支持:<a href="http://www.zooyoo.cc" target="_blank"> 南昌卓云科技 </a> TEL:0791-87904008-->
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- 微信小程序TDK -->
+		<title>微小服-微信小程序|微信小程序工具|微信小程序开发|微信小程序制作平台</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<meta charset="UTF-8" name="description" content="【微小服】是国内领先的微信小程序Saas平台,制作过程无需代码,拥有海量小程序行业模板,帮助千万商户一键生成微信小程序。">
+		<meta name="keywords" content="小程序,微信小程序,小程序制作,微信小程序制作,小程序工具,微信小程序工具,小程序开发,微信小程序开发,小程序问答,微信小程序问答,小程序平台,微信小程序平台">
+		<!-- 结束 -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>创建店铺</title>
+		<link rel="stylesheet" href="__PUBLIC__/home/css/createShop.css" />
+	
+	</head>
+
+	<body>
+		<include file="header" />
+		<div class="panel-create-shop container">
+			<div class="row small-routine">
+				<div class="col-sm-12" style="margin-bottom: 50px;">
+					<div class="s-title">创建店铺</div>
+					<div class="s-title-desc">
+						<span class="line"></span>
+						<span class="txt">请选择需要创建的店铺类型</span>
+						<span class="line"></span>
+					</div>
+				</div>
+				<div class="panel-shop-type">
+                                    <volist name="mstlists" id="vo">
+					<div class="panel-modular col-sm-4" style="height: 333px;margin-top: 15px;">
+						<div class="p5">
+							<img src="{$vo.imgurl}" alt="微小服官网版" />
+							<div class="caseName">
+								<span class="fl">{$vo.name}</span>
+								<span class="fr"><img src="__PUBLIC__/home/img/into.png" /></span>
+							</div>
+							<div class="caseDesc">
+								{$vo.describe}
+							</div>
+							<div class="panel-btn-shop">
+								<a href="/Home/Public/shopBasic/business/{$vo.id}" class="btn-shop btn btn-block">马上开店</a>
+							</div>
+						</div>
+					</div>
+                                    </volist>
+					<div class="panel-modular col-sm-4" style="height: 333px;margin-top: 15px;">
+						<div class="p5">
+							<img src="__PUBLIC__/home/img/modular3.jpg" alt="其他小程序" />
+							<div class="caseName">
+								<span class="fl">其他小程序</span>
+								<span class="fr"><img src="__PUBLIC__/home/img/into.png" /></span>
+							</div>
+							<div class="caseDesc">
+								适用于产品展示 / 摄影 / 工业 / 3C数码 / 传媒广告/ 企业形象宣传 / 企业VI设计 / 品牌宣传 / 企业礼品定制等
+							</div>
+							<div class="panel-btn-shop">
+								<a href="#" class="btn-other btn btn-block">敬请期待</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--<div class="col-sm-3">
+					<img src="__PUBLIC__/home/img/xcx1.jpg" alt="快速获取流量" />
+					<div class="caseName">快速获取流量</div>
+				</div>
+				<div class="col-sm-3">
+					<img src="__PUBLIC__/home/img/xcx2.jpg" alt="用户留存和集聚" style="width: 110px;height: 114px;" />
+					<div class="caseName">用户留存和集聚</div>
+				</div>
+				<div class="col-sm-3">
+					<img src="__PUBLIC__/home/img/xcx3.jpg" alt="大大降低的开发费用" style="width: 110px;height: 114px;" />
+					<div class="caseName">大大降低的开发费用</div>
+				</div>
+				<div class="col-sm-3">
+					<img src="__PUBLIC__/home/img/xcx4.jpg" alt="更低的成本，更高效的营销推广" />
+					<div class="caseName">更低的成本，更高效的营销推广</div>
+				</div>-->
+			</div>
+		</div>
+
+		
+	</body>
+
+</html>

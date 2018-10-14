@@ -1,0 +1,230 @@
+<style type="text/css">
+    .buton-div{
+         display: inline-block;
+        height: 38px;
+        line-height: 38px;
+        padding: 0 18px;
+        background-color: #009688;
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 14px;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+</style>
+<div class="main-body">
+    <div class="nav_title" style="left: 0; width: 100%;">
+        <div class="panel_title">
+            <div class="p_div">
+                <div class="p_text" style="visibility: inherit; top: 0px; transform-origin: 84px 9px 0px;">
+                    <p><span>{$page_title}</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="refresh_div">
+            <button class="layui-btn layui-btn-small layui-btn-primary" onclick="javascript:location.reload();">
+                <i class="layui-icon">&#x1002;</i>
+            </button>
+        </div>
+    </div>
+    <div class="lay-body">
+        <div class="table-body">
+            <form class="layui-form">
+            <div class="nav_header">
+               	<div class="buton-div" style="width:50px;float: right;margin-top: 5px;" onclick="layer_show('添加部门','{:U('Admin/departmentAdd/')}','800','600')">添加</div>
+                <div class="p-search">
+                    <div class="p_text">
+                        <p><ic><img src='/Public/new/img/i_list.png'/></ic><span>{$page_header}</span></p>
+                    </div>
+                </div>
+                <div class="pub_menu_left">
+                    <div class="m_left">
+                        <div class="layui-form-item">
+                            <select name="showOrder" lay-filter="showOrder">
+                              <option value="">排序方式</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="pub_menu_left">
+                    <div class="m_left">
+                        <div class="layui-form-item">
+                            <select lay-filter="showNum" name='showNum'>
+                              <option value="">显示条数</option>
+                              <option value="10" <if condition="10 eq $request['showNum']">selected="selected"</if>>10</option>
+                              <option value="50" <if condition="50 eq $request['showNum']">selected="selected"</if>>50</option>
+                              <option value="100" <if condition="100 eq $request['showNum']">selected="selected"</if>>100</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-table">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="10%">
+                        <if condition="$gid eq 1">
+                        	<col width="10%">
+                        </if>
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="15%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">部门名称</th>
+                            <th style="text-align: center;">职能描述</th>
+                            <if condition="$gid eq 1">
+                                <th style="text-align: center;">所属分销商</th>
+                            </if>
+                            <th style="text-align: center;">所属员工组</th>
+                            <th style="text-align: center;">成员数量</th>
+                            <th style="text-align: center;">添加时间</th>
+                            <th style="text-align: center;">操作</th>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <volist name="lists" id="vo" key="k">
+                            <tr style="text-align: center;">
+                                <td>{$vo.department_name}</td>
+                                <td>{$vo.remark}</td>
+                                <if condition = "$gid eq 1">
+                                <td>{$vo.didName|default='暂无'}</td>
+                                </if>
+                                <td>
+	                                <if condition="$vo.department_type eq 1">销售
+	                                <elseif condition="$vo.department_type eq 2"/>客服
+	                                <elseif condition="$vo.department_type eq 3"/>财务
+	                                <elseif condition="$vo.department_type eq 4"/>系统管理
+	                                </if>
+                                </td>
+                                <td><span style="color:#22DDB8">{$vo.count|default='暂无'}</span></td>
+                                <td>
+                                	{$vo.add_time|date='Y-m-d H:i:s',###}
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="layer_show('编辑','{:U('Admin/departmentAdd/','did='.$vo['did'])}','800','600')">编辑</a>
+                                    | <a href="javascript:void(0);" onclick="delCate({$vo.did})">删除</a>
+                                </td>
+                            </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <div class="tab-footer">
+                    <div class="right-oper">
+                        <div id="layPage"></div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+        
+    </div>    
+</div>
+<script type="text/javascript">
+    layui.use('form', function(){
+        var form = layui.form
+        ,layer = layui.layer;
+        
+        form.on('switch(switchStatus)', function(data){
+            var id = $(this).val();
+            var nval = this.checked ? 1 : 2;
+            var ntype = 'status';
+            setOper(id,nval,ntype);
+        });
+        
+        form.on('select(showNum)', function(data){
+            var showNum = data.value;
+            var showOrder = $("[name='showOrder']").val();
+            jsPost('', {showNum:showNum,showOrder:showOrder}); 
+        });
+        
+    });
+    
+    function setOper(id,nval,ntype)
+    {
+        var lod_index = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });;
+        $.post('/Admin/Admin/ajax_update', { id: id,nval: nval,ntype: ntype },function(data){
+            layer.close(lod_index);
+            var parsedJson = jQuery.parseJSON(data);
+            if(parsedJson.error == 0){
+                layer.msg(parsedJson.message);
+                window.location.reload();
+            }else{
+                layer.msg(parsedJson.message);
+            }
+        });
+    }
+    
+    var allTotal = {$_total|default=0};
+    var curr = {$_curr|default=1};
+    var limit = {$_limit|default=10};
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+        ,layer = layui.layer;
+        laypage.render({
+            elem: 'layPage'
+            ,count: allTotal
+            ,limit: limit
+            ,curr : curr
+            ,layout: ['count', 'prev', 'page', 'next', 'skip']
+            ,jump: function(obj,first){
+                if(!first){
+                    var title = $("input[name='title']").val();
+                    var haid = $("[name='haid']").val();
+                    jsPost('', {curr: obj.curr,title:title,haid:haid}); 
+                }
+            }
+        });
+    });
+    
+    function subForm()
+    {
+        $("#searchForm").submit();
+    }
+    $(function(){
+        var windowHeigth = $(document).height();
+        $(".main-body").height(windowHeigth);
+    });
+    
+    function lay_full(title, url) {
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            var index = layer.open({
+                type: 2,
+                title: title,
+                content: url
+            });
+            layer.full(index);
+        });
+    }
+    
+    function delCate(id)
+    {
+        var msg = "请确认当前部门下所有人员已经全部删除？";
+        layer.confirm(msg, {
+            btn: ['确定','取消'] //可以无限个按钮
+        }, function(index){
+            var lod_index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });;
+            $.post('/Admin/Admin/deletes', { id: id },function(data){
+                layer.close(lod_index);
+                var parsedJson = jQuery.parseJSON(data);
+                if(parsedJson.state == 0){
+                    layer.msg(parsedJson.message);
+                    window.location.reload();
+                }else{
+                    layer.msg(parsedJson.message);
+                }
+            });
+        });
+    }
+    
+</script>

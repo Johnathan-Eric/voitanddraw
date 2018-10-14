@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- 微信小程序TDK -->
+		<title>微小服-微信小程序|微信小程序工具|微信小程序开发|微信小程序制作平台</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<meta charset="UTF-8" name="description" content="【微小服】是国内领先的微信小程序Saas平台,制作过程无需代码,拥有海量小程序行业模板,帮助千万商户一键生成微信小程序。">
+		<meta name="keywords" content="小程序,微信小程序,小程序制作,微信小程序制作,小程序工具,微信小程序工具,小程序开发,微信小程序开发,小程序问答,微信小程序问答,小程序平台,微信小程序平台">
+		<!-- 结束 -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>生成小程序</title>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/createShop.css" />
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="s-title">授权小程序</div>
+						<div class="s-desc">
+							授权中，请不要关闭页面，若授权失败，可点击下方遇到问题按钮或联系我们。
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn-problem btn btn-default">遇到问题</button>
+						<button type="button" class="btn btn-authorize-success">授权成功</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand logo" href="index.html">
+						<img src="img/logo_noword.png" alt="微小服" />
+					</a>
+				</div>
+				<div class="collapse navbar-collapse navbar-right">
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="#">
+								<span class="span-icon">
+									<img src="img/user.jpg" />
+								</span>
+								<span class="span-desc">+86 13691393813</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="span-icon">
+									<img src="img/backend.jpg" />
+								</span>
+								<span class="span-desc">管理后台</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="span-icon">
+									<img src="img/exit.jpg" />
+								</span>
+								<span class="span-desc">退出</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="panel-shop-basic small-routine" style="width: 400px;">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="s-title">生成小程序</div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 50px;">
+				<div class="panel-have col-sm-12">
+					<button class="btn-have btn btn-default btn-block" data-toggle="modal" data-target="#myModal">已有小程序账号，点击生成</button>
+					<button class="btn-no btn btn-default btn-block">没有小程序账号，去微信注册</button>
+				</div>
+			</div>
+		</div>
+		<div class="bottomWrap">
+			<div class="container">
+				<div class="row">
+					<div class="pt20 col-sm-12">
+						<span>CopyRight @ 微小服</span>
+						<span style="color:#CDC9C9">京ICP备14013455号-4</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

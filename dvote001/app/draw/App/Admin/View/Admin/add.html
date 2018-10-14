@@ -1,0 +1,604 @@
+<style type="text/css">
+    .clearfloat:after{display:block;clear:both;content:"";visibility:hidden;height:0}
+    .clearfloat{zoom:1}
+    .zong{
+        background: rgba(200,200,200,0.5);
+        position: absolute;
+        top: 0px;
+        height: calc(100% + 100px);
+        box-sizing: border-box;
+        padding-top: 50px;
+        display: none;
+    }
+    .delete{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    .list{
+        width: 80%;
+        margin: 0 auto;
+        position: relative;
+    }
+    .title{
+        font-size: 14px;
+        height: 35px;
+        line-height: 35px;
+        color: #fff;
+        font-weight: 400;
+        background: #00B285;
+        text-indent: 4px;
+    }
+    .chooseList{
+        width: 100%;
+        background-color: #fafafa;
+        overflow: hidden;
+    }
+    .chooseList li{
+        float: left;
+        vertical-align: middle;
+        background-color: #5297cc;
+        border-radius: 15px;
+        padding: 0 14px 2px;
+        color: #fff;
+        margin: 10px 8px 10px 8px;
+        line-height: 26px;
+        white-space: nowrap;
+    }
+    .chooseList li i{
+        display: inline-block;
+        margin-left: 5px;
+        color: #a9cbe6;
+        font-size: 15px;
+        cursor: pointer;
+        margin-right: -5px;
+        font-style: normal;
+    }
+    .fenxiaoList{
+        width: 100%;
+        background-color: #fff;
+        overflow: hidden;
+    }
+    .fenxiaoList li{
+        float: left;
+        height: 40px;
+        color: blue;
+        padding: 0px 10px;
+        line-height: 40px;
+        margin: 30px 20px 30px 20px;
+        cursor: pointer;
+    }
+    .fenxiaoList li:hover{
+        background-color: #0077b3ad;
+    }
+    .anniu{
+        width: 100%;
+        height: 50px;
+        background-color: #f0f0f1;
+    }
+    .twoBut{
+        display: flex;
+        width: 140px;
+        height: 100%;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto;
+    }
+    .queding,.quxiao{
+        width: 50px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 3px;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .queding{
+        background-color: #3d9ccc;
+        color: #fff;
+    }
+    .quxiao{
+        background-color: #fff;
+        color: #3d9ccc;
+    }
+    #sid{
+        display:  none;
+    }
+    .selectStyle,.selectStyles{
+		height: 38px;
+    	width:	100%;
+    	line-height: 1.3;
+    	border-width: 1px;
+    	border-style: solid;
+    	background-color: #fff;
+    	border-radius: 2px;
+    	border-color: #e6e6e6;
+    }
+	.fenxiaoshang{
+        border: 1px solid #ccc;
+        margin-top: 10px;
+        width: 550px;
+    }
+    .fenxiaoshang li{
+       box-sizing: border-box;
+       padding: 8px 15px 8px 15px;
+       /*border-bottom: 1px solid #ccc;*/
+       margin-bottom: 15px;
+    }
+	.shangName{
+        display: flex;
+        align-items: center;
+        margin-bottom: 4px;
+        cursor: pointer;
+        
+    }
+    .shangName .Name{
+        margin-right: 5px;
+        width: 80px;
+        text-align: left;
+    }
+    .nameB,.nameA{
+        display: none;
+    }
+    .fanwei{
+		display: none;
+    }
+</style>
+<div class="body-form">
+    <div style='margin: 20px auto auto;min-width:1000px; width: 99%;'>
+        <form class="layui-form" action="" method="post">
+            <div class="lay-form-div">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style='width: 120px;'><span style="color: red;">*</span>员工账号：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                        <input type="text" name="uname" value="{$info.uname}" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                
+                <empty name="sarr">
+                    <input type="hidden" name="stids" value="{$admin.stid}" />
+                    <else />
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style='width: 120px;'><span style="color: red;">*</span>所属分销商：</label>
+                        <div class="layui-input-block" style='margin-left: 150px;'>
+                            <select name="sid" id="fenxiao" lay-ignore onchange="changeFenxiao(this)" class="selectStyle">
+                                <option value="">请选择</option>
+                                <volist name="sarr" id="vo">
+                                    <option value="{$vo.sid}" <if condition="$vo['sid'] eq $info['stid']">selected="selected"</if> >{$vo.uname}</option>
+                                </volist>
+                            </select>
+                        </div>
+                    </div>
+                </empty>
+                <div class="layui-form-item">
+                   <label class="layui-form-label" style='width: 120px;'><span style="color: red;">*</span>所属部门：</label>
+                   <div class="layui-input-block" style='margin-left: 150px;'>
+                       <select name="did" lay-ignore id="xiaochengxuname" class="selectStyles">
+                           <option value="">请选择</option>
+                           <volist name="department_list" id="vo">
+                               <option value="{$vo.did}" <if condition="$vo['did'] eq $info['did']">selected="selected"</if> >{$vo.department_name}</option>
+                           </volist>
+                       </select>
+                   </div>
+                </div>
+                
+                <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style='width: 120px;'><span style="color: red;">*</span>是否主管：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                       <div class="lay-logistics choose1">
+                            <input type="radio" name="is_director" lay-filter="baoyou" value="1" title="是" <if condition = "$info['gid'] eq 6 OR $info['gid'] eq 7">checked=""</if>>
+                            <div class="layui-unselect layui-form-radio layui-form-radioed">
+                                <i class="layui-anim layui-icon layui-anim-scaleSpring"></i>
+                                <span>是</span>
+                            </div>
+                        </div>
+                        <div class="lay-logistics choose">
+                            <input type="radio" name="is_director" lay-filter="baoyou" value="0" title="否" <if condition = "$info['gid'] neq 6 AND $info['gid'] neq 7">checked=""</if>>
+                            <div class="layui-unselect layui-form-radio layui-form-radioed">
+                                <i class="layui-anim layui-icon layui-anim-scaleSpring"></i>
+                                <span>否</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           		</div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style='width: 120px;'><span style="color: red;">*</span>登录密码：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                        <input type="password" name="password" value="{$info.password}" required lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style='width: 120px;'><span style="color: red;">*</span>确认密码：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                        <input type="password" name="repassword" value="{$info.password}" required lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style='width: 120px;'><span style="color: red;">*</span>姓名：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                        <input type="text" name="real_name" value="{$info.real_name}" required lay-verify="required" placeholder="张三" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style='width: 120px;'>邮箱地址：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                        <input type="text" name="email" value="{$info.email}" placeholder="admin@admin.com" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style='width: 120px;'>联系电话：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                        <input type="text" name="tel" value="{$info.tel}" placeholder="028-837XXXXX" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style='width: 120px;'>手机号：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                        <input type="text" name="mobile" value="{$info.mobile}" placeholder="136XXXXXXXX" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style='width: 120px;'>备注信息：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                        <textarea placeholder="请输入内容" class="layui-textarea" name="remark">{$info.remark}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item fanwei">
+                    <label class="layui-form-label" style='width: 120px;'><span style="color: red;">*</span>业务范围：</label>
+                    <div class="layui-input-block" style='margin-left: 150px;'>
+                       <!--  <input type="text" name="" value="" placeholder="" autocomplete="off" class="layui-input nameA" disabled>
+                        <input type="text" name="dids" value="" placeholder="" autocomplete="off" class="layui-input nameB" disabled> -->
+                       <ul class="fenxiaoshang">
+                       </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin: 0 auto; text-align: center;">
+                <div class="layui-input-block">
+                	<input type="hidden" name="sids" value="{$info.stid}">
+                    <button class="layui-btn" lay-submit lay-filter="formSub">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+            <div style="height: 50px;">
+                
+            </div>
+        </form>
+    </div>
+    <div style='margin: 20px auto auto;min-width:1000px; width: 99%;' class="zong">
+        <div class="list">
+             <span class="layui-layer-setwin delete" onclick="hide()"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:;"></a></span>
+            <div class="title">选择分销商信息</div>
+            <ul class="chooseList clearfloat">
+            </ul>
+           <!--  <ul class="chooseList1 clearfloat">
+            </ul> -->
+            <ul class="fenxiaoList">
+            </ul>
+            <div class="anniu">
+                <div class="twoBut clearfloat">
+                    <div class="queding" onclick="makeSure()">确定</div>
+                    <div class="quxiao" onclick="makeRemove()">取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['form'], function(){
+        var form = layui.form
+        ,$ = layui.jquery;
+        //监听提交
+        form.on('submit(formSub)', function(data){
+            var date = data.field;
+            if(date.password != date.repassword){
+                layer.msg("请输入两次相同的密码");
+                return false;
+            }
+            var url = window.location.href;
+            var lod_index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post(url, date ,function(a){
+                    layer.close(lod_index);
+                    var jsonDate = jQuery.parseJSON(a);
+                    if(jsonDate.state == 1){
+                        layer.msg(jsonDate.msg,{
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);  
+                            parent.layer.close(index);
+                        });
+                    }else{
+                        layer.msg(jsonDate.msg);
+                    }
+            });
+            return false;
+        });
+        $('.fenxiaoshang').on('click','.shangName',function(){
+            if($(this).next().css('display') == 'none'){
+                $(this).next().show();
+                $(this).children('i').html('&#xe61a;');
+            }else{
+                $(this).next().hide();
+                $(this).children('i').html('&#xe619;');
+            }
+        });
+        // form.on('checkbox(name)',function(data){
+        //     if(data.elem.checked == true){
+        //         var valueA = $('.nameA').val();
+        //         var valueA1 = $(data.elem).attr('name')+'-'+$(data.elem).attr('title');
+        //         $('.nameA').val(valueA+valueA1+',');
+
+        //         var valueB = $('.nameB').val();
+        //         $('.nameB').val(valueB+data.value+',');
+
+        //     }else{
+        //         var valueA = $('.nameA').val();
+        //         var valueA1 = $(data.elem).attr('name')+'-'+$(data.elem).attr('title');
+        //         valueA=valueA.replace(valueA1+',',"");
+        //         $('.nameA').val(valueA);
+
+        //         var valueB = $('.nameB').val();
+        //         valueB=valueB.replace(data.value+',',"");
+        //         $('.nameB').val(valueB);
+        //     }
+        // });
+        var status = {$info['status']};
+        console.log(status);
+        if(status == 1){
+            var value = $('.selectStyles').val();
+            console.log(value);
+            $.ajax({
+                async : true,
+                url : "/News/departmentSchedule",
+                type : "GET",
+                dataType : "jsonp", // 返回的数据类型，设置为JSONP方式
+                jsonp : 'callback', //指定一个查询参数名称来覆盖默认的 jsonp 回调参数名 callback
+                data : {
+                    did : value,
+                    status : 1
+                },
+                success: function(data){
+                    console.log(data);
+                    if(data.code != 402){
+                        var length = data.data.length;
+                        for(var i=0;i<length;i++){
+                            $('.fenxiaoshang').append('<li><div class="shangName"><div class="Name">'+data.data[i].uname+'</div><i class="layui-icon" style="font-size: 16px; color: #999;">&#xe61a;</i></div><div class="radioList" name='+i+'></div></li>');
+                            if(data.data[i].list != null){
+                                // var status = {$info['status']};
+                                // console.log(status);
+                                var length1 = data.data[i].list.length;
+                                for(var j=0;j<length1;j++){
+                                    //if(data.data[i].list[j].Belongs_aid != null){
+                                         if(data.data[i].list[j].Belongs_aid == data.data[i].list[j].aid_status){
+                                           	$(".radioList[name="+i+"]").append('<input type="checkbox" name="dids[]" value='+data.data[i].sid+'-'+data.data[i].list[j].did+' title="'+data.data[i].list[j].department_name+'" lay-filter="name" lay-skin="primary" checked>');
+                                        }else{
+                                            $(".radioList[name="+i+"]").append('<input type="checkbox" name="dids[]" value='+data.data[i].sid+'-'+data.data[i].list[j].did+' title="'+data.data[i].list[j].department_name+'" lay-filter="name" lay-skin="primary">');
+                                        } 
+                                    //}else{
+                                    //    $(".radioList[name="+i+"]").append('<input type="checkbox" name="dids[]" value='+data.data[i].sid+'-'+data.data[i].list[j].did+' title='+data.data[i].list[j].department_name+'(已分配) lay-filter="name" lay-skin="primary">')
+                                    //}
+                                }
+                            }
+                        }   
+                    }else{
+                      $('.fanwei').hide();
+                      // $('.nameA').val(' ');
+                      // $('.nameB').val(' ');
+                    }
+                    form.render();
+                },
+            });
+            $('.fanwei').show();
+            $('.selectStyles').bind('change',function(){
+            	console.log($(this).val());
+                if($(this).val() != ''){
+                    $('.fanwei').show();
+                }else{
+                    $('.fanwei').hide();
+                }
+            })
+        }else{
+            $('.selectStyles').bind('change',function(){
+                if($(this).val() != ''){
+                    var value = $(this).val();
+                    console.log(value,2);
+                    $('.fenxiaoshang').empty();
+                    $.ajax({
+                        async : true,
+                        url : "/News/departmentSchedule",
+                        type : "GET",
+                        dataType : "jsonp", // 返回的数据类型，设置为JSONP方式
+                        jsonp : 'callback', //指定一个查询参数名称来覆盖默认的 jsonp 回调参数名 callback
+                        data : {
+                            did : value,
+                            status : 0
+                        },
+                        success: function(data){
+                        	console.log(data);
+                            if(data.code != 402){
+                                console.log(data);
+                                var length = data.data.length;
+                                for(var i=0;i<length;i++){
+                                    $('.fenxiaoshang').append('<li><div class="shangName"><div class="Name">'+data.data[i].uname+'</div><i class="layui-icon" style="font-size: 16px; color: #999;">&#xe61a;</i></div><div class="radioList" name='+i+'></div></li>');
+                                    if(data.data[i].list != null){
+                                        var length1 = data.data[i].list.length;
+                                        for(var j=0;j<length1;j++){
+                                            if(data.data[i].list[j].Belongs_aid > 0){
+                                                $(".radioList[name="+i+"]").append('<input type="checkbox" name="dids[]" value='+data.data[i].sid+'-'+data.data[i].list[j].did+' title="'+data.data[i].list[j].department_name+'(已分配)" lay-filter="name" lay-skin="primary">')
+                                            }else{
+                                                $(".radioList[name="+i+"]").append('<input type="checkbox" name="dids[]" value='+data.data[i].sid+'-'+data.data[i].list[j].did+' title='+data.data[i].list[j].department_name+' lay-filter="name" lay-skin="primary">')
+                                            }
+                                        }
+                                    }
+                                }   
+                            }else{
+                              $('.fanwei').hide();
+                              // $('.nameA').val(' ');
+                              // $('.nameB').val(' ');
+                            }
+                            form.render();
+                        },
+                    });
+                    $('.fanwei').show();
+                }else{
+                    $('.fanwei').hide();
+                }
+            });
+        }
+    });
+    layui.use('upload', function(){
+    var $ = layui.jquery
+    ,upload = layui.upload;
+  
+    //普通图片上传
+      var uploadInst = upload.render({
+          elem: '#proImg'
+          ,url: '/Admin/Upload/AJAX_upload'
+          ,done: function(res){
+            if(res.status == 1){
+                $("input[name='st_logo']").val(res.info.uri);
+                $("#imgInfo").attr("src",res.info.uri);
+                return layer.msg('上传成功');
+            }else{
+                return layer.msg(res.msg);
+            }
+            //如果上传失败
+            if(res.code > 0){
+              
+            }
+            //上传成功
+          }
+          ,error: function(){
+            //演示失败状态，并实现重传
+            var demoText = $('#demoText');
+            demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+            demoText.find('.demo-reload').on('click', function(){
+              uploadInst.upload();
+            });
+          }
+      });
+    });
+ // 分销商改变
+    function changeFenxiao(obj){
+        var value = '';
+        $('#xuanzhongName').val('');
+        $('#bianhao').val('');
+        if($(obj).val() != '请选择'){
+            value = $(obj).val();
+            console.log(value);
+             $.ajax({
+                async : true,
+                url : "/News/department",
+                type : "GET",
+                dataType : "jsonp", // 返回的数据类型，设置为JSONP方式
+                jsonp : 'callback', //指定一个查询参数名称来覆盖默认的 jsonp 回调参数名 callback
+                data : {
+                   sid: value
+                }, 
+                success: function(data){
+                    // var arr=[];
+                    if(data.code != 402){
+                    	var length = data.data.length;
+                    	$("#xiaochengxuname").empty();
+                        $("#xiaochengxuname").append("<option selected='selected'>请选择</option>");
+                        for(var i=0;i<length;i++){
+                            // arr.push("<option>"+data.data[i].torder_sn+"</option>");
+                            $("#xiaochengxuname").append("<option value="+data.data[i].did+">"+data.data[i].department_name+"</option>");
+                        }
+                    }else{
+                        $("#xiaochengxuname").empty();
+                        $("#xiaochengxuname").append("<option selected='selected'>请选择</option>");
+                    }
+                   	
+                }
+            });
+        }else{
+            $("#xiaochengxuname").empty();
+            $("#xiaochengxuname").append("<option selected='selected'>请选择</option>");
+        }
+
+    }
+    
+    function showList(obj){
+        $.ajax({
+                async : true,
+                url : "/News/distributors",
+                type : "GET",
+                dataType : "jsonp", // 返回的数据类型，设置为JSONP方式
+                jsonp : 'callback', //指定一个查询参数名称来覆盖默认的 jsonp 回调参数名 callback
+                // jsonpCallback: 'handleResponse', //设置回调函数名
+                data : {
+                  
+                }, 
+                success: function(data){
+                    console.log(data);
+                    var arr=[];
+                    var length = data.data.length;
+                    for(var i=0;i<length;i++){
+                        arr.push("<li onclick='changeSearchKey(this);' name='"+data.data[i].sid+"'>"+data.data[i].uname+"</li>");
+                    }
+                    $(".fenxiaoList").html(arr);
+                }
+            });
+        $('.zong').show();
+        if($(obj).val() == ''){
+            $('.chooseList').empty();
+        }else{
+            var arr1 = $(obj).val().split(',');
+            var arr2 = $('#sid').val().split(',');
+            var arr3 = [];
+            var length = arr1.length;
+            for(var i = 0;i<length;i++){
+                arr3.push({uname: arr1[i],sid: arr2[i]});
+            };
+             $('.chooseList').empty();
+             for(var i = 0;i<arr3.length;i++){
+                $('.chooseList').append("<li name='"+arr3[i].uname+"' title='"+arr3[i].sid+"'>"+arr3[i].uname+"<i onclick='deleteThis(this)'>x</i></li>");
+             }
+        }
+    };
+    
+    function hide(){
+         $('.zong').hide();
+    };
+    function changeSearchKey(obj){
+    	var sid = $(obj).attr('name');
+        var uname = $(obj).html();
+        // var a = $(".chooseList").html();
+        var a = $(".chooseList li[name="+uname+"]").attr('name');
+        // var b = a.indexOf(uname);
+        console.log(a);
+        if(a == undefined){
+            $('.chooseList').append("<li name='"+uname+"' title='"+sid+"'>"+uname+"<i onclick='deleteThis(this)'>x</i></li>");
+        }
+        // $('.chooseList1').append("<li name='"+sid+"'>"+sid+"<i onclick='deleteThis(this)'>x</i></li>");
+    };
+    function deleteThis(obj){
+        $(obj).parent().remove();
+    };
+    function makeSure(){
+        var value = '';
+        var value1 = '';
+        $('.chooseList li').each(function(){
+            value += $(this).attr('name')+',';
+            value1 += $(this).attr('title')+',';
+        });
+        value = value.substring(0,value.length-1);
+        value1 = value1.substring(0,value1.length-1);
+        // $('.chooseList1 li').each(function(){
+        //     value1 += $(this).attr('name')+',';
+        // });
+        $('#uname').val(value);
+        $('#sid').val(value1);
+        $('.zong').hide();
+    };
+    function makeRemove(){
+        $('.zong').hide();
+    }
+</script>

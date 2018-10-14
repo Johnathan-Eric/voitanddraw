@@ -1,0 +1,119 @@
+{template 'common/header-storex'}
+<div class="wn-main">
+	<div class="wn-main__head">商品管理</div>
+	<div class="wn-main__content">
+		<div class="wn-tabs">
+			<div class="wn-tabs__item {if $_GPC['do'] == 'shop_settings'}wn-tabs__item--active{/if}">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_settings', array('storeid' => $_GPC['storeid']))}">店铺设置</a>
+			</div>
+			<div class="wn-tabs__item {if $op == 'homepage'}wn-tabs__item--active{/if}">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_share', array('op' => 'homepage', 'storeid' => $_GPC['storeid']))}">首页分享设置</a>
+			</div>
+			<!-- 
+			<div class="wn-tabs__item {if $op == 'category'}wn-tabs__item--active{/if}">
+				<a class="wn-tabs__link" href="{php echo $this->createWebUrl('shop_share', array('op' => 'category', 'storeid' => $_GPC['storeid']))}">分类分享设置</a>
+			</div>
+			 -->
+		</div>
+		<div class="wn-main__content">
+		<span class='help-block' style="color:red;font-size:20px;">表中的字段可以在自定义标题描述的时引用，分享时会替换为字段所代表的值。</span>
+			<table class="table table-hover wn-table table-bordered">
+				<thead class="navbar-inner">
+					<tr>
+						{loop $fields $field $value}
+						<th class='with-checkbox' style='width:80px;'>{$value}</th>
+						{/loop}
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						{loop $fields $field $value}
+						<td class='with-checkbox' style='width:80px;'>${$field}</td>
+						{/loop}
+					</tr>
+				</tbody>
+			</table>
+			{if $op == 'homepage'}
+			<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="{$share['id']}">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享标题</label>
+					<div class="col-sm-6 col-xs-12">
+						<input type="text" name="title" id="title" value="{$share['title']}" class="form-control">
+						<span class='help-block'>例如：$province$city$town$title店铺的首页。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图标</label>
+					<div class="col-sm-6 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $share['thumb'])}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享描述</label>
+					<div class="col-sm-6 col-xs-12">
+						<input type="text" name="content" id="content" value="{$share['content']}" class="form-control">
+						<span class='help-block'>例如：$title店铺非常好。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">开启状态</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" {if $share['status'] == 1 || empty($share['status'])} checked {/if}/>启用
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="2" {if $share['status'] == 2} checked {/if}/>停用
+						</label>
+					</div>
+				</div>
+				<div class="form-group col-sm-12">
+					<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</div>
+			</form>
+			{/if}
+			{if $op == 'category'}
+			<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="{$share['id']}">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享标题</label>
+					<div class="col-sm-6 col-xs-12">
+						<input type="text" name="title" id="title" value="{$share['title']}" class="form-control">
+						<span class='help-block'>例如：$title店铺$name系列。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图标</label>
+					<div class="col-sm-6 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $share['thumb'])}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享描述</label>
+					<div class="col-sm-6 col-xs-12">
+						<input type="text" name="content" id="content" value="{$share['content']}" class="form-control">
+						<span class='help-block'>例如：该$name系列的商品货真价实。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">开启状态</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" {if $share['status'] == 1 || empty($share['status'])} checked {/if}/>启用
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="2" {if $share['status'] == 2} checked {/if}/>停用
+						</label>
+					</div>
+				</div>
+				<div class="form-group col-sm-12">
+					<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</div>
+			</form>
+			{/if}
+		</div>
+	</div>
+</div>
+{template 'common/footer-storex'}

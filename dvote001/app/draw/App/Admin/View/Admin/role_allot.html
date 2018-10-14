@@ -1,0 +1,77 @@
+<style type="text/css">
+    .child-1{
+        margin-left: 10px;
+    }
+</style>
+<div class="body-form">
+    <div style='margin: 20px auto auto;'>
+        <form class="layui-form" action="" method="post">
+            <volist name="lists" id="vo" key="k">
+                <div class="layui-form-item" pane="">
+                    <span class="layui-form-label">
+                        <input type="checkbox" name="ids[]" value="{$vo.id}" lay-skin="primary" lay-filter="allChoose" title="{$vo.auth_name}" <?php if(in_array($vo['id'],$idarr) || $idarr == 'all'){ ?>checked=""<?php } ?>>
+                    </span>
+                    <volist name="vo.child" id="c1">
+                        <div class="layui-input-block" style="padding-top: 10px;">
+                            <div class="child-1">
+                                <input type="checkbox" name="ids[]"  value="{$c1.id}" lay-skin="primary" lay-filter="childAllChoose" title="{$c1.auth_name}"  <?php if(in_array($c1['id'],$idarr) || $idarr == 'all'){ ?>checked=""<?php } ?>>
+                                <div class="child-2">
+                                    <volist name="c1.child" id="c2">
+                                    <input type="checkbox" name="ids[]" value="{$c2.id}" lay-skin="primary" title="{$c2.auth_name}"  <?php if(in_array($c2['id'],$idarr) || $idarr == 'all'){ ?>checked=""<?php } ?>>
+                                    </volist>
+                                </div>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+            </volist>
+            <div class="layui-form-item" style="margin: 0 auto; text-align: center;">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formSub">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['form'], function(){
+        var form = layui.form
+        ,$ = layui.jquery;
+        //监听提交
+        form.on('submit(formSub)', function(data){
+            var date = data.field;
+            var url = window.location.href;
+            var lod_index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post(url, date ,function(a){
+                layer.close(lod_index);
+                var jsonDate = jQuery.parseJSON(a);
+                if(jsonDate.status == 1){
+                    parent.$("input[name='role_auth_ids']").val(jsonDate.date.idstr);
+                    parent.$("input[name='role_auth_ac']").val(jsonDate.date.ac_str);
+                    var index = parent.layer.getFrameIndex(window.name);  
+                    parent.layer.close(index);
+                }else{
+                    layer.msg(jsonDate.msg);
+                }
+            });
+            return false;
+        });
+        form.on('checkbox(allChoose)', function(data){  
+            var child = $(data.elem).parents('.layui-form-item').find('.layui-input-block input[type="checkbox"]');  
+            child.each(function(index, item){  
+              item.checked = data.elem.checked;  
+            });  
+            form.render('checkbox');  
+        }); 
+        form.on('checkbox(childAllChoose)', function(data){  
+            var child = $(data.elem).parents('.child-1').find('.child-2 input[type="checkbox"]');  
+            child.each(function(index, item){  
+              item.checked = data.elem.checked;  
+            });  
+            form.render('checkbox');  
+        }); 
+    });
+</script>

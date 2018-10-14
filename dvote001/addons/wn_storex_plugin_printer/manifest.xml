@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.qincewang.com" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[万能小店小票打印]]></name>
+		<identifie><![CDATA[wn_storex_plugin_printer]]></identifie>
+		<version><![CDATA[1.3]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[万能小店小票打印]]></ability>
+		<description><![CDATA[万能小店小票打印]]></description>
+		<author><![CDATA[新睿社区]]></author>
+		<url><![CDATA[https://www.qincewang.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="打印机设置" do="printermanage" state="" direct="false" />
+			<entry title="店铺设置" do="printerset" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

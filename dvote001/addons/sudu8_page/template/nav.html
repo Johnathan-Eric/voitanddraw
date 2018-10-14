@@ -1,0 +1,220 @@
+{template 'common/header'}
+<ul class="nav nav-tabs" style="display: none">
+    <li {if $op == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('nav', array('op' => 'index'))}">首页导航</a></li>
+    <li {if $op == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('cate', array('op' => 'post'))}">添加栏目</a></li>
+</ul>
+<link rel="stylesheet" type="text/css" href="/addons/sudu8_page/static/js/colorpicker.css">
+<script src="/addons/sudu8_page/static/js/colorpicker.js"></script>
+<style>
+.colorpicker{z-index: 999;}
+</style>
+<script>
+$(function(){
+  $('#colorSelector1').ColorPicker({
+    color: '#0000ff',
+    onShow: function (colpkr) {
+        $(colpkr).fadeIn(500);
+        return false;
+    },
+    onHide: function (colpkr) {
+        $(colpkr).fadeOut(500);
+        return false;
+    },
+    onChange: function (hsb, hex, rgb) {
+        $('#colorSelector1 div').css('backgroundColor', '#' + hex);
+        $('#title_color').val("#"+hex);
+    }
+  });
+  $('#colorSelector2').ColorPicker({
+    color: '#0000ff',
+    onShow: function (colpkr) {
+        $(colpkr).fadeIn(500);
+        return false;
+    },
+    onHide: function (colpkr) {
+        $(colpkr).fadeOut(500);
+        return false;
+    },
+    onChange: function (hsb, hex, rgb) {
+        $('#colorSelector2 div').css('backgroundColor', '#' + hex);
+        $('#title_bg').val("#"+hex);
+    }
+  })
+});
+</script>
+{if $op == 'index'}
+<form class="form-horizontal" action="" method="post">
+    <div class="alert alert-warning" role="alert">请先添加栏目，再设置导航栏！</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+             <h3 class="panel-title">导航内容</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">导航栏目</label>
+                <div class="form-controls col-sm-4">
+                    <input type="text" name="url" value="{$item['url']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">请输入栏目的ID，并用英文,隔开，数量不限</div>
+            </div>
+            <div class="form-group" style="display: none">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">其他页面</label>
+                <div class="form-controls col-sm-8 help-block">公司介绍【about】 微信【wechat】 表单【form】 电话【tel】 导航【address】</div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+             <h3 class="panel-title">导航自定义样式</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <input type="hidden" name="type" value="index" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">首页导航模块</label>
+                <div class="form-controls col-sm-4">
+                    <label style="margin-right: 20px">
+                        <input type="radio" name="statue" value="1" {if $item['statue'] == '1'} checked{/if} />
+                        启用
+                    </label>
+                    <label style="margin-right: 20px">
+                        <input type="radio" name="statue" value="0" {if $item['statue'] == '0'} checked{/if} />
+                        不启用
+                    </label>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">启用后，首页显示导航</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">导航板块中文名称</label>
+                <div class="form-controls col-sm-4">
+                    <input type="text" name="name" value="{$item['name']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">中文名称</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">导航板块英文名称</label>
+                <div class="form-controls col-sm-4">
+                    <input type="text" name="ename" value="{$item['ename']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">英文名称</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">名称板块是否显示</label>
+                <div class="form-controls col-sm-4">
+                    <label style="margin-right: 20px">
+                        <input type="radio" name="name_s" value="0" {if $item['name_s'] == '0'} checked{/if} />
+                        显示
+                    </label>
+                    <label style="margin-right: 20px">
+                        <input type="radio" name="name_s" value="1" {if $item['name_s'] == '1'} checked{/if} />
+                        不显示
+                    </label>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">图标九宫格，建议设置不显示</div>
+            </div>
+            <div class="form-group" style="display: none;">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">导航样式</label>
+                <div class="form-controls col-sm-4">
+                    <label style="margin-right: 20px">
+                        <input type="radio" name="style" value="1" {if $item['style'] == '1'} checked{/if} />
+                        九宫格
+                    </label>
+                    <label style="margin-right: 20px">
+                        <input type="radio" name="style" value="0" {if $item['style'] == '2'} checked{/if} />
+                        横排
+                    </label>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">首页导航样式</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">导航上下边距</label>
+                <div class="form-controls col-sm-4">
+                    <input type="text" name="box_p_tb" value="{$item['box_p_tb']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">导航上下留白的间距，建议2</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">导航左右边距</label>
+                <div class="form-controls col-sm-4">
+                    <input type="text" name="box_p_lr" value="{$item['box_p_lr']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">导航左右边距和导航每块的间距，建议1</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">每排显示数量</label>
+                <div class="form-controls col-sm-4">
+                    <input type="text" name="number" value="{$item['number']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">请输入1 - 10，建议不超过5</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">图标占比</label>
+                <div class="form-controls col-sm-4">
+                    <input type="text" name="img_size" style="float:left;width: 87%;" value="{$item['img_size']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default">%</button>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">图标占比大小，写数字60，80，100</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">标题样式</label>
+                <div class="form-controls col-sm-4">
+                    <label style="display: block;">
+                        <input type="radio" name="title_position" value="1" {if $item['title_position'] == '1'} checked{/if} />
+                        文字在下方，无背景
+                    </label>
+                    <label style="display: block;">
+                        <input type="radio" name="title_position" value="2" {if $item['title_position'] == '2'} checked{/if} />
+                        文字在底部，半透明背景
+                    </label>
+                    <label style="display: block;">
+                        <input type="radio" name="title_position" value="3" {if $item['title_position'] == '3'} checked{/if} />
+                        文字左上角，半透明背景
+                    </label>
+                    <label style="display: block;">
+                        <input type="radio" name="title_position" value="0" {if $item['title_position'] == '0'} checked{/if} />
+                        文字不显示
+                    </label>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">导航每块标题样式</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">标题颜色</label>
+                <div class="form-controls col-sm-4">
+                    <div id="colorSelector1"><div style="width: 34px;height: 34px;background: {$item['title_color']};float: left;border: 1px solid #ccc;border-right: 0;"></div></div>
+                    <input type="text" id="title_color" name="title_color" value="{$item['title_color']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off" style="width: 100px">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">当导航标题显示时生效</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-sm-2" style="margin-right:45px">标题背景颜色</label>
+                <div class="form-controls col-sm-4">
+                    <div id="colorSelector2"><div style="width: 34px;height: 34px;background: {$item['title_bg']};float: left;border: 1px solid #ccc;border-right: 0;"></div></div>
+                    <input type="text" id="title_bg" name="title_bg" value="{$item['title_bg']}" class="form-control ng-pristine ng-untouched ng-valid ng-empty"  placeholder="" autocomplete="off" style="width: 100px">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="form-controls col-sm-4 help-block">当标题在底部和左上角时生效</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="token" type="hidden" value="{$_W['token']}" />
+            <input type="submit" class="btn btn-primary col-lg-1" name="submit" value="提交" />
+        </div>
+    </div>
+</form>
+{/if}
+{template 'common/footer'}

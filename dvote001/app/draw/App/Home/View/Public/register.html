@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- 微信小程序TDK -->
+		<title>微小服-微信小程序|微信小程序工具|微信小程序开发|微信小程序制作平台</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<meta charset="UTF-8" name="description" content="【微小服】是国内领先的微信小程序Saas平台,制作过程无需代码,拥有海量小程序行业模板,帮助千万商户一键生成微信小程序。">
+		<meta name="keywords" content="小程序,微信小程序,小程序制作,微信小程序制作,小程序工具,微信小程序工具,小程序开发,微信小程序开发,小程序问答,微信小程序问答,小程序平台,微信小程序平台">
+		<!-- 结束 -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="__PUBLIC__/home/css/register.css" />
+
+	</head>
+
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand logo" href="/">
+						<img src="__PUBLIC__/home/img/logo_noword.png" alt="微小服" />
+					</a>
+				</div>
+			</div>
+		</nav>
+		<div class="container" style="margin-top: 61px;">
+			<div class="row">
+				<div class="panel-userinfo">
+					<div class="panel-back">
+						<div class="l-title">微小服</div>
+						<div class="s-title">助您提升企业网络营销能力</div>
+						<div class="xs-title">Help you to enhance the ability of<br/>enterprise network marketin</div>
+					</div>
+					<div id="panel-login-register" class="panel-login-register">
+						<div class="login-register-title">
+							<span id="login-title" class="login-span">登录</span>
+							<!--
+							<span id="register-title" class="register-span current">注册</span>
+							-->
+						</div>
+						<div class="panel-input">
+						<!--
+							<form id="form-register" class="form-register form-horizontal" role="form">
+								<div class="form-group">
+									<div class="col-sm-12">
+										<input type="text" class="form-control" id="register-phone-number" placeholder="以后使用手机号登录">
+									</div>
+									<div class="f-desc">手机号</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-8">
+										<input type="text" class="form-control" id="register_verify_code">
+									</div>
+									<div class="col-sm-4" id="register-verifycode" onclick="htmlverify(this)">
+										<img src='/Home/Public/verify' />
+									</div>
+									<div class="f-desc">验证码</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-8">
+										<input type="text" class="form-control" id="phoneCode">
+									</div>
+									<div class="col-sm-4">
+										<input type="button" id='sendRegisterCode' class="btn-code btn" value="获取验证码">
+									</div>
+									<div class="f-desc">短信验证码</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12">
+										<input type="text" class="psw-input form-control" style="display: none"> 
+										<input type="text" class="psw-input form-control" onfocus="this.type='password'" autocomplete="off" id="register-password" placeholder="8-20个字，包含字母和数字">
+									</div>
+									<div class="f-desc">设置密码</div>
+								</div>
+								<div class="panel-btn-register form-group">
+									<div class="col-sm-12">
+										<a  id='register' href="#" class="btn-register btn btn-block">确认注册</a>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12">
+										<a href="javascript:void(0)" class="a-user btn btn-block login-span">已有账号，立即登录</a>
+									</div>
+								</div>
+							</form>
+							-->
+							<form id="form-login" class="form-login form-horizontal" role="form" style="display: none;">
+								<div class="form-group">
+									<div class="col-sm-12">
+										<input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="手机号">
+									</div>
+									<div class="f-desc"><img src="__PUBLIC__/home/img/phone.jpg"></div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12">
+										<input type="password" class="form-control" id="password" name="password" placeholder="密码">
+									</div>
+									<div class="f-desc"><img src="__PUBLIC__/home/img/password.png"></div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-8">
+										<input type="text" class="form-control" placeholder="验证码" id='verify'>
+									</div>
+									<div class="col-sm-4"><a href='javascript:void(0)'  id="register-verifycodes" onclick="htmlverify(this)"><img src='/Home/Public/verify' /></a></div>
+									<div class="f-desc"><img src="__PUBLIC__/home/img/code2.png"></div>
+								</div>
+								<div class="form-group">
+									<!--
+									<div class="col-sm-6">
+										<div class="checkbox">
+											<label>
+										    	<input type="checkbox">三天内自动登录
+										    </label>
+										</div>
+									</div>
+									-->
+									<div class="col-sm-6">
+										<h5><span class="h-forgetPsw">忘记密码？</span></h5>
+									</div>
+								</div>
+								<div class="panel-btn-login form-group">
+									<div class="col-sm-12">
+										<button disabled="true" id='login' type="button" class="btn-register btn btn-block">立即登录</button>
+									</div>
+								</div>
+								<!--
+								<div class="form-group">
+									<div class="col-sm-12">
+										<a href="javascript:void(0)" class="a-user btn btn-block register-span">免费注册，轻松开店</a>
+									</div>
+								</div>-->
+							</form>
+
+						</div>
+					</div>
+					<div id="panel-forget-password" class="panel-login-register panel-forget-password" style="display: none;">
+						<div class="forget-password-title">
+							忘记密码
+						</div>
+						<div class="panel-input">
+							<form class="form-register form-horizontal" role="form">
+								<div class="form-group">
+									<div class="col-sm-12">
+										<input type="text" class="form-control" id="forget-phone-number" placeholder="注册时填写的手机号">
+									</div>
+									<div class="f-desc">手机号</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-8">
+										<input type="text" class="form-control">
+									</div>
+									<div class="col-sm-4" ><a href='javascript:void(0)' id="forget-password-verifycode" onclick="htmlverify(this)"><img src='/Home/Public/verify' /></a>
+									</div>
+									<div class="f-desc">验证码</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-8">
+									
+										<input type="text" class="form-control" style='padding-left:90px!important' id="forget-phoneCode">
+									</div>
+									<div class="col-sm-4">
+										<button class="btn-code btn" id="forget-sendRegisterCode">获取验证码</button>
+									</div>
+									<div class="f-desc">短信验证码</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12">
+										<input type="text" class="psw-input form-control" style="display: none">
+										<input type="text" class="psw-input form-control" id="forget-password" onfocus="this.type='password'" autocomplete="off" placeholder="8-20个字，包含字母和数字">
+									</div>
+									<div class="f-desc">设置新密码</div>
+								</div>
+								<div class="panel-btn-register form-group">
+									<div class="col-sm-12">
+										<a href="#" id='forget-password-submit' class="btn-register btn btn-block">确认修改</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bottomWrap">
+			<div class="container">
+				<div class="row">
+					<div class="pt20 col-sm-12">
+						<span>CopyRight @ 微小服</span>
+						<span style="color:#CDC9C9">京ICP备14013455号-4</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(function() {
+				$(".register-span").click(function() {
+					$("#register-title").prev().removeClass("current");
+					$("#register-title").addClass("current");
+					$("#form-register").fadeIn();
+					$("#form-login").fadeOut();
+				});
+				$(".login-span").click(function() {
+					$("#login-title").next().removeClass("current");
+					$("#login-title").addClass("current");
+					$("#form-register").fadeOut();
+					$("#form-login").fadeIn();
+				});
+				$(".h-forgetPsw").click(function() {
+					$("#panel-login-register").hide();
+					$("#panel-forget-password").fadeIn();
+				});
+				var p=w=count=false;
+				$(".form-control").bind("input propertychange",function(){
+					count=true;
+					var _id = $(this).attr("id");
+					if(_id == "phoneNumber" || _id == "register-phone-number" || _id == "forget-phone-number") {
+						var reg0 = /^(1[3-8])\d{9}$/;//手机号
+						var _val = $.trim($(this).val());
+						var html = "";
+						if(!reg0.test(_val)) {
+							p=false;
+							if($(this).parent().parent(".form-group").find(".hint-desc").length <= 0) {
+								html += "<span class='hint-desc'>无效的手机号码</span>";
+								$(this).parent().after(html);
+								$(this).parent().parent(".form-group").css("margin","0");
+							}
+						} else {
+							p=true;
+							if($(this).parent().parent(".form-group").find(".hint-desc").length > 0) {
+								$(this).parent().parent(".form-group").find(".hint-desc").remove();
+								$(this).parent().parent(".form-group").css("margin","0 0 15px 0");
+							}
+						}
+					} else if(_id == "password" || _id == "register-password" || _id == "forget-password") {
+						var reg_chinese = /^[0-9a-zA-Z]+$/;
+						var reg_length = /^\S{8,20}$/;
+						var _val = $.trim($(this).val());
+						var html = "";
+						if(!reg_chinese.test(_val) || !reg_length.test(_val)) {
+							w=false;
+							if($(this).parent().parent(".form-group").find(".hint-desc").length <= 0) {
+								html += "<span class='hint-desc'>密码不规范</span>";
+								$(this).parent().after(html);
+								$(this).parent().parent(".form-group").css("margin","0");
+								if(_id == "register-password" || _id == "forget-password") {
+									$(".panel-input .form-group.panel-btn-register").css("margin-top","0");
+								}
+							}
+						} else {
+							w=true;
+							if($(this).parent().parent(".form-group").find(".hint-desc").length > 0) {
+								$(this).parent().parent(".form-group").find(".hint-desc").remove();
+								
+								$(this).parent().parent(".form-group").css("margin","0 0 15px 0");
+								if(_id == "register-password" || _id == "forget-password") {
+									$(".panel-input .form-group.panel-btn-register").css("margin-top","20px");
+								}
+							}
+						}
+					}
+					//登录按钮判断
+					if($.trim($('#phoneNumber').val())=='' ||$.trim( $('#password').val())==''){
+						$('#login').attr("disabled", true);
+					}else{
+						if(p&&w){
+							$('#login').attr("disabled", false);
+						}else if(count==false){
+							$('#login').attr("disabled", false);
+						}else{
+							$('#login').attr("disabled", true);
+						}
+					}
+					//注册按钮判断
+					if($.trim($('#register-phone-number').val())=='' ||$.trim( $('#register_verify_code').val())==''|| $.trim($('#phoneCode').val())==''||$.trim($('#register_verify_code').val()).length!=4||$.trim($('#register-password').val())==''){
+						$('#register').attr("disabled", true);
+					}else{
+						
+						if(count){
+							if(p&&w){
+								$('#register').attr("disabled", false);
+							}else{
+								$('#register').attr("disabled", true);
+							}
+						}else{
+							$('#register').attr("disabled", true);
+						}
+					}
+					
+				});
+			});
+			var type = GetQueryString("type");
+			if(type != null && type.toString().length > 1) {
+				$("." + type + "-span").siblings().removeClass("current");
+				$("." + type + "-span").addClass("current");
+				$("#form-register").hide();
+				$("#form-" + type).show();
+			}
+
+			function GetQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+			//获取验证码的点击事件，请求后台获取验证码的回调函数
+			//若成功则回调，不成功则需要提示
+			var countdown = 60;
+
+			function codeTime(node) {
+				if(countdown == 0) {
+					node.attr("disabled",false);
+					node.val("获取验证码");
+					countdown = 60;
+					clearTimeout(run1);
+					return;
+				} else {
+					node.attr("disabled", true);
+					//node.setAttribute("disabled", true);
+					node.val("重新发送(" + countdown + ")");
+					countdown--;
+				}
+				var run1 = setTimeout(function() {
+					codeTime(node)
+				}, 1000);
+			}
+			//登录提交数据
+			$(document).on('click','#login',function(){
+				  phone = $.trim($('#phoneNumber').val());
+				  password = $.trim($('#password').val());
+				  verify = $.trim($('#verify').val());
+				  layer.load();
+				  ajax('/Home/Public/login',{'phone':phone,'password':password,'verify':verify},s,e);
+				  function s(r){
+					  layer.closeAll('loading');
+					  if(r.data==true){
+						  layer.msg(r.msg);
+						  setTimeout(function(){
+							  location.href='/Merchant/Index/index';
+							}, 2000);
+						 
+					  }else{
+						  htmlverify($('#register-verifycodes'));
+						  layer.msg(r.msg);
+					  }
+					 
+				  }
+				  function e(r){
+					  
+				  }
+			});
+			
+			//注册操作
+			$(document).on('click','#register',function(){
+				  phone = $.trim($('#register-phone-number').val());
+				  password = $.trim($('#register-password').val());
+				  verify = $.trim($('#register_verify_code').val());
+				  phoneCode = $.trim($('#phoneCode').val());
+				  
+				  layer.load();
+				  ajax('/Home/Public/register',{'phone':phone,'password':password,'verify':verify,'phoneCode':phoneCode},s,e);
+				  function s(r){
+					  layer.closeAll('loading');
+					 // layer.msg(r.msg);
+					  if(r.data==true){
+						  layer.msg(r.msg);
+						  setTimeout(function(){
+							  location.href='/';
+							}, 2000);
+						 
+					  }else{
+						  htmlverify($('#register-verifycode'));
+						  layer.msg(r.msg);
+					  }
+					  
+					  
+					  
+				  }
+				  function e(r){
+					  layer.closeAll('loading');
+				  }
+			});
+			
+			
+			//发送验证码操作
+			$(document).on('click','#sendRegisterCode',function(){
+				if($.trim($('#register-phone-number').val())==''){
+					layer.msg('手机号格式不对');return ;
+				}
+				
+				 phone = $.trim($('#register-phone-number').val());
+				  verify = $.trim($('#register_verify_code').val());
+				  layer.load();
+				 ajax('/Home/Public/getRegisterCode',{'phone':phone,'verify':verify},s,e);
+				 function s(r){
+					 layer.closeAll('loading');
+					 // layer.msg(r.msg);
+					  if(r.data==true){
+						  layer.msg(r.msg);
+						  codeTime($('#sendRegisterCode'));
+						 // htmlverify($('#register-verifycode'));
+						  					 
+					  }else{
+						  htmlverify($('#register-verifycode'));
+						  layer.msg(r.msg);
+					  }
+				 }
+				 function e(r){
+					 layer.closeAll('loading');
+					  layer.msg('网络延时!');
+				 }
+			})
+			
+			//忘记密码发送验证码操作
+			<!-- $(document).on('click','#forget-sendRegisterCode',function(){ -->
+			$(function(){
+				$("#forget-sendRegisterCode").click(function(){
+					if($.trim($('#forget-phone-number').val())==''){
+						layer.msg('手机号格式不对');return false;
+					}
+					
+					 phone = $.trim($('#forget-phone-number').val());
+					  verify = $.trim($('#forget-password-verifycode').val());
+					  layer.load();
+					 ajax('/Home/Public/getRegisterCode',{'phone':phone,'verify':verify,'type':'forget'},s,e);
+					 function s(r){
+						 layer.closeAll('loading');
+						 // layer.msg(r.msg);
+						  if(r.data==true){
+							  layer.msg(r.msg);
+							  codeTime($('#forget-sendRegisterCode'));
+							 // htmlverify($('#register-verifycode'));
+												 
+						  }else{
+							  htmlverify($('#forget-password-verifycode'));
+							  layer.msg(r.msg);
+						  }
+					 }
+					 function e(r){
+						 layer.closeAll('loading');
+						  layer.msg('网络延时!');
+					 }
+				});
+				
+			});
+			//忘记密码提交数据
+			$(document).on('click','#forget-password-submit',function(){
+				  phone = $.trim($('#forget-phone-number').val());
+				  password = $.trim($('#forget-password').val());
+				  verify = $.trim($('#forget-password-verifycode').val());
+				  phoneCode = $.trim($('#forget-phoneCode').val());
+				  
+				  layer.load();
+				  ajax('/Home/Public/forgetpassword',{'phone':phone,'password':password,'verify':verify,'phoneCode':phoneCode},s,e);
+				  function s(r){
+					  layer.closeAll('loading');
+					 // layer.msg(r.msg);
+					  if(r.data==true){
+						  layer.msg(r.msg);
+						  setTimeout(function(){
+							  location.href='/Home/public/register.html?type=login';
+							}, 2000);
+						 
+					  }else{
+						  htmlverify($('#forget-password-verifycode'));
+						  layer.msg(r.msg);
+					  }
+					  
+					  
+					  
+				  }
+				  function e(r){
+					  layer.closeAll('loading');
+					  layer.msg('网络延时!');
+				  }
+			});
+			function ajax(url,data,successCallback,errorCallback){
+				$.ajax({
+	                url: url,
+	                type: 'POST',
+	                data: data,
+	                async: false,
+	                cache: false,
+	               	dataType:"json",
+	                success: function (returndata) {
+	                		successCallback(returndata);
+	                },
+	                error: function (returndata) {
+	                		errorCallback(returndata);
+	                }
+	            });
+			}
+			
+			function htmlverify(a){
+				url='/Home/Public/verify';
+				$.ajax({
+	                url: url,
+	                type: 'POST',
+	                async: false,
+	                cache: false,
+	                success: function (returndata) {
+	                		$(a).html("<img src="+url+">");
+	                },
+	                error: function (returndata) {
+	                		//errorCallback(returndata);
+	                }
+	            });
+
+				}
+			
+			
+		</script>
+	</body>
+
+</html>

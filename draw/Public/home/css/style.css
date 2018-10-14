@@ -1,0 +1,104 @@
+li {
+    list-style-type: none;
+}
+.mt20 {
+	margin-top: 20px;
+}
+.pl0 {
+	padding-left: 0;
+	padding-right: 0;
+}
+.fl {
+	float: left;
+}
+.fr {
+	float: right;
+}
+.pt20 {
+	padding: 20px 0;
+}
+.container {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navbar {
+    min-height: 61px;
+    border: none;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+.navbar-brand {
+    height: 61px;
+}
+.logo {
+    padding: 8px !important;
+}
+.logo>img {
+    width: auto;
+    height: 49px;
+    display: block;
+}
+.navbar-default .navbar-nav>li>a.back-radiu:focus, .navbar-default .navbar-nav>li>a.back-radiu:hover {
+	color: #FFFFFF;
+	background-color: rgba(26,188,155,1);;
+}
+.bottomWrap {
+	width: 100%;
+	background-color: rgba(17,19,18,1);
+	text-align: center;
+}
+.bottomWrap span {
+	font-size: 14px;
+	color: rgb(27,188,155);
+}
+@media (min-width: 768px) {
+	.navbar {
+   		background-color: #FFFFFF;
+   		/*filter:alpha(opacity=80);   
+      	-moz-opacity:0.8;   
+      	-khtml-opacity: 0.8;   
+      	opacity: 0.8; */
+      	border-bottom: 1px solid #EEEEEE;
+	}
+	.container {
+    	width: 750px;
+	}
+	.container>.navbar-header {
+	    margin-right: 0;
+	    margin-left: 0;
+	}
+	.navbar-default .navbar-nav li {
+    	margin: 0 10px;
+	}
+	.navbar-nav>li>a {
+		width: 100px;
+		height: 30px;
+	    margin-top: 15px;
+	    margin-bottom: 15px;
+	    padding-bottom: 0;
+	    padding-top: 0;
+	    line-height: 30px;
+	    text-align: center;
+	}
+	.navbar-nav>li>a.back-radiu {
+		background-color: rgba(26,188,155,1);
+		color: #FFFFFF;
+		-moz-border-radius: 15px; /* Firefox */
+  		-webkit-border-radius: 15px; /* Safari 和 Chrome */
+  		border-radius: 15px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+	}
+}
+
+@media (min-width: 992px) {
+	.container {
+		width: 970px;
+	}
+}
+@media (min-width: 1200px) {
+	.container {
+	    width: 1200px !important;
+	}
+}

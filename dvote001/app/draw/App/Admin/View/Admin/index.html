@@ -1,0 +1,255 @@
+<div class="main-body">
+    <div class="nav_title" style="left: 0; width: 100%;">
+        <div class="panel_title">
+            <div class="p_div">
+                <div class="p_text" style="visibility: inherit; top: 0px; transform-origin: 84px 9px 0px;">
+                    <p><span>{$page_title}</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="refresh_div">
+            <button class="layui-btn layui-btn-small layui-btn-primary" onclick="javascript:location.reload();">
+                <i class="layui-icon">&#x1002;</i>
+            </button>
+        </div>
+    </div>
+    <div class="lay-body">
+        <div class="lay-search">
+            <div class="nav_header">
+                <div class="p-search">
+                    <div class="p_text">
+                        <p><i class="layui-icon">&#xe615;</i><span>筛选查询</span></p>
+                    </div>
+                </div>
+                <div class="p_menu_left">
+                    <div class="menu_left">
+                        <button class="layui-btn" onclick="subForm()">查询结果</button>
+                    </div>
+                </div>
+            </div>
+            <div class="search-form">
+                <form class="layui-form" method="post" action="" id="searchForm">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">模糊查询：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="uname" placeholder="账号/客户名称" value="{$requ['uname']}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <if condition ="$type eq 1 OR $type eq 2">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">员工组：</label>
+                            <div class="layui-input-inline">
+                                <select name="gid">
+                                    <option value="">全部</option>
+                                    <volist name="group_list" id="vo">
+                                        <option value="{$vo.gid}" <if condition="$vo['gid'] eq $requ['gid']">selected="selected"</if> >{$vo.name}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                        </if>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-body">
+            <div class="nav_header">
+                <div class="p-search">
+                    <div class="p_text">
+                        <p><ic><img src='/Public/new/img/i_list.png'/></ic><span>{$page_header}</span></p>
+                    </div>
+                </div>
+                <div class="p_menu_left">
+                    <div class="menu_left">
+                        <if condition="$admin['gid'] lt 3 OR $admin['gid'] eq 6 OR $admin['gid'] eq 7">
+                            <button class="layui-btn" onclick="lay_full('添加','{:U('Admin/add/')}','1200','600')">添加</button>
+                        </if>
+                        
+                    </div>
+                </div>
+            </div>
+            <form class="layui-form">
+            <div class="layui-table">
+                <table class="layui-table">
+                    <if condition="$admin['gid'] eq 1">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="15%">
+                        </colgroup>
+                        <else/>
+                        <colgroup>
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="10%">
+                            <col width="15%">
+                        </colgroup>
+                    </if>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">账号</th>
+                            <th style="text-align: center;">姓名</th>
+                            <th style="text-align: center;">手机号</th>
+                            <if condition="$admin['gid'] eq 1">
+                                <th style="text-align: center;">所属分销商</th>
+                            </if>
+                            <th style="text-align: center;">员工组</th>
+                            <th style="text-align: center;">添加时间</th>
+                            <th style="text-align: center;">最后登录</th>
+                            <th style="text-align: center;">是否启用</th>
+                            <th style="text-align: center;">操作</th>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <volist name="lists" id="vo" key="k">
+                            <tr style="text-align: center;">
+                                <td>{$vo.uname}</td>
+                                <td>{$vo.real_name|default='暂无'}</td>
+                                <td>{$vo.mobile|default='暂无'}</td>
+                                <if condition="$admin['gid'] eq 1">
+                                    <td>{$vo.stname|default='未知'}</td>
+                                </if>
+                                <td>{$vo.name|default='暂无'}</td>
+                                <td>
+                                    {$vo.add_time|date='Y-m-d H:i:s',###}
+                                </td>
+                                <td>
+                                	<if condition="$vo.last_online eq NULL">暂无
+                                	<else/>{$vo.last_online|date='Y-m-d H:i:s',###}
+                                	</if>
+                                </td>
+                                <td>
+                                    <div class="layui-form-item">
+                                        <input type="checkbox" value='{$vo.aid}' name="close" <if condition="$vo['status'] eq 1">checked</if> lay-filter="switchStatus" lay-skin="switch" lay-text="ON|OFF">
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="lay_full('编辑','{:U('Admin/add/','aid='.$vo['aid'])}','1200','600')">编辑</a>
+                                    | <a href="javascript:void(0);" onclick="delCate({$vo.aid})">删除</a>
+                                </td>
+                            </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <div class="tab-footer">
+                    <div class="right-oper">
+                        <div id="layPage"></div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+        
+    </div>    
+</div>
+<script type="text/javascript">
+    layui.use('form', function(){
+        var form = layui.form
+        ,layer = layui.layer;
+        
+        form.on('switch(switchStatus)', function(data){
+            var id = $(this).val();
+            var nval = this.checked ? 1 : 2;
+            var ntype = 'status';
+            setOper(id,nval,ntype);
+        });
+        
+    });
+    
+    function setOper(id,nval,ntype)
+    {
+        var lod_index = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $.post('/Admin/Admin/ajax_update', { id: id,nval: nval,ntype: ntype },function(data){
+            layer.close(lod_index);
+            var parsedJson = jQuery.parseJSON(data);
+            if(parsedJson.error == 0){
+                layer.msg(parsedJson.message);
+                window.location.reload();
+            }else{
+                layer.msg(parsedJson.message);
+            }
+        });
+    }
+    
+    var allTotal = {$_total|default=0};
+    var curr = {$_curr|default=1};
+    var limit = {$_limit|default=10};
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+        ,layer = layui.layer;
+        laypage.render({
+            elem: 'layPage'
+            ,count: allTotal
+            ,limit: limit
+            ,curr : curr
+            ,layout: ['count', 'prev', 'page', 'next', 'skip']
+            ,jump: function(obj,first){
+                if(!first){
+                    var title = $("input[name='title']").val();
+                    var haid = $("[name='haid']").val();
+                    jsPost('', {curr: obj.curr,title:title,haid:haid}); 
+                }
+            }
+        });
+    });
+    
+    function subForm()
+    {
+        $("#searchForm").submit();
+    }
+    $(function(){
+        var windowHeigth = $(document).height();
+        $(".main-body").height(windowHeigth);
+    });
+    
+    function lay_full(title, url) {
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            var index = layer.open({
+                type: 2,
+                title: title,
+                content: url
+            });
+            layer.full(index);
+        });
+    }
+    
+    function delCate(id)
+    {
+    	var checkval = $("input[value=]").is(':checked');
+    	var nval = 1;
+        var ntype = 'is_del';
+        var msg = "您确定要删除该用户？";
+        layer.confirm(msg, {
+            btn: ['确定','取消'] //可以无限个按钮
+        }, function(index){
+            var lod_index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post('/Admin/Admin/delete', { id: id,nval: nval,ntype: ntype },function(data){
+                layer.close(lod_index);
+                var parsedJson = jQuery.parseJSON(data);
+                if(parsedJson.state == 0){
+                    layer.msg(parsedJson.message);
+                    window.location.reload();
+                }else{
+                    layer.msg(parsedJson.message);
+                }
+            });
+        });
+    }
+    
+</script>

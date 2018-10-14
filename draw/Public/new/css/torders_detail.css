@@ -1,0 +1,235 @@
+
+.neirong{
+    margin: 40px 0px 0px 30px;
+    background-color: #fff;
+ }
+ .table_a tr th{
+    width: 156px;
+    background-color: #f9fafc;
+    text-align: right;
+    box-sizing: border-box;
+    padding-right: 18px;
+    height: 44px;
+    font-size: 12px;
+    color: #333333;
+    line-height: 44px;
+ }
+ 
+ .table_a tr td{
+    width: 392px;
+    background-color: #ffffff;
+    text-align: left;
+    box-sizing: border-box;
+    padding-left: 10px;
+    height: 44px;
+    line-height: 44px;
+    font-size: 12px;
+    color: #333333;
+ }
+
+ .neirongBt{
+    margin-top: 40px;
+ }
+ .btForm{
+    margin-top: 20px;
+ }
+ .choose,.choose1{
+    display: inline-block;
+    width: 70px;
+    margin: 0;
+ }
+ .layui-form-item{
+    margin-bottom: 25px;
+    margin-left: 20px;
+ }
+ .layui-form-item .layui-input-inline{
+    width: 220px;
+ }
+ .inlinea{
+    display: flex;
+    margin-right: 0px !important;
+    align-items: center;
+ }
+ .timea{
+    width: 180px;
+ }
+ .zhi{
+    width: 40px;
+    text-align: center;
+ }
+ .tha{
+    width: 110px;
+ }
+ .thb{
+    width: 415px;
+ }
+ .thc{
+    width: 130px;
+ }
+/* #yuan{
+    height: 38px;
+    width: 40px;
+    text-align: center;;
+    line-height: 38px;
+    display: inline-block;
+    background-color: #ccc;
+ }
+*/ .last{
+    border-top: 1px solid #ccc;
+    width: 800px;
+ }
+ .table_b{
+    margin: 40px 0px 40px 28px;
+ }
+ .state{
+    width: 1100px;
+    height: 80px;
+    background-color: rgba(243, 243, 243, 1);
+    margin-left: 28px;
+    font-size: 16px;
+    color: red;
+    line-height: 80px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+ }
+.sign{
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: red;
+    color: #fff;
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
+    margin: 0px 10px 0px 40px;
+}
+.table_c tr th,.table_c tr td{
+    background-color: #f9fafc;
+    text-align: center;
+    height: 44px;
+    font-size: 12px;
+    color: #333333;
+    line-height: 44px;
+ }
+ .table_c tr td{
+    width: calc(1100px /3);
+    background-color: #fff;
+ }
+ .table_d tr th,.table_d tr td{
+    background-color: #f9fafc;
+    text-align: center;
+    height: 44px;
+    font-size: 12px;
+    color: #333333;
+    line-height: 44px;
+ }
+ .table_d tr td{
+    background-color: #fff;
+ }
+ .table_d tr th:nth-child(1),.table_d tr th:nth-child(3){
+    width: calc(1100px / 4);
+ }
+ .table_d tr th:nth-child(2){
+    width: calc(1100px / 2);
+ }
+ .last_th{
+    text-align: right !important;
+    box-sizing: border-box;
+    padding-right: 20px;
+    font-size: 16px !important;
+ }
+ .last_th .money{
+    color: red;
+ }
+
+ .photo{
+    margin-left: 28px;
+    width: 1100px;
+ 	display: flex;
+ 	flex-wrap: wrap;
+    margin-bottom: 40px;
+    margin-top: 40px;
+ }
+ .bigImg{
+	position: absolute;
+ 	width: 100%;
+ 	background-color: rgba(0,0,0,0.2);
+ 	top: 0px;
+ 	left: 0px;
+ 	display: none;
+ 	text-align:center;
+ }
+ #bigPho{
+	/* height: 400px; */
+ 	/* position: absolute; */
+ 	/* top: 50%; */
+ 	/* left: 50%; */
+ 	/* margin-top:-375px; */
+ 	/* margin-left: -250px; */
+ }
+ .main:after{
+	content: "",
+ 	display: block;
+ 	clear: both;
+ }
+ .main{
+	zoom: 1;
+ }
+ .photo img{
+    width: 272px;
+    height: 330px;
+ 	margin-right: 40px;
+ 	margin-bottom: 10px;
+ 	cursor: pointer;
+ }
+/* .photo img:nth-child(1){
+	margin-left: 0px;
+} */
+ .beizhu{
+    margin: 40px 0px 40px 28px;
+    width: 1100px;
+ }
+ .table_e tr th:nth-child(1),.table_e tr th:nth-child(3){
+    width: calc(1100px * 2 / 10);
+ }
+
+.table_e tr th:nth-child(2),.table_e tr th:nth-child(4){
+    width: calc(1100px * 3 / 10);
+}
+ .table_e tr th,.table_e tr td{
+    background-color: #f9fafc;
+    text-align: center;
+    height: 44px;
+    font-size: 12px;
+    color: #333333;
+    line-height: 44px;
+ }
+ .table_e tr td{
+    background-color: #fff;
+ }
+ .last_tha{
+    background-color: #fff !important
+}
+#buSelect{
+	padding-right: 30px;
+    cursor: pointer;
+	width: 100%;
+    padding-left: 10px;
+	border-color: #D2D2D2!important;
+	height: 38px;
+    line-height: 1.3;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #fff;
+    border-radius: 2px;
+	box-sizing: border-box;
+}
+.state .cWord {
+	color: #ccc;
+}
+
+.table_edit {
+	width:650px;
+}
+

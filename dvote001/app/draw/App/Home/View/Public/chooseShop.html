@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<!-- 微信小程序TDK -->
+<title>微小服-微信小程序|微信小程序工具|微信小程序开发|微信小程序制作平台</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta charset="UTF-8" name="description"
+	content="【微小服】是国内领先的微信小程序Saas平台,制作过程无需代码,拥有海量小程序行业模板,帮助千万商户一键生成微信小程序。">
+<meta name="keywords"
+	content="小程序,微信小程序,小程序制作,微信小程序制作,小程序工具,微信小程序工具,小程序开发,微信小程序开发,小程序问答,微信小程序问答,小程序平台,微信小程序平台">
+<!-- 结束 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>选择店铺</title>
+<link rel="stylesheet" href="__PUBLIC__/home/css/createShop.css" />
+</head>
+<style>
+.panel-create-shop {
+	margin-top: -220px;
+}
+
+.small-routine {
+	height: 440px;
+}
+
+.panel-shop-type .panel-modular {
+	margin-bottom: 20px;
+}
+
+.panel-shop-type .panel-modular .p5 {
+	height: 150px;
+	position: relative;
+}
+
+.panel-shop-type .panel-modular .p5 .caseName {
+	margin: 15px 0;
+}
+
+.panel-shop-type .panel-modular .p5 .caseDesc {
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+
+.panel-shop-type .panel-modular .p5 .panel-btn-shop {
+	margin-top: 10px;
+}
+
+.span-hint {
+	display: block;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	width: 90px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	border: 1px solid #CCCCCC;
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+}
+.p5 img {
+	float: left;
+    width: 63%!important;
+    height: 100%;
+}
+</style>
+<body>
+	<include file="header" />
+	<div class="panel-create-shop container">
+		<div class="row small-routine">
+			<div class="col-sm-12" style="margin-bottom: 50px;">
+				<div class="s-title">选择店铺</div>
+				<div class="s-title-desc">
+					<span class="line"></span> <span class="txt">请选择需要管理的店铺</span> <span
+						class="line"></span>
+				</div>
+			</div>
+			<div class="panel-shop-type">
+				<volist name="mini_programs" id="m">
+				<div class="panel-modular col-sm-4">
+                                    <a href='/Merchant/Index/index/cateorgy_id/{$m.cateorgy_id}'>
+					<div class="p5">
+						<div class="img_div" tyle='float: left;width: 61%!important;height: 80%;margin-top: 14px;'>
+                                                    <img src="{$m.logo_url}">
+						</div>
+						<div class="caseName">
+                                                    <span class="fl">{$m.store_name}</span>
+						</div>
+						<!-- <div class="caseDesc">
+								<span class="fl">商铺状态：</span>
+								<span class="fl">{$m.status}</span>
+							</div>
+							
+							<div class="caseDesc">
+								<span class="fl">商铺有效期：</span>
+								<span class="fl">{$m.register_time}-{$m.end_time|default="暂无"}</span>
+							</div> -->
+						<div class="panel-btn-shop">
+							<span class="span-hint">{$m.name}</span>
+						</div>
+					</div>
+                                    </a>
+				</div>
+				</a>
+				</volist>
+
+				<!-- <div class="panel-modular col-sm-4">
+						<div class="p5">
+							<div class="caseName">
+								<span class="fl">飞了的店铺</span>
+							</div>
+							<div class="caseDesc">
+								<span class="fl">商铺状态：</span>
+								<span class="fl">运营中</span>
+							</div>
+							<div class="caseDesc">
+								<span class="fl">商铺有效期：</span>
+								<span class="fl">2017.10.01-2018.09.30</span>
+							</div>
+							<div class="panel-btn-shop">
+								<span class="span-hint">微小服电商</span>
+							</div>
+						</div>
+					</div>
+					<div class="panel-modular col-sm-4">
+						<div class="p5">
+							<div class="caseName">
+								<span class="fl">飞了的店铺</span>
+							</div>
+							<div class="caseDesc">
+								<span class="fl">商铺状态：</span>
+								<span class="fl">运营中</span>
+							</div>
+							<div class="caseDesc">
+								<span class="fl">商铺有效期：</span>
+								<span class="fl">2017.10.01-2018.09.30</span>
+							</div>
+							<div class="panel-btn-shop">
+								<span class="span-hint">微小服电商</span>
+							</div>
+						</div>
+					</div>
+					<div class="panel-modular col-sm-4">
+						<div class="p5">
+							<div class="caseName">
+								<span class="fl">飞了的店铺</span>
+							</div>
+							<div class="caseDesc">
+								<span class="fl">商铺状态：</span>
+								<span class="fl">运营中</span>
+							</div>
+							<div class="caseDesc">
+								<span class="fl">商铺有效期：</span>
+								<span class="fl">2017.10.01-2018.09.30</span>
+							</div>
+							<div class="panel-btn-shop">
+								<span class="span-hint">微小服电商</span>
+							</div>
+						</div>
+					</div>
+					<div class="panel-modular col-sm-4">
+						<div class="p5">
+							<div class="caseName">
+								<span class="fl">飞了的店铺</span>
+							</div>
+							<div class="caseDesc">
+								<span class="fl">商铺状态：</span>
+								<span class="fl">运营中</span>
+							</div>
+							<div class="caseDesc">
+								<span class="fl">商铺有效期：</span>
+								<span class="fl">2017.10.01-2018.09.30</span>
+							</div>
+							<div class="panel-btn-shop">
+								<span class="span-hint">微小服电商</span>
+							</div>
+						</div>
+					</div> -->
+			</div>
+			<!--<div class="col-sm-3">
+					<img src="img/xcx1.jpg" alt="快速获取流量" />
+					<div class="caseName">快速获取流量</div>
+				</div>
+				<div class="col-sm-3">
+					<img src="img/xcx2.jpg" alt="用户留存和集聚" style="width: 110px;height: 114px;" />
+					<div class="caseName">用户留存和集聚</div>
+				</div>
+				<div class="col-sm-3">
+					<img src="img/xcx3.jpg" alt="大大降低的开发费用" style="width: 110px;height: 114px;" />
+					<div class="caseName">大大降低的开发费用</div>
+				</div>
+				<div class="col-sm-3">
+					<img src="img/xcx4.jpg" alt="更低的成本，更高效的营销推广" />
+					<div class="caseName">更低的成本，更高效的营销推广</div>
+				</div>-->
+		</div>
+	</div>
+
+	<div class="bottomWrap">
+		<div class="container">
+			<div class="row">
+				<div class="pt20 col-sm-12">
+					<span>CopyRight @ 微小服</span> <span style="color: #CDC9C9">京ICP备14013455号-4</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

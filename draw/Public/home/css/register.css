@@ -1,0 +1,196 @@
+body {
+	background-color: rgb(246,246,246);
+}
+.logo>img {
+	width: auto;
+}
+.container {
+	font-family: "微软雅黑";
+}
+.panel-userinfo {
+	width: 600px;
+	margin: 0 auto;
+	overflow:hidden;
+	zoom:1;
+	-moz-box-shadow:2px 2px 2px #888888;/*firefox*/  
+	-webkit-box-shadow:2px 2px 2px #888888;/*webkit*/ 
+	box-shadow: 2px 2px 2px #888888;
+	-moz-border-radius: 8px; /* Firefox */
+  	-webkit-border-radius: 8px; /* Safari 和 Chrome */
+  	border-radius: 8px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+  	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -187px;
+}
+.panel-back {
+	width: 42%;
+	height: 375px;
+	overflow: hidden;
+	padding: 140px 0;
+	float: left;
+	background-color: rgb(26,188,156);
+	text-align: left;
+  	padding-left: 15px;
+}
+.panel-back .l-title {
+	font-size: 24px;
+	color: rgb(255,254,254);
+	font-weight: 700;
+}
+.panel-back .s-title {
+	font-size: 16px;
+	color: rgb(223,243,237);
+	font-weight: 400;
+	margin-top: 10px;
+}
+.panel-back .xs-title {
+	font-size: xx-small;
+	color: rgb(223,243,237);
+	font-weight: 400;
+	font-family: arial;
+}
+.panel-login-register {
+	width: 58%;
+	height: 375px;
+	padding: 20px 50px 20px 50px;
+	float: right;
+	background-color: #FFFFFF;
+} 
+.panel-login-register .login-register-title {
+	width: 100%;
+}
+.panel-login-register .login-register-title span {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	font-size: 18px;
+	margin-right: 10px;
+	color: rgb(169,169,169);
+	font-weight: 500;
+	cursor: pointer;
+}
+.panel-login-register .login-register-title span.current {
+	color: rgb(89,89,89);
+	border-bottom: 2px solid rgb(26,188,156);
+}
+.panel-login-register .panel-input {
+	margin-top: 20px;
+}
+.panel-input .col-sm-12 {
+	padding: 0;
+}
+.panel-input .form-control {
+	height: 36px;
+	padding: 6px 12px 6px 62px;
+}
+#phoneCode {
+	padding-left: 90px;
+}
+.panel-input .form-group {
+	margin: 0 0 15px 0;
+	position: relative;
+}
+.f-desc {
+	position: absolute;
+	left: 0;
+	top: 0;
+	line-height: 36px;
+	padding-left: 12px;
+	font-size: 14px;
+	color: rgb(38,38,38);
+}
+.panel-input .col-sm-8 {
+	padding: 0 8px 0 0;
+}
+.panel-input .col-sm-4 {
+	padding: 0;
+}
+.panel-input .col-sm-4 img {
+	width: 100%;
+	height: 34px;
+}
+.panel-input .btn-code {
+	width: 100%;
+	height: 34px;
+	padding: 6px 0;
+	text-align: center;
+	background-color: #FFFFFF;
+	border: 1px solid rgb(26,188,156);
+	color: rgb(26,188,156);
+	font-size: 12px;
+}
+.form-control.psw-input {
+	padding-left: 75px;
+}
+.panel-input .form-group.panel-btn-register {
+	margin-top: 25px;
+	margin-bottom: 0;
+}
+.btn-register {
+	background-color: rgb(26,188,156);
+	padding: 10px 12px;
+	color: rgb(252,254,254);
+	font-size: 16px;
+}
+.btn-register:hover {
+	color: rgb(252,254,254);
+}
+.a-user {
+	color: rgb(26,188,156);
+}
+.a-user:hover {
+	color: rgb(26,188,156);
+}
+.form-login .form-control {
+	padding: 6px 12px 6px 40px;
+}
+.form-login .col-sm-6{
+	padding: 0;
+}
+.form-login .checkbox {
+	padding-top: 0;
+}
+h5 {
+	margin: 0;
+	text-align: right;
+	line-height: 20px;
+	color: rgb(163,163,163);
+}
+.h-forgetPsw {
+	cursor: pointer;
+}
+.panel-input .form-group.panel-btn-login {
+	margin-top: 10px;
+}
+.panel-forget-password {
+	font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+}
+.panel-forget-password .forget-password-title{
+	margin-top: 15px;
+	font-size: 18px;
+	color: rgb(54,54,54);
+	font-weight: 500;
+}
+.panel-forget-password .form-control.psw-input {
+	padding-left: 90px;
+}
+.bottomWrap {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+@media (min-width: 992px) {
+	.container {
+    	width: 900px !important;
+	}
+}
+@media (min-width: 1200px) {
+	.container {
+    	width: 1200px !important;
+	}
+}

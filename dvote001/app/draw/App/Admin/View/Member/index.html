@@ -1,0 +1,315 @@
+<div class="main-body">
+    <div class="nav_title" style="left: 0; width: 100%;">
+        <div class="panel_title">
+            <div class="p_div">
+                <div class="p_text" style="visibility: inherit; top: 0px; transform-origin: 84px 9px 0px;">
+                    <p><span>{$page_title}</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="refresh_div">
+            <button class="layui-btn layui-btn-small layui-btn-primary" onclick="javascript:location.reload();">
+                <i class="layui-icon">&#x1002;</i>
+            </button>
+        </div>
+    </div>
+    <div class="lay-body">
+        <div class="lay-search">
+            <div class="nav_header">
+                <div class="p-search">
+                    <div class="p_text">
+                        <p><i class="layui-icon">&#xe615;</i><span>筛选查询</span></p>
+                    </div>
+                </div>
+                <div class="p_menu_left">
+                    <div class="menu_left">
+                        <button class="layui-btn" onclick="subForm()">查询结果</button>
+                    </div>
+                </div>
+            </div>
+            <div class="search-form">
+                <form class="layui-form" method="get" action="" id="searchForm">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户账号：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="uname" placeholder="姓名" value="{$request['uname']}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">注册时间：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="reg_time" placeholder="请选择时间" value="{$request['reg_time']}" id="subTime" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-body">
+            <form class="layui-form">
+            <div class="nav_header">
+                <div class="p-search">
+                    <div class="p_text">
+                        <p><ic><img src='/Public/new/img/i_list.png'/></ic><span>{$page_header}</span></p>
+                    </div>
+                </div>
+                <div class="pub_menu_left">
+                    <div class="m_left">
+                        <div class="layui-form-item">
+                            <if condition = "$acc['export']">
+                            <div class="layui-unselect layui-form-select" onclick="exportExcel()">
+                                <div class="layui-select-title">
+                                    <input type="button" class="layui-input layui-unselect" value="导出数据"><i class="layui-edge"></i>
+                                </div>
+                            </div>
+                            </if>
+                        </div>
+                    </div>
+                </div>
+                  
+            </div>
+            <div class="layui-table">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <!-- <th style="text-align: center;">
+                                <div class="layui-form-item">
+                                    <input type="checkbox" lay-skin="primary" lay-filter="allChoose"/>
+                                </div>
+                            </th> -->
+                            <th style="text-align: center;">用户ID</th>
+                            <th style="text-align: center;">姓名</th>
+                            <th style="text-align: center;">会员等级</th>
+                            <th style="text-align: center;">类型</th>
+                            <th style="text-align: center;">区域</th>
+                            <th style="text-align: center;">手机号码</th>
+                            <th style="text-align: center;">下级总数</th>
+                            <th style="text-align: center;">下下级总数</th>
+                            <th style="text-align: center;">总收入</th>
+                            <th style="text-align: center;">余额</th>
+                            <th style="text-align: center;">已提现</th>
+                            <th style="text-align: center;">注册时间</th>
+                            <if condition = "$acc['enable']">
+                                <th style="text-align: center;">账户启用状态</th>
+                            </if>
+                            <if condition = "$acc['set_home']">
+                                <th style="text-align: center;">设为首页</th>
+                            </if>
+                            <th style="text-align: center;">操作</th>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <volist name="lists" id="vo" key="k">
+                            <tr style="text-align: center;">
+                                <!-- <td>
+                                    <div class="layui-form-item">
+                                        <input type="checkbox" name="checkId[]" value="{$vo.uid}" lay-skin="primary" />
+                                    </div>
+                                </td> -->
+                                <td>{$vo.uid}</td>
+                                <td>{$vo.name}</td>
+                                <td>{$levList[$vo['grade']]}</td>
+                                <td>{$memType[$vo['type']]}</td>
+                                <td>{$vo.region}</td>
+                                <td>{$vo.phone}</td>
+                                <td>{$vo.lNum}</td>
+                                <td>{$vo.llNum}</td>
+                                <td>{$vo.total_income}</td>
+                                <td>{$vo.total_fee}</td>
+                                <td>{$vo.total_money}</td>
+                                <td>{$vo.created_at|date='Y-m-d H:m:s',###}</td>
+                                <if condition = "$acc['enable']">
+                                <td>
+                                    <div class="layui-form-item">
+                                        <input type="checkbox" value='{$vo.uid}' <if condition="$vo['status'] eq 1">checked</if> lay-filter="switchOnline" lay-skin="switch" lay-text="ON|OFF">
+                                    </div>
+                                </td>
+                                </if>
+                                <if condition = "$acc['set_home']">
+                                <td>
+                                    <div class="layui-form-item">
+                                        <input type="checkbox" value='{$vo.uid}' <if condition="$vo['is_head'] eq 2">checked</if> lay-filter="switchHead" lay-skin="switch" lay-text="ON|OFF">
+                                    </div>
+                                </td>
+                                </if>
+                                <td>
+                                    <if condition = "$acc['view']">
+                                        <a href="javascript:void(0);" onclick="layer_show('用户详情','{:U($acc['view']['auth_path'],array('uid'=>$vo['uid']))}','1200','600')">{$acc['view']['auth_name']}</a>
+                                    </if>
+                                </td>
+                            </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <div class="tab-footer">
+                    <!-- <div class="left-oper"> 
+                        <div class="layui-form-item">
+                            <select name="operType" lay-filter="operType">
+                              <option value="">批量操作</option>
+                              <option value="1">启用</option>
+                              <option value="2">停用</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <div class="right-oper">
+                        <div id="layPage"></div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+        
+    </div>    
+</div>
+<script type="text/javascript">
+    layui.use('form', function(){
+        var form = layui.form
+        ,layer = layui.layer;
+        
+        // 账户状态设置
+        form.on('switch(switchOnline)', function(data){
+            var id = $(this).val();
+            var nval = this.checked ? 1 : 2;
+            var ntype = 'status';
+            setOper([id],nval,ntype);
+        });
+
+        // 设为首页设置
+        form.on('switch(switchHead)', function(data){
+            var id = $(this).val();
+            var nval = this.checked ? 2 : 1;
+            var ntype = 'is_head';
+            setOper([id],nval,ntype);
+        });
+        
+        // form.on('checkbox(allChoose)', function(data){  
+        //     var child = $(data.elem).parents('table').find('tbody input[name="checkId[]"]');  
+        //     child.each(function(index, item){  
+        //         item.checked = data.elem.checked;  
+        //     });  
+        //     form.render('checkbox');  
+        // });
+        // form.on('select(operType)', function(data){
+        //     var dateType = data.value;
+        //     var child = $('table').find('tbody input[name="checkId[]"]');
+        //     var ids = [];
+        //     child.each(function(index, item){  
+        //         if(item.checked){
+        //             ids.push(item.value);
+        //         }
+        //     });
+        //     if(dateType != ""){
+        //         if(ids.length > 0){
+        //             data.elem.options[0].selected = true;
+        //             form.render('select');
+        //             switch(dateType){
+        //                 case '1': //商品上架
+        //                     setAllOper(ids,1,'is_start');
+        //                     break;
+        //                 case '2': //商品下架
+        //                     setAllOper(ids,2,'is_start');
+        //                     break;
+        //                 default:
+        //                     break;
+        //             }
+        //         }else{
+        //             layer.msg("未选中无法操作");
+        //             data.elem.options[0].selected = true;
+        //             form.render('select');
+        //         }
+        //     }
+        // }); 
+        form.render();
+    });
+    
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#subTime' //指定元素
+            ,theme: 'molv'
+        });
+    });
+    
+    
+    // function setAllOper(ids,nval,ntype)
+    // {
+    //     var msg = "";
+    //     switch(ntype){
+    //         case 'is_start': //设为启用
+    //             if(nval == 1){
+    //                 msg = "您确定要将选中数据批量启用";
+    //             }else{
+    //                 msg = "您确定要将选中数据批量禁用";
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    //     layer.confirm(msg, {
+    //         btn: ['确定','取消'] //可以无限个按钮
+    //     }, function(index){
+    //         setOper(ids,nval,ntype);
+    //     });
+    // }
+    
+    // 设置启用状态和设为首页
+    function setOper(ids,nval,ntype) {
+        var lod_index = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $.post('/Admin/Member/ajax_update', { ids: ids,nval: nval,ntype: ntype },function(data){
+            layer.close(lod_index);
+            var parsedJson = jQuery.parseJSON(data);
+            if(parsedJson.error == 0){
+                layer.msg(parsedJson.message);
+                window.location.reload();
+            }else{
+                layer.msg(parsedJson.message);
+            }
+        });
+    }
+
+    // 导出
+    function exportExcel() {
+        var uname = $('input[name="uname"]').val();
+        var reg_time = $('input[name="reg_time"]').val();
+        var url = "/Admin/Member/exportExcel?uname=" + uname + "&reg_time="+reg_time;
+        window.open(url);
+        return false;
+    }
+    
+    // 分页
+    var allTotal = {$_total|default=0};
+    var curr = {$_curr|default=1};
+    var limit = {$_limit|default=10};
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+        ,layer = layui.layer;
+        laypage.render({
+            elem: 'layPage'
+            ,count: allTotal
+            ,limit: limit
+            ,curr : curr
+            ,layout: ['count', 'prev', 'page', 'next', 'skip']
+            ,jump: function(obj,first){
+                if(!first){
+                    let uname = $('input[name="uname"]').val();
+                    let reg_time = $('input[name="reg_time"]').val();
+                    jsGet('', {curr: obj.curr,uname:uname,reg_time:reg_time}); 
+                }
+            }
+        });
+    });
+    
+    // 查询
+    function subForm()
+    {
+        $("#searchForm").submit();
+    }
+
+    $(function(){
+        var windowHeigth = $(document).height();
+        $(".main-body").height(windowHeigth);
+    });
+</script>

@@ -1,0 +1,224 @@
+<div class="body-form" style="min-width: 980px;">
+    <div class="lay-body">
+        <div class="lay-search">
+            <form class="layui-form">
+                <div class="nav_header">
+                        <div class="p-search">
+                            <div class="p_text" style="width: 210px;">
+                                <p><span style="color:red;"></span></p>
+                            </div>
+                        </div>
+                </div>
+            </form>
+            <div class="lay-table layui-form">
+                <div class="layui-table">
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                        </colgroup>
+                        <tr style='text-align: center;'>
+                            <td rowspan="4">
+                                <img src="{$info.headimg}" style="width: 120px;height: 120px;">
+                            </td>
+                            <td class='mer-menu-item'>用户ID</td>
+                            <td>{$info.uid}</td>
+                            <td class='mer-menu-item'>区域</td>
+                            <td>{$info.region|default="无"}</td>
+                        </tr>
+                        <tr style='text-align: center;'>
+                            <td class='mer-menu-item'>姓名</td>
+                            <td>{$info.name}</td>
+                            <td class='mer-menu-item'>注册时间</td>
+                            <td>{$info.created_at|date='Y-m-d H:i:s',###}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>基本信息</legend>
+                </fieldset>
+                <div class="layui-table">
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">手机号码</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">微信号</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">邮箱</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">职位</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">会员等级</th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            <tr style="text-align: center;">
+                                <td>{$info.phone}</td>
+                                <td>{$info.weixinnum}</td>
+                                <td>{$info.email}</td>
+                                <td>{$info.position}</td>
+                                <td>{$info.grade}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table style="margin-top: -11px;" class="layui-table">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">类型</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">收入总额</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">余额</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">提现总额</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">详细地址</th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            <tr style="text-align: center;">
+                                <td>{$info.type}</td>
+                                <td>{$info.total_income}</td>
+                                <td>{$info.total_fee}</td>
+                                <td>{$info.total_money}</td>
+                                <td>{$info.address}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table style="margin-top: -11px;" class="layui-table">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">上级ID</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">上级姓名</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">下级总数</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">下下级总数</th>
+                                <th style="text-align: center;font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';font-weight:700;color:#666666;">公司名称</th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            <tr style="text-align: center;">
+                                <td>{$info.puid}</td>
+                                <td>{$info.pname}</td>
+                                <td>{$info.lNum}</td>
+                                <td>{$info.llNum}</td>
+                                <td>{$info.company}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>员工列表</legend>
+                </fieldset>
+                <div class="layui-table">
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">员工姓名</th>
+                                <th style="text-align: center;">手机号码</th>
+                                <th style="text-align: center;">职位</th>
+                                <th style="text-align: center;">下级总数</th>
+                                <th style="text-align: center;">下下级总数</th>
+                                <th style="text-align: center;">总业绩</th>
+                                <th style="text-align: center;">添加时间</th>
+                                <th style="text-align: center;">设为首页</th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            <volist name="list" id="vo" key="k">
+                                <tr style="text-align: center;">
+                                    <td>{$vo.name}</td>
+                                    <td>{$vo.phone}</td>
+                                    <td>{$vo.position}</td>
+                                    <td>{$vo.lNum}</td>
+                                    <td>{$vo.llNum}</td>
+                                    <td>{$vo.total_income}</td>
+                                    <td>{$vo.created_at|date='Y-m-d H:i:s',###}</td>
+                                    <td>
+                                        <div class="layui-form-item">
+                                            <input type="checkbox" value='{$vo.uid}' <if condition="$vo['is_head'] eq 2">checked</if> lay-filter="switchHead" lay-skin="switch" lay-text="ON|OFF">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </volist>
+                        </tbody>
+                    </table>
+                    <div class="tab-footer">
+                        <div class="right-oper">
+                            <div id="layPage"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+<script type="text/javascript">
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form,
+        layer = layui.layer;
+        
+        // 设为首页设置
+        form.on('switch(switchHead)', function(data){
+            var id = $(this).val();
+            var nval = this.checked ? 2 : 1;
+            var ntype = 'is_head';
+            setOper([id],nval,ntype);
+        });
+    });
+
+    // 分页
+    var allTotal = {$_total|default=0};
+    var curr = {$_curr|default=1};
+    var limit = {$_limit|default=10};
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+        ,layer = layui.layer;
+        laypage.render({
+            elem: 'layPage'
+            ,count: allTotal
+            ,limit: limit
+            ,curr : curr
+            ,layout: ['count', 'prev', 'page', 'next', 'skip']
+            ,jump: function(obj,first){
+                if(!first){
+                    jsGet('', {curr: obj.curr}); 
+                }
+            }
+        });
+    });
+
+    // 设置启用状态和设为首页
+    function setOper(ids,nval,ntype) {
+        var lod_index = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $.post('/Admin/Member/ajax_update', { ids: ids,nval: nval,ntype: ntype },function(data){
+            layer.close(lod_index);
+            var parsedJson = jQuery.parseJSON(data);
+            if(parsedJson.error == 0){
+                layer.msg(parsedJson.message);
+                window.location.reload();
+            }else{
+                layer.msg(parsedJson.message);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,34 @@
+
+<style>
+	.out_box{border:1px solid #ccc; background:#fff; font:12px/20px Tahoma;}
+	.list_box{border-bottom:1px solid #eee; padding:0 5px; cursor:pointer;}
+	.focus_box{background:#f0f3f9;}
+	.mark_box{color:#c00;}
+</style>
+<form method='post'  id="myform" action="{:U('Index/test')}">
+<td>
+</td>
+<DIY:colorPanel ID='test' />
+<DIY:upimg id="goods" replace='1'/>
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+
+<tr>
+<td>娴嬭瘯</td>
+<td><Logic:editor id='kindeditor_content' name='kindeditor_content' style="width:700px;height:300px;"></Logic:editor></td>
+</tr>
+
+</table>
+<div class="btn">
+<input TYPE="hidden" name="uname" value="{$vo.uname}">
+<input TYPE="hidden" name="uid" value="{$vo.uid}">
+<INPUT TYPE="submit" value="{:L('dosubmit')}" class="button">
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+鍘熷浘:{$imgurl}<br>
+缂╃暐鍥�<DIY:thumbs uri="$imgurl" alt=""  width="200" id="wscsky" class="small" type="goods" presets ="400x400" /><br>
+杩炴帴鍥�<a href="<DIY:thumbs uri="$imgurl" alt=""  width="200" height="200" id="wscsky" class="small" type="goods" presets ="200x200" noimg= "yes" />">aaa
+</a>
+<br />
+<br />
+<br />

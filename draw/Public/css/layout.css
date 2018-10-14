@@ -1,0 +1,42 @@
+@charset "utf-8";
+/*
+* {margin:0;padding:0;}
+*/
+
+/* ========== 全局CSS定义 ====== */
+body {font-family:Tahoma,"宋体"; margin:0; padding:0; background: #FFF; font-size:12px; color:#3e3e3e;}
+div,form,img,ul,ol,li,dl,dt,dd,p {margin:0; padding:0; border:0; }
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,input { margin:0; padding:0;}
+
+/* ========== 浮动清除 ====== */
+.clear{clear:both;}
+
+/* ========== 链接颜色 ====== */
+a {color:#3e3e3e;text-decoration:none;}
+a:hover {color:#cc002c; text-decoration:underline;}
+
+/* ========== CSS space ====== */
+.blank10{height:10px; font-size:1px;overflow:hidden;clear:both;}
+.blank15{height:15px; font-size:1px;overflow:hidden;clear:both;}
+
+
+/*新版底部样式开始*/
+#foot{width:100%;border-top:1px solid #ebebeb;height:125px;padding:15px 0 0px;margin-left:auto;margin-right:auto;margin-top:20px;text-align:center;background:#f5f5f5;clear:both;overflow:hidden;}
+#foot ul{width:960px;margin:0 auto;position:relative;}
+#foot li{line-height:24px;color:#999;}
+#foot a{margin:0 3px; text-decoration:none;color:#666;}
+
+/*
+.error{
+	display:block;
+	margin:50px auto;
+	width:400px;
+	line-height:1.5em;
+	border:1px solid #F60;
+	border-radius:5px;
+	text-align:center;
+	padding:20px 10px;
+	color:#f00;
+	}
+*/

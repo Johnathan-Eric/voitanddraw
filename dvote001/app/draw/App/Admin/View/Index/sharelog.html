@@ -1,0 +1,53 @@
+<table  class="search_table" width="100%">
+<tr>
+	<td>
+		<form action="__ACTION__" method="post">
+			<input type="hidden" name="menuid" value="{$menuid}" />
+			<strong>{:L('SEARCH_LABEL')}:</strong>
+			<input type="text" name="keyword" id="keyword" class="input-text" value="{$keyword}" placeholder="{:L('PLEASE_INPUT_KEYWORD')}"/>
+            分享类型：<select name="type">
+            	<option value="">分享类型</option>
+                <volist name=":get_share_type()" id="vo">
+                	<option value="{$key}" <eq name="type" value="$key">selected="selected"</eq>>{$vo}</option>
+                </volist>
+            </select>
+			<input type="text" class='input-text' name='sdate' id='sdate' value="{$starttime}" placeholder="{:L('SDATE')}" onfocus="WdatePicker();" />
+			<input type="text" class='input-text' name='edate' id='edate' value="{$endtime}" placeholder="{:L('EDATE')}" onfocus="WdatePicker();" />
+			<input type="submit" value="{:L('SEARCH_LABEL')}"  class="button" />
+			<input type="reset" value="{:L('clear')}" id="clear" class="button"/>
+		</form>
+	</td>
+</tr>
+</table>
+<form name="myform" id="myform" action="" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+			<th width="40">ID</th>
+            <th>会员昵称</th>
+            <th>分享方式</th>
+            <th align="left">页面Action</th>
+			<th>分享时间</th>
+            <th style="min-width:40%; text-align:left">分享数据</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="logs" id="vo" key="k">
+      		<tr>
+				<td align="center">{$vo['logid']}</td>
+                <td align="center"><a entity_id="{$vo.uid}" entity_type="5" event="entity" href="javascript:void(0)">{$vo['uname']}</a></td>
+                <td align="center">{$vo.type|get_share_type}</td>
+	      		<td align="left" style="word-wrap:break-word;word-break:break-all;">{$vo['action']}</td>
+				<td align="center">{$vo['logtime']|time_format}</td>
+                <td align="left" style="word-wrap:break-word;word-break:break-all;">
+                {$vo.data}
+                </td>
+      		<tr>
+      		</volist>
+      	</tbody>
+    </table>
+	</div>
+</div>
+</form>
+<div id="pages" class="page">{$page}</div>

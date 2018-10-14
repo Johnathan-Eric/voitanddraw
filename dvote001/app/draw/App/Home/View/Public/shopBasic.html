@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- 微信小程序TDK -->
+		<title>微小服-微信小程序|微信小程序工具|微信小程序开发|微信小程序制作平台</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<meta charset="UTF-8" name="description" content="【微小服】是国内领先的微信小程序Saas平台,制作过程无需代码,拥有海量小程序行业模板,帮助千万商户一键生成微信小程序。">
+		<meta name="keywords" content="小程序,微信小程序,小程序制作,微信小程序制作,小程序工具,微信小程序工具,小程序开发,微信小程序开发,小程序问答,微信小程序问答,小程序平台,微信小程序平台">
+		<!-- 结束 -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>小程序基本信息</title>
+		<link rel="stylesheet" href="__PUBLIC__/home/css/createShop.css" />
+
+	</head>
+<style>
+.select30 {
+    width: 118px!important;
+}
+.file {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+.small-routine img{
+width:30px!important;
+height:30px!important;
+    margin-top: -10px
+}
+.panel-input {
+    height: 406px!important;
+    }
+    .small-routine .s-title {
+    margin: 0 33%;
+    font-size: 24px;
+}
+</style>
+	<body>
+		<include file="header" />
+		<div class="panel-shop-basic small-routine">
+			<div class="row" style="margin-bottom:0;">
+				<div class="col-sm-12">
+					<div class="s-title">小程序基本信息</div>
+				</div>
+			</div>
+			<div class="panel-input row">
+				<div class="col-sm-12">
+					<form class="form-horizontal" action='/Home/Public/generateApplet' method='post' enctype='multipart/form-data'>
+						<input type='hidden'  name='businessid' value='{$businessid}' >
+						<div class="form-group">
+							<label for="name" class="label-title control-label">小程序名称<span class="must-text">*</span></label>
+							<div class="form-input">
+								<input name='store_name' type="text" class="form-control" id="name" placeholder="建议和小程序的名称一致">
+							</div>
+						</div>
+					<div class="form-group">
+					<label for="name" class="label-title control-label">实体店地址</label>
+						<div data-toggle="distpicker">
+							<div class="form-input">
+								<select name='province'  class="select30 fl form-control mr10"></select> <select name='city' class="select30 fl form-control mr10"></select> <select  name='county' class="select30 fl form-control "></select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+					
+						<div data-toggle="distpicker">
+						<label for="name" class="label-title control-label"></label>
+							<div class="form-input">
+								<input name='address' type="text" class="form-control" id="address" placeholder="请输入地址">
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+							<label for="name" class="label-title control-label">公司名称</label>
+							<div class="form-input">
+								<input name='company' type="text" class="form-control" id="name" placeholder="8-20个字，包含字母和数字">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="name" class="label-title control-label">店铺LOGO<span class="must-text">*</span></label>
+							<div class="panel-upload form-input">
+								 <a href="javascript:;" class="file">选择文件
+	    								<input type="file" name="loadFile" id="loadFile">
+								</a>	
+								<a id='views' class="file" style='width:100px;height:30px;line-height:30px;background-color:white;border:none'></a>	   
+							</div>
+						
+						</div>
+						<div class="form-group">
+							<label for="name" class="label-title control-label">AppSecret<span class="must-text">*</span></label>
+							<div class="form-input">
+								<input name='appsecret' type="text" class="form-control" id="appsecret" placeholder="请您输入微信小程序后台的AppSecret">
+							</div>
+						</div>
+						<div class="form-group" style="margin-top: 35px;">
+							<label for="name" class="label-title control-label"></label>
+							<div class="panel-submit form-input">
+								<input type='submit' class="btn-submit btn btn-default mr10" value='提交'>
+								<input type='button' class="btn-cancel btn btn-default backend" value='取消'>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="bottomWrap">
+			<div class="container">
+				<div class="row">
+					<div class="pt20 col-sm-12">
+						<span>CopyRight @ 微小服</span>
+						<span style="color:#CDC9C9">京ICP备14013455号-4</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script type="text/javascript" src="__PUBLIC__/home/js/layer.js"></script>
+	<script src="__PUBLIC__/home/js/distpicker.data.js"></script>
+	  <script src="__PUBLIC__/home/js/distpicker.js"></script>
+	  <script src="__PUBLIC__/home/js/main.js"></script>
+<script>
+
+ $(document).on('click','.backend',function(){
+	location.href='http://'+window.location.host+':'+location.port+'/Home/Public/createShop';
+}) 
+</script>
+<script>
+
+$("#loadFile").change(function () {  
+	var strSrc = $("#loadFile").val();  
+	//验证上传文件格式是否正确  
+	var pos = strSrc.lastIndexOf(".");  
+	var lastname = strSrc.substring(pos, strSrc.length)  
+	if (lastname.toLowerCase() != ".jpg" && lastname.toLowerCase() != ".jpeg"&&lastname.toLowerCase() != ".png") {  
+	    layer.msg("您上传的文件类型为" + lastname + "，图片格式不对");  
+	    return false;  
+	}  
+	
+	
+	var reader = new FileReader();
+    reader.onload = function (e) {
+    	var img = document.createElement("img");
+    	img.src=e.target.result;
+    	//验证上传文件是否超出了大小  
+    	if (img.fileSize / 1024 > 150) {  
+    		layer.msg("您上传的文件大小超出了150K限制！");  
+    	    return false;  
+    	}
+    	//验证上传文件宽高比例  
+
+    /* 	if (img.height / img.width > 1.5 || img.height / img.width < 1.25) {  
+    		layer.msg("您上传的图片比例超出范围，宽高比应介于1.25-1.5");  
+    	    return;  
+    	}  */
+    	
+    	img.width='100%';
+    	img.height='100%';
+    	$('#views').empty();
+   	document.getElementById("views").appendChild( img );
+    };
+    reader.readAsDataURL(document.getElementById("loadFile").files[0]);
+});
+</script>

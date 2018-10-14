@@ -1,0 +1,301 @@
+/****************************订单列表页面开始************************/
+/*头部样式*/
+.order-head{
+	width: 100%;
+	height: 4.2rem;
+	line-height:4rem;
+	position: fixed;
+	z-index: 999;
+	left: 0;
+	top: 0;
+	background: #fff;
+	border-top:none;
+	border-bottom: 0.1rem solid #E0E0E0;
+}
+.order-head ul{
+	height:4rem;
+	display: -moz-box;
+	display: box;
+	display: -webkit-box;
+	width: 100%;
+	padding: 0 1rem;
+	box-sizing: border-box;
+	-webkit-box-sizing:
+			border-box;
+}
+.order-head li{
+	text-align: center;
+	-moz-box-flex: 1;
+	box-flex:1;
+	-webkit-box-flex: 1;
+}
+.order-head li a{
+	color: #343434;
+	font-size: 1.6rem;
+	display: block;
+}
+.order-head li.on a{
+	color: #f6318c;
+	border-bottom: 3px solid #f6318c;
+}
+/*中间内容样式*/
+.order-Main{
+	margin-top: 1rem;
+}
+.order-number{
+	line-height: 3.5rem;
+	color: #B4B4B4;
+	font-size: 1.4rem;
+	background-color: #fff;
+	overflow: hidden;
+	padding: 0 1rem;
+	box-sizing: border-box;
+	border-bottom: 0.1rem solid #E0E0E0;
+}
+.num1{
+	margin-top: 5rem;
+}
+.order-number span:first-child{
+	display: inline-block;
+	color: #343434;
+}
+.order-number span:last-child{
+	display: inline-block;
+	float: right;
+}
+.order-number .wait{
+	color: #f6318c;
+}
+.order-number .state{
+	color: #6A6A6A;
+}
+.om-text{
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	padding: 0 1rem;
+	box-sizing: border-box;
+	background-color: #fff;
+}
+dl.om-text  a{
+	display: block;
+	overflow: hidden;
+	padding: 1rem 0;
+	box-sizing: border-box;
+}
+dl.om-text  a>*{
+	float: left;
+}
+dl.om-text a dt {
+	width: 20%;
+	height: auto;
+	margin-right: 1rem;
+}
+dl.om-text a dt img{
+	width: 100%;
+}
+dl.om-text a dd {
+	width: 73%;
+
+}
+
+.om-text dd h4{
+	margin-bottom: 0.6rem;
+	color:#343434;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.om-text dd p{
+	color: #858585;
+	font-size: 1.2rem;
+}
+.order-Main p.dis{
+	font-size: 1.4rem;
+	line-height: 3rem;
+	color: #A9A9A9;
+	padding: 0 1rem;
+	box-sizing: border-box;
+	overflow: hidden;
+	background-color: #fff;
+	border-top: 0.1rem solid #E0E0E0;
+	border-bottom: 0.1rem solid #E0E0E0;
+}
+.order-Main p.dis span:last-child{
+	float: right;
+}
+
+/****************************订单列表页面结束****************************/
+
+/****************************个人中心页面开始****************************/
+
+
+
+.my-order h1{
+	margin-top: 1rem;
+	line-height: 3.5rem;
+	color: #B4B4B4;
+	font-size: 1.4rem;
+	background-color: #fff;
+	padding: 0 1rem;
+	box-sizing: border-box;
+	border-bottom: 0.1rem solid #E0E0E0;
+}
+.my-order h1{
+	overflow: hidden;
+}
+.my-order h1 a{
+	display: block;
+}
+.my-order h1 a span:first-child{
+	display: inline-block;
+	color: #656565;
+}
+.my-order h1 a span:last-child{
+	display: inline-block;
+	float: right;
+	color: #A4A4A4;
+}
+
+.my-order ul{
+	width: 100%;
+	background: #fff;
+	display: -moz-box;
+	display: box;
+	display: -webkit-box;
+}
+.my-order ul li{
+	text-align: center;
+	padding: 1rem 0;
+	-moz-box-flex: 1;
+	box-flex:1;
+	-webkit-box-flex: 1;
+}
+.my-order ul li a span{
+	position: absolute;
+	top:-0.3rem;
+	right: -0.2rem;
+	width: 1.4rem;
+	height:1.4rem;
+    line-height: 1.4rem;
+	background-color: #F45554;
+	border-radius: 100%;
+	color: white;
+	font-size: 0.1rem!important;
+	padding-top: -0.3rem;
+	-webkit-border-radius: 100%;
+	display: block;
+}
+
+.my-order ul li a{
+	color: #999;
+	display: block;
+	font-size: 1.4rem;
+}
+.my-order ul li a div{
+	position: relative;
+	width: 3rem;
+	height: 2.4rem;
+	margin: 0 auto;
+}
+.my-order ul li a img{
+	width: 2rem;
+	height: 1.6rem;
+	line-height: 2.4rem;
+	font-size: 2.4rem;
+	display: block;
+	text-align: center;
+	margin: 0.8rem auto;
+}
+.my-order ul li.on a{ color: #f6318c;}
+/****************************个人中心页面结束****************************/
+
+
+/****************************物流列表页面开始****************************/
+#wL-main{
+	margin: 1rem 0;
+}
+.WL-input{
+	width: 96%;
+	overflow: hidden;
+	margin: 0 2%;
+	text-align: center;
+}
+.WL-input input:first-child {
+	width: 74%;
+	float: left;
+	height: 4.8rem;
+	font-size: 1.6rem;
+	padding-left: 1rem;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border: 1px solid #F6318B;
+	outline: none;
+	border-top-left-radius: 0.5rem;
+	border-bottom-left-radius: 0.5rem;
+}
+.mesg-code {
+	width: 26%;
+	height: 4.8rem;
+	line-height: 4.8rem;
+	background-color: #F6318B;
+	float: left;
+	color: #fff;
+	font-size: 1.6rem;
+	border: none;
+	outline: 0;
+	border-top-right-radius: 0.5rem;
+	border-bottom-right-radius: 0.5rem;
+}
+.selcet-WL{
+	margin: 1rem 0 1rem 0;
+	color: #B4B4B4;
+	font-size: 1.4rem;
+	background-color: #fff;
+}
+.selcet-WL ul{
+	overflow: hidden;
+}
+.selcet-WL li{
+	line-height: 5rem;
+	overflow: hidden;
+	margin: 0 1rem;
+	padding: 0 1rem;
+	box-sizing: border-box;
+	color: #656565!important;
+	-webkit-box-sizing: border-box;
+	border-bottom: 0.1rem solid #E0E0E0;
+}
+.selcet-WL li:last-child{
+	border: none;
+}
+.selcet-WL li i{
+	display: block;
+	float: right;
+}
+.selcet-WL li a{
+	color: #999;display: block;
+}
+.selcet-WL li span:first-child,.selcet-WL li a span:first-child{
+	display: inline-block;
+	float: left;
+}
+.selcet-WL li span:last-child,.selcet-WL li a span:last-child{
+	display: block;
+	margin-left: 6.9rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.wl1{
+	margin:0;
+}
+.WL-main1{
+	margin-bottom: 1rem;
+	border-radius: 0.8rem;
+}
+
+
+.sub-order-menu{width: 10rem;display: none; background: #fff; border: 1px solid #e5e5e5; border-top: 0; position: absolute; z-index: 9; right: 0; top: 4.2rem;}
+.sub-order-menu a{display: block; text-align: center; line-height: 3.6rem; color: #666; font-size: 1.4rem; border-bottom: 1px solid #eee;}
+.sub-order-menu dl dd:last-child a{border: 0;}
