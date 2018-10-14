@@ -14,7 +14,7 @@ $rid=intval($_GPC['rid']);
 
 
 
-$reply = pdo_fetch("SELECT rid,title,topimg,eventrule,thumb,sharetitle,shareimg,sharedesc,addata,config,style,endtime,apstarttime,apendtime,status,description FROM " . tablename($this->tablereply) . " WHERE rid = :rid ORDER BY `id` DESC", array(':rid' => $rid));
+$reply = pdo_fetch("SELECT rid,title,topimg,eventrule,thumb,sharetitle,shareimg,sharedesc,addata,config,style,endtime,apstarttime,apendtime,status,voitstatus,description FROM " . tablename($this->tablereply) . " WHERE rid = :rid ORDER BY `id` DESC", array(':rid' => $rid));
 $reply['style']=@unserialize($reply['style']);
 $reply=@array_merge($reply,unserialize($reply['config']));unset($reply['config']);
 $addata=@unserialize($reply['addata']);	

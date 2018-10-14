@@ -148,6 +148,13 @@
 			 <label><input type="radio" value="0" name="rstatus" {if $reply['rstatus'] == 0 }checked{/if}>禁用</label>
           </div>
     </div>
+    <div class="form-group">
+          <label class="control-label col-sm-2">抽奖状态</label>
+          <div class="control-label col-sm-2">
+             <label><input type="radio" value="1" name="rvstatus" {if $reply['rvstatus'] == 1 }checked{/if}>启用</label>
+       <label><input type="radio" value="0" name="rvstatus" "kkk"={php echo $reply['rvstatus']} {if $reply['rvstatus'] == 0 }checked{/if}>禁用</label>
+          </div>
+    </div>
       </div>
   </div>
   <div class="we7-form nav_tab  nav_1">

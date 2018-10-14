@@ -34,11 +34,13 @@ if($_W['ispost']){
 	$list = pdo_fetchall("SELECT * FROM " . tablename($this->tablegift) . " WHERE tid = :tid AND ispay=1  AND status=0 ORDER BY `id` DESC LIMIT ".($pindex-1) * $psize.','.$psize,array(':tid' => $id));
 	if (!empty($list)){
 		foreach ($list as $key => $value) {
-			$list[$key]['avatar']=tomedia($value['avatar']);
+			//$list[$key]['avatar']=tomedia($value['avatar']);
+			$list[$key]['avatar']=tomedia($value['gifticon']);
 			if(empty($reply['isdiamondnone'])){
 				$list[$key]['cont']=htmlspecialchars($value['nickname']."，给TA送了".$value['giftcount']."份".$value['gifttitle']."！");
 			}else{
-				$list[$key]['avatar']=MODULE_URL."/template/static/images/niming.jpg";
+				//$list[$key]['avatar']=MODULE_URL."/template/static/images/niming.jpg";
+				$list[$key]['avatar']=tomedia($value['gifticon']);
 				$list[$key]['cont']=htmlspecialchars("微信用户，给TA送了".$value['giftcount']."份".$value['gifttitle']."！");
 			}
 			$list[$key]['createtime']=date("Y-m-d H:i:s",$value['createtime']);
