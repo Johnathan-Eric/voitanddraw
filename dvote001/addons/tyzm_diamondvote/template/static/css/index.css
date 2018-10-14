@@ -253,6 +253,7 @@ img {border:0}
 .footer .nav .ispr.ic{background-position-y:-113px}
 .footer .nav .ispr.is{background-position-y:-158px}
 .footer .nav .ispr.if{background-position-y:-202px}
+.footer .nav .isprv{background-image:url(../images/award.png);}
 .footer .nav p{font-size:11px;line-height:12px;color:#999}
 .footer li{-webkit-box-flex:1;box-flex:1;width:100%;text-align:center}
 .footer li>a{display:block;padding:5px 0}
