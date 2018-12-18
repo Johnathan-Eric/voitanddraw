@@ -37,17 +37,23 @@ foreach ($list as $mid => $value) {
     $joindata=@unserialize($value['joindata']);
 	
 	foreach ($joindata as $key => $rom) {
-		$join.=$rom['name']."：".$rom['val'].";  ";
+		//$join.=$rom['name']."：".$rom['val'].";  ";
+      $join.=$rom['name']."：".str_replace(array("\r\n", "\r", "\n","\t"), "", $rom['val']).";  ";
+      
 	}
 	
 	//print_r($status);exit;
 	$html .= $value['id'] . "\t ,";	
 	$html .= $value['noid'] . "\t ,";	
-	$html .= htmlspecialchars($value['nickname']). "\t ,";
+	//$html .= htmlspecialchars($value['nickname']). "\t ,";
+    $html .= htmlspecialchars(str_replace(array("\r\n", "\r", "\n","\t"), "", $value['nickname'])). "\t ,";
 	$html .= $value['openid']. "\t ,";
-	$html .= htmlspecialchars($value['name']) . "\t ,";	
+	//$html .= htmlspecialchars($value['name']) . "\t ,";	
+    $html .= htmlspecialchars(str_replace(array("\r\n", "\r", "\n","\t"), "", $value['name'])) . "\t ,";	
 	$html .= $join . "\t ,";
-	$html .= htmlspecialchars($value['introduction']) . "\t ,";	
+	//$html .= htmlspecialchars($value['introduction']) . "\t ,";	
+    $html .= htmlspecialchars(str_replace(array("\r\n", "\r", "\n","\t"), "", $value['introduction'])) . "\t ,";	
+ 
 	$html .= $value['votenum'] . "\t ,";	
 	$html .= $value['giftcount'] . "\t ,";	
 	$html .= $status . "\t ,";
@@ -64,7 +70,7 @@ $now = date('Y-m-d H:i:s', time());
 $filename ='用户信息'.'_'.$rid.'_'.$now;
 
 header("Content-type:text/csv");
-header("Content-Disposition:attachment; filename=".$filename.".csv");
+header("Content-Disposition:attachment; filename=".$filename.".xls");
 
 echo $html;
 exit();
