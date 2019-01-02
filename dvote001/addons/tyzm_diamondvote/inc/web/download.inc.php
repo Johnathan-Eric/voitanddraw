@@ -41,7 +41,7 @@ foreach ($list as $mid => $value) {
       $join.=$rom['name']."：".str_replace(array("\r\n", "\r", "\n","\t"), "", $rom['val']).";  ";
       
 	}
-	
+	//this is push by jonathanxdev
 	//print_r($status);exit;
 	$html .= $value['id'] . "\t ,";	
 	$html .= $value['noid'] . "\t ,";	
