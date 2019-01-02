@@ -18,6 +18,7 @@ class IndexAction extends Action {
     public function _initialize() {
         $this->_awNum = 9;
         $this->_defPronum = 100; // 默认中奖率
+        
     }
 
     /**
