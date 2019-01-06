@@ -53,7 +53,7 @@
                             </volist>
                         </select>
                     </div>
-                    <div class="layui-form-mid layui-word-aux">必选项</div>
+                    <div class="layui-form-mid layui-word-aux">必填项</div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red;">*</span>公众号：</label>
@@ -64,7 +64,7 @@
                             </volist>
                         </select>
                     </div>
-                    <div class="layui-form-mid layui-word-aux">必选项</div>
+                    <div class="layui-form-mid layui-word-aux">必填项</div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red;">*</span>活动标题：</label>
@@ -75,19 +75,30 @@
                             </volist>
                         </select>
                     </div>
-                    <div class="layui-form-mid layui-word-aux">必选项</div>
+                    <div class="layui-form-mid layui-word-aux">必填项</div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span style="color: red;">*</span>奖品级别：</label>
-                    <div class="layui-input-block">
-                        <input name="level" value="0" title="普通" checked type="radio">
-                        <input name="level" value="1" title="高价" <if condition="$info['level'] eq 1">checked</if> type="radio">
+                    <label class="layui-form-label"><span style="color: red;">*</span>是否需要发货：&nbsp;&nbsp;&nbsp;</label>
+                    <div class="layui-col-xs6">
+                        <input type="checkbox" <if condition="$info['deliver'] eq 0"><else/>checked</if> lay-filter="switchDeliver" lay-skin="switch" lay-text="ON|OFF">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red;">*</span>奖品名：&nbsp;&nbsp;&nbsp;</label>
                     <div class="layui-col-xs6">
-                        <input type="text" name="name" value="{$info.name}" required lay-verify="required" placeholder="请输入奖品名" autocomplete="off" class="layui-input" style="width: 300px;">
+                        <input type="text" name="name" value="{$info.name}" required lay-verify="required" placeholder="请输入奖品名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>消费金额限制：</label>
+                    <div class="layui-col-xs6">
+                        <input type="text" name="paynum" value="{$info.paynum}" required lay-verify="required" placeholder="请输入消费金额" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>达标人数限制：</label>
+                    <div class="layui-col-xs6">
+                        <input type="text" name="limitnum" value="{$info.limitnum}" required lay-verify="required" placeholder="请输入人数" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -100,35 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span style="color: red;">*</span>是否需要发货：&nbsp;&nbsp;&nbsp;</label>
-                    <div class="layui-col-xs6">
-                        <input type="checkbox" <if condition="$info['deliver'] eq 0"><else/>checked</if> lay-filter="switchDeliver" lay-skin="switch" lay-text="ON|OFF">
-                    </div>
-                </div>
-                <!--<div class="layui-form-item">-->
-                <!--<label class="layui-form-label">URL链接：&nbsp;&nbsp;&nbsp;</label>-->
-                <!--<div class="layui-col-xs6">-->
-                <!--<input type="text" name="hurl" value="{$info.hurl}" placeholder="请输入URL链接" autocomplete="off" class="layui-input">-->
-                <!--</div>-->
-                <!--</div>-->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span style="color: red;">*</span>封面图：&nbsp;&nbsp;&nbsp;</label>
-                    <div class="layui-input-inline" id="thumbImg">
-                        <div class="layui-upload">
-                            <button type="button" class="layui-btn" id="uploadThumb">上传图片</button>
-                            <div class="layui-upload-list">
-                                <img class="layui-upload-img" id="thumb" src="{$info.thumb}">
-                                <p id="thumbText"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>奖品配置</legend>
-            </fieldset>
-            <div class="lay-form-div">
+
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red;">*</span>中奖次数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="layui-input-block lay-col-x1">
@@ -137,8 +120,8 @@
                                 <input type="text" class="layui-input" autocomplete="off" required lay-verify="required" name="winnum" value="{$info.winnum}" placeholder="不支持小数点，如：1" style="width:160px;">
                             </div>
                         </div>
+                        <div style="float: right;width: 220px;margin-top: 10px;">(默认0，不限制；大于0，规定每个用户中奖几次；)</div>
                     </div>
-                    <div class="layui-form-mid layui-word-aux">(默认0，不限制；大于0，规定每个用户中奖几次；)</div>
                 </div>
 
                 <div class="layui-form-item">
@@ -153,22 +136,13 @@
                 </div>
 
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span style="color: #333;">*</span>消费金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    <div class="layui-input-block lay-col-x1">
-                        <div style="width: 108px;" class="layui-inline layui-form-pane">
-                            <div style="margin-right: -1px;width:60px;" class="layui-input-inline">
-                                <input type="text" class="layui-input" autocomplete="off" name="paynum" value="{$info.paynum}" placeholder="不支持小数点，如：1" style="width:160px;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span style="color: #333;">*</span>达标人数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    <div class="layui-input-block lay-col-x1">
-                        <div style="width: 108px;" class="layui-inline layui-form-pane">
-                            <div style="margin-right: -1px;width:60px;" class="layui-input-inline">
-                                <input type="text" class="layui-input" autocomplete="off" name="limitnum" value="{$info.limitnum}" placeholder="不支持小数点，如：1" style="width:160px;">
+                    <label class="layui-form-label"><span style="color: red;">*</span>封面图：&nbsp;&nbsp;&nbsp;</label>
+                    <div class="layui-input-inline" id="thumbImg">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn" id="uploadThumb">上传图片</button>
+                            <div class="layui-upload-list">
+                                <img class="layui-upload-img" id="thumb" src="{$info.thumb}">
+                                <p id="thumbText"></p>
                             </div>
                         </div>
                     </div>

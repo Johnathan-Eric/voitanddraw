@@ -9,7 +9,7 @@ namespace Admin\Action;
 use Think\AdminBaseAction;
 class AwlogsAction extends AdminBaseAction
 {
-    protected $admin, $listRows, $model, $atypes, $sendType;
+    protected $admin, $listRows, $model, $atypes, $sendType, $awardLevel;
 
     /**
      * 构建函数
@@ -23,6 +23,7 @@ class AwlogsAction extends AdminBaseAction
         $this->model = D("Common/Award", "Logic");
         $this->atypes = C('awardType');
         $this->sendType = C('sendType');
+        $this->awardLevel = C('awardLevel');
     }
 
     /**
@@ -67,7 +68,7 @@ class AwlogsAction extends AdminBaseAction
         $total = M('AwardLog')->where($where)->count();
 
         // 获取奖励列表
-        $fields = 'id,uname,uid,cid,addtime,aname,thumb,atype,status,is_post';
+        $fields = 'id,uname,uid,cid,addtime,aname,thumb,atype,status,is_post,level';
         $list = M('AwardLog')->where($where)->page($page, $this->listRows)->field($fields)->order('id desc')->select();
         if ($list) {
             foreach ($list as &$val) {
@@ -76,6 +77,9 @@ class AwlogsAction extends AdminBaseAction
                     $val['title'] = $actData[$val['cid']];
                 }
                 $val['atype'] = $this->atypes[$val['atype']];
+
+                // 奖品等级
+                $val['level'] = $this->awardLevel[$val['level']];
             }
         }
 

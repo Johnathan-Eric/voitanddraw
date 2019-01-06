@@ -27,10 +27,10 @@ class Action extends Controller{
 	function __construct(){
 	    parent::__construct();
         //检查是否到期
-        if(C('EXPIRE_TIME') !== 0 && time() > strtotime(C('EXPIRE_TIME'))){
-                $this->display(THINK_PATH.'Tpl/expire.html');
-                exit();
-        }
+//        if(C('EXPIRE_TIME') !== 0 && time() > strtotime(C('EXPIRE_TIME'))){
+//                $this->display(THINK_PATH.'Tpl/expire.html');
+//                exit();
+//        }
 		// 加载user用户对象
 		if (isset($GLOBALS['member'])) {
 			$this->member = &$GLOBALS['member'];
@@ -40,7 +40,7 @@ class Action extends Controller{
 		}
 		if(C("SITE_TYPE") == "API") return;
 		//需要微信方式
-		if(C("SITE_TYPE") == "weixin"){ 
+		if(C("SITE_TYPE") == "weixin"){
 		    //jssdk签名
 		    $this->assign("jssdk",D("Common/Weixin","Logic")->get_jssdk_sign());
 			//用户验证

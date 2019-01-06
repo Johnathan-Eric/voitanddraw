@@ -16,7 +16,7 @@ class ActivityAction extends AdminBaseAction {
 	public function _initialize() {
         // 管理员信息
         $this->admin = session('admin');
-		$this->listRows = 2; // 每页显示条数
+		$this->listRows = 12; // 每页显示条数
 	}
 
 
@@ -43,7 +43,7 @@ class ActivityAction extends AdminBaseAction {
         $total = M('Reply')->where($where)->count();
 
         // 获取列表数据
-        $fields = 'rid,title,starttime,endtime,apstarttime,apendtime,votestarttime,voteendtime,pervote';
+        $fields = 'rid,title,starttime,endtime,apstarttime,apendtime,votestarttime,voteendtime,pervote,uniacid';
         $list = M('Reply')->where($where)->page($page, $this->listRows)->field($fields)->order('id desc')->select();
 
         // 获取公众号数据
@@ -80,5 +80,50 @@ class ActivityAction extends AdminBaseAction {
         }
 
         echo json_encode($date);die;
+    }
+
+    /**
+     * 设置顶部活动图片
+     */
+    public function setImg() {
+        // 接收数据
+        $request = I("request.");
+        $actid = $request['actid'];
+
+        // 提交数据
+        if (IS_POST) {
+            $post = I('post.');
+            if ($post['actid']) { // 更新
+                $is_succ = M('ReplyBase')->where(array('actid' => array('eq', $actid)))->save($post);
+            } else {
+                $post['actid'] = $actid;
+                $is_succ = M('ReplyBase')->add($post);
+            }
+            if($is_succ){
+                $return = array(
+                    'status' => 1,
+                    'msg'   => '操作成功'
+                );
+            } else {
+                $return = array(
+                    'status' => 2,
+                    'msg'   => '操作失败'
+                );
+            }
+            echo json_encode($return);die();
+        } else {
+            // 获取图片信息
+            $actImg = M('ReplyBase')->where(array('actid' => array('eq', $actid)))->find();
+
+            // 获取列表数据
+            $fields = 'rid,title';
+            $actList = M('Reply')->field($fields)->order('id desc')->select();
+
+            // 返回数据
+            $this->assign('info', $actImg);
+            $this->assign('actid', $actid);
+            $this->assign('actList', $actList);
+            $this->display('base');
+        }
     }
 }

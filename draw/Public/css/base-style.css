@@ -85,7 +85,7 @@ a:focus, input, button, select, textarea{outline:0 none}
 .draright{float:right;margin-top:0.8rem;width:auto;margin-right:0.6rem;font-size:0.68rem;}
 .dra{ width:100%; overflow:auto; max-height:8rem;}
 .allgrains1{width: 100%;height: 2.2rem;background: #fff;font-size: 0.68rem; position: fixed;z-index: 99;bottom: 0;min-width: 320px; max-width: 520px; box-shadow: 0px -1px 6px #ccc;}
-.allgrains1 a{ display:block; float:left; width:50%; position:relative}
+.allgrains1 a{ display:block; float:left; width:33.3%; position:relative}
 .allgrains1 img{width:1.025rem; height:1.025rem; text-align:center; margin:0px auto; margin-top:0.34rem; }
 .allgrains1 a{ display:block;color:#afbdc3}
 .allgrains1 p{ margin:0px; padding:0px; text-align:center; font-size:0.48rem; margin-top:0.1rem;}

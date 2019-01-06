@@ -1338,3 +1338,13 @@ function makeOrderSn() {
 	}
 	return time().$authnum;
 }
+
+/**
+ * 记录信息到文件中（做调试使用）
+ * @param array $data 数组
+ * @param string $fileName 文件名
+ **/
+function fileLog($data, $fileName) {
+    file_put_contents('./Uploads/'.$fileName, date('Ymd H:i:s').'--'.json_encode($data).PHP_EOL, FILE_APPEND);
+}
+

@@ -5,9 +5,15 @@
 		<div id="awData" class="dra"></div>
 	</div>
 </div>
-<div class="top"><img src="__PUBLIC__/images/bgx.png" /></div>
+<div class="top">
+	<if condition="$actImg.top_logo">
+		<img src="{$actImg.top_logo}" />
+	<else/>
+		<img src="__PUBLIC__/images/bgx.png" />
+	</if>
+</div>
 <!--<div class="top-title"><img src="__PUBLIC__/images/top.png" /></div>-->
-<div class="Rankingsall" style="margin-top：0px">
+<div class="Rankingsall" style="margin-top: 0px;">
 	<div class="rank-top">抽奖</div>
 	<div class="line"></div>
 </div>
@@ -16,32 +22,33 @@
 		<volist name="data['awList']" id="vo">
 			<li class="item lottery-unit lottery-unit-{$key}">
 				<div class="img">
-					<if condition="$vo.hurl neq ''">
-						<a href="{$vo.hurl}" target="_blank"><img style="padding-top: 25px;" src="{$vo.thumb}" alt="{$vo.name}"></a>
-					<else />
-						<img src="{$vo.thumb}" onclick="showInfo()" alt="{$vo.name}">
-					</if>
+					<!--<if condition="$vo.hurl neq ''">-->
+						<!--<a href="{$vo.hurl}" target="_blank"><img style="padding-top: 25px;" src="{$vo.thumb}" alt="{$vo.name}"></a>-->
+					<!--<else />-->
+						<!--<img src="{$vo.thumb}" onclick="showInfo()" alt="{$vo.name}">-->
+					<!--</if>-->
+					<img id="img_{$vo.id}" src="{$vo.thumb}" onclick="showInfo({$vo.id})" style="cursor: pointer;" alt="{$vo.name}"/>
 				</div>
 			</li>
 		</volist>
 	</ul>
 </div>
-<div class="loterycont">剩余抽奖机会：<span id="totalNum">{$totalNum}</span><input type="hidden" id="hTotal" value="{$totalNum}" /></div>
+<div class="loterycont">剩余抽奖机会：<span id="totalNum">{$user['totalNum']}</span><input type="hidden" id="hTotal" value="{$user['totalNum']}" /></div>
 <div class="lottery-bottom">
 	<ul>
-		<if condition="$totalNum egt 1">
+		<if condition="$user['totalNum'] egt 1">
 			<li class="doAward_1" onclick="doAward(1)" style="cursor: pointer;">抽奖1次</li>
 			<else/>
 			<li class="doAward_1" style="background: #C0C0C0;">抽奖1次</li>
 		</if>
 		
-		<if condition="$totalNum egt 10">
+		<if condition="$user['totalNum'] egt 10">
 			<li class="doAward_10" onclick="doAward(10)" style="cursor: pointer;">抽奖10次</li>
 			<else/>
 			<li class="doAward_10" style="background: #C0C0C0;">抽奖10次</li>
 		</if>
 
-		<if condition="$totalNum egt 100">
+		<if condition="$user['totalNum'] egt 100">
 			<li class="doAward_100" onclick="doAward(100)" style="cursor: pointer;">抽奖100次</li>
 			<else/>
 			<li class="doAward_100" style="background: #C0C0C0;">抽奖100次</li>
@@ -68,12 +75,17 @@
 	</marquee>
 </div>
 <div> </div>
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
+    <div id="innerdiv" style="position:absolute;">
+        <img id="bigimg" style="border:5px solid #fff;" src="" />
+    </div>
+</div>
 <div class="footertop"></div>
 <div class="allgrains1">
-	<a href="{$homeUrl}" class="{$homeClass}"><img src="__PUBLIC__/images/{$homePng}.png" /><p>抽奖</p></a>
+	<a href="{$homeUrl}"><img src="__PUBLIC__/images/home.png" /><p>首页</p></a>
+	<a href="{$awardUrl}" class="{$homeClass}"><img src="__PUBLIC__/images/{$homePng}.png" /><p>抽奖</p></a>
 	<a href="{$myUrl}" class="{$myClass}"><img src="__PUBLIC__/images/{$myPng}.png" /><p>我的</p></a>
 </div>
-
 <script type="text/javascript">
 var lottery = {
 	index: -1,    //当前转动到哪个位置，起点位置
@@ -143,10 +155,11 @@ function roll() {
 }
 
 var click = false;
-var uid = "{$uid}";
-var actid = "{$actid}";
-var uniacid = "{$uniacid}";
-var nickname = "{$nickname}";
+var uid = "{$user['uid']}";
+var actid = "{$request['actid']}";
+var uniacid = "{$user['uniacid']}";
+var nickname = "{$user['nickname']}";
+var openid = "{$request['openid']}";
 
 // 抽奖
 function doAward(num) {
@@ -157,7 +170,7 @@ function doAward(num) {
         $.ajax({
             type:"POST",
             url:"/Home/Index/doAward",
-            data:{uid:uid, actid:actid, num:num, uniacid:uniacid, nickname:nickname},
+            data:{uid:uid, actid:actid, num:num, uniacid:uniacid, nickname:nickname, openid:openid},
             dataType:"json",
             success:function(data) {
                 if (data.code == 200) {
@@ -192,7 +205,7 @@ function doAward(num) {
                             $('.doAward_10').attr('style', 'background: #C0C0C0;');
                             $('.doAward_100').attr('onclick', '');
                             $('.doAward_100').attr('style', 'background: #C0C0C0;');
-						} else {
+						} else if (data.lastNum < 100) {
                             $('.doAward_100').attr('onclick', '');
                             $('.doAward_100').attr('style', 'background: #C0C0C0;');
 						}
@@ -216,7 +229,64 @@ function hidediv() {
 }
 
 // 显示奖品弹窗信息
-function showInfo() {
-	alert('奖品信息');
+function showInfo(aid = 0) {
+	if (aid) {
+		$.ajax({
+	        type:"POST",
+	        url:"/Home/Index/showPic",
+	        data:{aid:aid, uid:uid, actid:actid, openid:openid, uniacid:uniacid, nickname:nickname},
+	        dataType:"json",
+	        success:function(data) {
+	            if (data.code == 200) {
+	                // alert('奖品信息');
+	                var _this = $("#img_"+aid);//将当前的pimg元素作为_this传入函数  
+        			imgShow("#outerdiv", "#innerdiv", "#bigimg", _this); 
+	            }
+	        }
+	    });
+	} else {
+		// alert('奖品信息009');
+		var _this = $(this);//将当前的pimg元素作为_this传入函数  
+        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);  
+	}
+}
+
+function imgShow(outerdiv, innerdiv, bigimg, _this){
+	var src = _this.attr("src");//获取当前点击的pimg元素中的src属性
+	$(bigimg).attr("src", src);//设置#bigimg元素的src属性
+
+	/*获取当前点击图片的真实大小，并显示弹出层及大图*/
+	$("<img/>").attr("src", src).load(function(){
+		var windowW = $(window).width();//获取当前窗口宽度
+		var windowH = $(window).height();//获取当前窗口高度
+		var realWidth = this.width;//获取图片真实宽度
+		var realHeight = this.height;//获取图片真实高度
+		var imgWidth, imgHeight;
+		var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+
+		if(realHeight > windowH * scale) { //判断图片高度
+			imgHeight = windowH * scale; //如大于窗口高度，图片高度进行缩放
+			imgWidth = imgHeight / realHeight * realWidth; //等比例缩放宽度
+			if(imgWidth > windowW * scale) { //如宽度扔大于窗口宽度
+				imgWidth = windowW * scale; //再对宽度进行缩放
+			}
+		} else if(realWidth > windowW * scale) { //如图片高度合适，判断图片宽度
+			imgWidth = windowW*scale; // 如大于窗口宽度，图片宽度进行缩放
+			imgHeight = imgWidth/realWidth*realHeight; //等比例缩放高度
+		} else { //如果图片真实高度和宽度都符合要求，高宽不变
+			imgWidth = realWidth;
+			imgHeight = realHeight;
+		}
+		$(bigimg).css("width",imgWidth);//以最终的宽度对图片缩放
+
+		var w = (windowW-imgWidth)/2;//计算图片与窗口左边距
+		var h = (windowH-imgHeight)/2;//计算图片与窗口上边距
+		$(innerdiv).css({"top":h, "left":w});//设置#innerdiv的top和left属性
+		$(outerdiv).fadeIn("fast");//淡入显示#outerdiv及.pimg
+	});
+
+	$(outerdiv).click(function(){ //再次点击淡出消失弹出层
+		$(this).fadeOut("fast");
+	});
 }
 </script>

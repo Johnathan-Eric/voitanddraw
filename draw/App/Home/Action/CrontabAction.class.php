@@ -122,4 +122,102 @@ class CrontabAction extends Action
         echo json_encode($totalData);
     }
 
+    /**
+     * 模版消息 - 获取ACCESS_TOKEN
+     */
+    public function getAccessToken()
+    {
+        $code = $_GET['code'];
+        $appid = 'wx2dbeeba3fa3a3b25';
+        $appsecret = 'df2a9fd1acd19d6e2311ac1660631b3c';
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appid}&secret={$appsecret}&code={$code}&grant_type=authorization_code";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,0);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        echo $data;
+    }
+
+    /**
+     * 模版消息 - 向关注用户发送模版消息
+     */
+    public function sendTemMsg()
+    {
+        $ACCESS_TOKEN = "替换你的ACCESS_TOKEN";//ACCESS_TOKEN
+        //openid数组
+        $touser = array('ouD7BuHpIKRXPIz7pdrwI9IwDRCU','ouD7BuI36wSUZgteyiydmDrldQLU','ouD7BuLejq7R4Vbuyh41bH778cg0');
+        //模板消息请求URL
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $ACCESS_TOKEN;
+
+        //遍历发送微信消息
+        foreach ($touser as $value) {
+            $data = $this->getDataArray($value);
+            $json_data = json_encode($data);//转化成json数组让微信可以接收
+            $res = $this->https_request($url, urldecode($json_data));//请求开始
+            $res = json_decode($res, true);
+            if ($res['errcode'] == 0 && $res['errcode'] == "ok") {
+                echo "发送成功！<br/>";
+            }
+        }
+    }
+
+    //获取发送数据数组
+    private function getDataArray($value)
+    {
+        $data = array(
+            'touser' => $value, //要发送给用户的openid
+            'template_id' => "mfopDNUlvoBGGsPLB-d_nrfL8Je92xnTq5vk5ZBxL-w",//改成自己的模板id，在微信后台模板消息里查看
+            'url' => "http://mp.weixin.qq.com/s/8UWPqHVa8PReWZp-No0ebA", //自己网站链接url
+            'data' => array(
+                'first' => array(
+                    'value' => "亲爱的同学，您有考试提醒，请查阅。",
+                    'color' => "#000"
+                ),
+                'keyword1' => array(
+                    'value' => "2017下半年教师资格证面试",
+                    'color' => "#f00"
+                ),
+                'keyword2' => array(
+                    'value' => "2018-1-6",
+                    'color' => "#173177"
+                ),
+                'keyword3' => array(
+                    'value' => "请看您的准考证",
+                    'color' => "#3d3d3d"
+                ),
+                'keyword4' => array(
+                    'value' => "教师资格证试讲",
+                    'color' => "#3d3d3d"
+                ),
+                'keyword5' => array(
+                    'value' => "答辩，选题，结构化",
+                    'color' => "#3d3d3d"
+                ),
+                'remark' => array(
+                    'value' => "\n现在是打印准考证时间，请您在考试前打印准考证，戳进来可以查看详情>>>",
+                    'color' => "#3d3d3d"
+                ),
+            )
+        );
+        return $data;
+    }
+
+    //curl请求函数，微信都是通过该函数请求
+    private function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
 }

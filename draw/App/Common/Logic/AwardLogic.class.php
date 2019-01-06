@@ -14,7 +14,7 @@ class AwardLogic {
 	public function searchData($where, $page = 1, $listRows = 10, $order = 'id desc') {
 
 		// 获取列表
-		$fields = 'id,thumb,pronum,online,listorder,stime,etime,actid,stock,name,atype,winnum';
+		$fields = 'id,thumb,pronum,online,listorder,stime,etime,actid,stock,name,atype,winnum,limitnum,paynum,level';
 		if ($page < 0) {
             $return = M('award')->where($where)->field($fields)->order($order)->select();
         } else {

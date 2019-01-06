@@ -117,7 +117,7 @@ class AdminBaseAction extends Controller{
         if($this->admin->role_auth_ids != 'all'){
             $where['id'] = array('in', $this->admin->role_auth_ids);
         }
-        $menuLists = M("admin_role_auth")->field("id,auth_name,auth_pid,auth_path") ->order(' id asc,sort asc ') ->where($where)->select();
+        $menuLists = M("admin_role_auth")->field("id,auth_name,auth_pid,auth_path") ->order('sort asc,id asc ') ->where($where)->select();
         $tree = new \Think\Tree($menuLists,array('id','auth_pid'));
         $menu = $tree->leaf(0); //读取pid为0的所有数据生成菜单
         $initMenu = (object)$menu;

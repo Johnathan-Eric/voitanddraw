@@ -1,13 +1,13 @@
 <?php
 /*
- * 奖品管理类
- * @author eva
+ * 高价奖品管理类
+ * @author xbs
  *
  */
 namespace Admin\Action;
 use Think\AdminBaseAction;
 
-class AwardAction extends AdminBaseAction {
+class HighawardAction extends AdminBaseAction {
 	protected $admin,$listRows,$model,$atypes;
 
 	/**
@@ -18,14 +18,14 @@ class AwardAction extends AdminBaseAction {
         $this->admin = session('admin');
 
 		$this->listRows = 9; // 每页显示条数
-		$this->model = D("Common/Award", "Logic");
+		$this->model = D("Common/Highaward", "Logic");
         $this->atypes = C('awardType');
 	}
 
 	/**
 	 * 奖品列表
 	 **/
-	public function index() {
+	public function high_index() {
         $request = I("request.");
 
         //页码、每页显示记录条数
@@ -45,9 +45,9 @@ class AwardAction extends AdminBaseAction {
         if ($request['actid']) { // 活动ID
             $where['actid'] = array('eq', $request['actid']);
         }
-//        if ($request['uniacid']) { // 公众号ID
-//            $where['uniacid'] = array('eq', $request['uniacid']);
-//        }
+        if ($request['uniacid']) { // 公众号ID
+            $where['uniacid'] = array('eq', $request['uniacid']);
+        }
         $keyword	= I("keyword", '', 'trim');
         if ($keyword) { // 搜索关键字
         	$where['name'] = array('like', '%'.$keyword.'%');
@@ -64,10 +64,10 @@ class AwardAction extends AdminBaseAction {
                     $c1Where['uniacid'] = array('eq', $request['uniacid']);
                 }
                 $c1Where['online'] = array('eq', 1);
-                $count1 = M('Award')->where($c1Where)->count();
+                $count1 = M('Highaward')->where($c1Where)->count();
                 $c2where = $c1Where;
                 $c2where['online'] = array('eq', 2);
-                $count2 = M('Award')->where($c2where)->count();
+                $count2 = M('Highaward')->where($c2where)->count();
                 break;
             case '2': // 已上架
                 if ($request['actid'] || $request['uniacid']) { // 活动ID
@@ -77,9 +77,9 @@ class AwardAction extends AdminBaseAction {
                     if ($request['uniacid']) {
                         $cWhere['uniacid'] = array('eq', $request['uniacid']);
                     }
-                    $count0 = M('Award')->where($cWhere)->count();
+                    $count0 = M('Highaward')->where($cWhere)->count();
                 } else {
-                    $count0 = M('Award')->count();
+                    $count0 = M('Highaward')->count();
                 }
                 $cWhere['online'] = array('eq', 2);
                 $count2 = M('Award')->where($cWhere)->count();
@@ -93,12 +93,12 @@ class AwardAction extends AdminBaseAction {
                     if ($request['uniacid']) {
                         $cWhere['uniacid'] = array('eq', $request['uniacid']);
                     }
-                    $count0 = M('Award')->where($cWhere)->count();
+                    $count0 = M('Highaward')->where($cWhere)->count();
                 } else {
-                    $count0 = M('Award')->count();
+                    $count0 = M('Highaward')->count();
                 }
                 $cWhere['online'] = array('eq', 1);
-                $count1 = M('Award')->where($cWhere)->count();
+                $count1 = M('Highaward')->where($cWhere)->count();
                 $where['online'] = array('eq', 2);
                 break;
         }
@@ -149,7 +149,7 @@ class AwardAction extends AdminBaseAction {
             if ($request['actid']) { // 活动ID
                 $awhere['actid'] = array('eq', $request['actid']);
             }
-            $awardData = M('AwardData')->where()->field('aid,num')->select();
+            $awardData = M('HighawardData')->where()->field('aid,num')->select();
             if ($awardData) {
                 foreach ($awardData as $awval) {
                     $awLogs[$awval['aid']] = $awval['num'];
@@ -199,14 +199,13 @@ class AwardAction extends AdminBaseAction {
 	/**
 	 * 奖品添加
 	 **/
-	public function awAdd() {
+	public function high_add() {
         $request = I("request.");
-
         // 奖品ID
         $gid = I("id",0,'intval');
         if ($gid) {
             // 获取奖品信息
-            $info = M('Award')->where(array('id' => array('eq', $gid)))->find();
+            $info = M('Highaward')->where(array('id' => array('eq', $gid)))->find();
             if ($info['stime']) {
                 $info['stime'] = date('Y-m-d H:i:s', $info['stime']);
             } else {
@@ -219,11 +218,11 @@ class AwardAction extends AdminBaseAction {
             }
             $this->assign('info', $info);
         } else {
-            $this->assign('info', array('actid' => $request['actid'], 'uniacid' => $request['uniacid']));
+            $this->assign('info', array('actid' => $request['actid']));
         }
 
         // 获取活动列表
-        $actList = M('Reply')->field('rid,title,uniacid')->select();
+        $actList = M('Reply')->field('rid,title')->select();
         $this->assign('actList', $actList);
 
         // 获取公众号数据
@@ -245,10 +244,10 @@ class AwardAction extends AdminBaseAction {
             }
             if ($post['id']) { // 更新
                 $post['uptime'] = time();
-                $is_succ = M('Award')->where(array('id' => array('eq', $post['id'])))->save($post);
+                $is_succ = M('Highaward')->where(array('id' => array('eq', $post['id'])))->save($post);
             } else {
                 $post['addtime'] = time();
-                $is_succ = M('Award')->add($post);
+                $is_succ = M('Highaward')->add($post);
             }
             if($is_succ){
                 $return = array(
@@ -277,7 +276,7 @@ class AwardAction extends AdminBaseAction {
             $val   = I('nval','1','int');
             $field = I('ntype','status','trim');
             $data = array($field=>$val);
-            $Goods = M('Award');
+            $Goods = M('Highaward');
             $Goods->where(array('id'=>array('in', $ids)))->save($data);
             $date = array("error"=>0,"message"=>'操作成功');
         }else{
@@ -295,11 +294,11 @@ class AwardAction extends AdminBaseAction {
         $actid = I('actid');
         if($defNum && $actid){
             // 查询是否存在谢谢关注出奖率信息
-            $dinfo = M('Daward')->where(array('actid'=>array('eq', $actid)))->find();
+            $dinfo = M('Highaward')->where(array('actid'=>array('eq', $actid)))->find();
             if ($dinfo) {
-                M('Daward')->where(array('actid'=>array('eq', $actid)))->save(array('num' => $defNum));
+                M('Highaward')->where(array('actid'=>array('eq', $actid)))->save(array('num' => $defNum));
             } else {
-                M('Daward')->add(array('num' => $defNum, 'actid' => $actid));
+                M('Highaward')->add(array('num' => $defNum, 'actid' => $actid));
             }
             $date = array("error"=>0,"message"=>'操作成功');
         }else{
@@ -317,7 +316,7 @@ class AwardAction extends AdminBaseAction {
         if(empty($ids)) {
             $result = false;
         } else {
-            $result = M('Award')->where(array('id' => array('in', $ids)))->delete();
+            $result = M('Highaward')->where(array('id' => array('in', $ids)))->delete();
         }
         echo json_encode(array('state'=>0,'message'=>'删除成功'));die;
     }
@@ -339,7 +338,7 @@ class AwardAction extends AdminBaseAction {
         $where['stock'] = array('gt', 0);
         $fields = 'id,name,stock,pronum,atype';
         $order = 'listorder asc';
-        $return = M('Award')->where($where)->field($fields)->order($order)->limit(9)->select();
+        $return = M('Highaward')->where($where)->field($fields)->order($order)->limit(9)->select();
         $xxNum = 0;
         $xxArr = array();
         if ($return) {

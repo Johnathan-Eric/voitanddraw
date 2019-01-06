@@ -72,17 +72,17 @@
                                 </select>
                             </div>
                         </div>
-                        <!--<div class="layui-inline" style="text-align: left;">-->
-                            <!--<label class="layui-form-label">公众号：</label>-->
-                            <!--<div class="layui-input-inline">-->
-                                <!--<select name="uniacid">-->
-                                    <!--<option value="">全部</option>-->
-                                    <!--<volist name="uniList" id="vo">-->
-                                        <!--<option value="{$vo.uniacid}" <if condition="$vo.uniacid eq $request['uniacid']">selected="selected"</if>>{$vo.name}</option>-->
-                                    <!--</volist>-->
-                                <!--</select>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                        <div class="layui-inline" style="text-align: left;">
+                            <label class="layui-form-label">公众号：</label>
+                            <div class="layui-input-inline">
+                                <select name="uniacid">
+                                    <option value="">全部</option>
+                                    <volist name="uniList" id="vo">
+                                        <option value="{$vo.uniacid}" <if condition="$vo.uniacid eq $request['uniacid']">selected="selected"</if>>{$vo.name}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -97,8 +97,8 @@
                 <div class="pub_menu_left">
                     <div class="m_left">
                         <div class="layui-form-item">
-                            <if condition = "$acc['awAdd']">
-                                <div class="layui-unselect layui-form-select" onclick="lay_full('{$acc['awAdd']['auth_name']}','{:U($acc['awAdd']['auth_path'],'actid='.$request['actid'].'&uniacid='.$request['uniacid'])}','700','650')">
+                            <if condition = "$acc['high_add']">
+                                <div class="layui-unselect layui-form-select" onclick="lay_full('{$acc['high_add']['auth_name']}','{:U($acc['high_add']['auth_path'],'actid='.$request['actid'])}','800','650')">
                                     <div class="layui-select-title">
                                         <input type="button" class="layui-input layui-unselect" value="添加"><i class="layui-edge"></i>
                                     </div>
@@ -147,7 +147,6 @@
                                 <td>{$vo.clickNum}</td>
                                 <td>{$vo.stime|date='Y-m-d H:m:s',###}<br/>{$vo.etime|date='Y-m-d H:m:s',###}</td>
                                 <td style="text-align: left;">
-                                    <p style="margin-bottom: 10px;">奖品级别：<if condition="$vo['level'] eq 1"><font color="red">高价奖品</font><else/>普通奖品</if></p>
                                     <p>中奖次数：<input type="text" name="winnum" class="astyle" value="{$vo.winnum}" autocomplete="off"/></p>
                                     <p>出奖率：<input type="text" name="pronum" class="astyle" value="{$vo.pronum}" autocomplete="off"/></p>
                                     <p>消费金额：<input type="text" name="paynum" class="astyle" value="{$vo.paynum}" autocomplete="off"/></p>
@@ -158,11 +157,11 @@
                                     <input type="checkbox" value='{$vo.id}' <if condition="$vo['online'] eq 1">checked</if> lay-filter="switchOnline" lay-skin="switch" lay-text="ON|OFF">
                                 </td>
                                 <td>
-                                    <if condition = "$acc['awEdit']">
-                                        <a href="javascript:void(0);" onclick="lay_full('编辑奖品','{:U($acc['awEdit']['auth_path'],'id='.$vo['id'].'&actid='.$vo['actid'])}','1200','600')">{$acc['awEdit']['auth_name']}</a>
+                                    <if condition = "$acc['high_edit']">
+                                        <a href="javascript:void(0);" onclick="lay_full('编辑奖品','{:U($acc['high_edit']['auth_path'],'id='.$vo['id'].'&actid='.$vo['actid'])}','1200','600')">{$acc['high_edit']['auth_name']}</a>
                                     </if>
-                                    <if condition = "$acc['awDel']">
-                                        <a href="javascript:void(0);" onclick="delCate({$vo.id})">{$acc['awDel']['auth_name']}</a>
+                                    <if condition = "$acc['high_del']">
+                                        <a href="javascript:void(0);" onclick="delCate({$vo.id})">{$acc['high_del']['auth_name']}</a>
                                     </if>
                                 </td>
                             </tr>
@@ -266,7 +265,7 @@
         var lod_index = layer.load(1, {
             shade: [0.1,'#fff'] //0.1透明度的白色背景
         });
-        $.post('/Admin/Award/ajax_update', { ids: ids,nval: nval,ntype: ntype },function(data){
+        $.post('/Admin/Highaward/ajax_update', { ids: ids,nval: nval,ntype: ntype },function(data){
             layer.close(lod_index);
             var parsedJson = jQuery.parseJSON(data);
             if(parsedJson.error == 0){
@@ -287,7 +286,7 @@
             var lod_index = layer.load(1, {
                 shade: [0.1,'#fff'] //0.1透明度的白色背景
             });;
-            $.post('/Admin/Award/del', { ids: ids },function(data){
+            $.post('/Admin/Highaward/del', { ids: ids },function(data){
                 layer.close(lod_index);
                 var parsedJson = jQuery.parseJSON(data);
                 if(parsedJson.state == 0){
@@ -316,11 +315,11 @@
         setOper([id],nval,ntype);
     });
 
-    // 排序设置
-    $("input[name='listorder']").on('blur',function(a){
+    // 消费金额设置
+    $("input[name='paynum']").on('blur',function(a){
         var id = $(this).parent().parent().parent().find("input[name='checkId[]']").val();
         var nval = $(this).val();
-        var ntype = 'listorder';
+        var ntype = 'paynum';
         setOper([id],nval,ntype);
     });
 
@@ -332,11 +331,11 @@
         setOper([id],nval,ntype);
     });
 
-    // 消费金额设置
-    $("input[name='paynum']").on('blur',function(a){
+    // 排序设置
+    $("input[name='listorder']").on('blur',function(a){
         var id = $(this).parent().parent().parent().find("input[name='checkId[]']").val();
         var nval = $(this).val();
-        var ntype = 'paynum';
+        var ntype = 'listorder';
         setOper([id],nval,ntype);
     });
 
@@ -368,7 +367,7 @@
         var lod_index = layer.load(1, {
                 shade: [0.1,'#fff'] //0.1透明度的白色背景
             });
-        $.post('/Admin/Award/del', { ids: gid },function(data){
+        $.post('/Admin/Highaward/del', { ids: gid },function(data){
             layer.close(lod_index);
             var parsedJson = jQuery.parseJSON(data);
             if(parsedJson.state == 0){
@@ -418,12 +417,12 @@
             });
         var defNum = $('input[name="defNum"]').val();
         var actid = $('input[name="actid"]').val();
-        $.post('/Admin/Award/saveData', { defNum:defNum, actid:actid },function(data){
+        $.post('/Admin/Highaward/saveData', { defNum:defNum, actid:actid },function(data){
             layer.close(lod_index);
             var parsedJson = jQuery.parseJSON(data);
             if(parsedJson.error == 0){
                 layer.msg(parsedJson.message);
-                window.location.href='/Admin/Award/index/actid/'+actid;
+                window.location.href='/Admin/Highaward/high_index/actid/'+actid;
             }else{
                 layer.msg(parsedJson.message);
             }
@@ -433,7 +432,7 @@
     // 出奖率计算
     function checkNum() {
         var actid = $('input[name="actid"]').val();
-        $.post('/Admin/Award/proRand', { actid:actid },function(data){
+        $.post('/Admin/Highaward/proRand', { actid:actid },function(data){
             var parsedJson = jQuery.parseJSON(data);
             $("#numInfo").show();
             $("#numInfo").empty();
