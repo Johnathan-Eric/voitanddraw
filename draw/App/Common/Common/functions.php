@@ -1138,7 +1138,6 @@ function check_admin_login(){
 	$admin = session('admin');
 	$is_login = false;
 	if($admin && $admin->id > 0) $is_login = true;
-        
 	if(!$is_login){
             if(IS_AJAX){
                     echo json_encode(array('status'=> 0, 'info'=>"您未登陆或登陆超时，请重新登陆！", 'url' => C('USER_LOGIN_URL')));

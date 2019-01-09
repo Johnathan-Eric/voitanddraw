@@ -25,7 +25,7 @@ class AdminBaseAction extends Controller{
 	function __construct(){
         parent::__construct();
         $admin = session('admin');
-        
+
         // 加载user用户对象
         if ($admin) {
             $this->admin = $admin;

@@ -22,11 +22,19 @@ class CrontabAction extends Action
      */
     public function cronVote()
     {
+        $request = I("request.");
+        if (!isset($request['uniacid']) || !$request['rid']) {
+            exit('参数错误！');
+        }
+
         // 总票数信息
         $totalData = array();
 
         // 获取投票数据
-        $voteData = M('Votedata')->where(array('is_cron' => array('eq', 0)))->field('id,rid,uniacid,openid,nickname')->select();
+        $where['uniacid'] = array('eq', $request['uniacid']);
+        $where['rid'] = array('eq', $request['rid']);
+        $where['is_cron'] = array('eq',0);
+        $voteData = M('Votedata')->where($where)->field('id,rid,uniacid,openid,nickname')->select();
         $vdids = $gdids = array();
         if ($voteData) {
             foreach ($voteData as $vval) {
@@ -47,7 +55,8 @@ class CrontabAction extends Action
         }
 
         // 获取赠送礼物的投票数据
-        $giftData = M('Gift')->where(array('ispay' => array('eq', 1), 'is_cron' => array('eq', 0)))->field('id,rid,uniacid,openid,nickname,giftvote')->select();
+        $where['ispay'] = array('eq', 1);
+        $giftData = M('Gift')->where($where)->field('id,rid,uniacid,openid,nickname,giftvote')->select();
         if ($giftData) {
             foreach ($giftData as $gval) {
                 $gkey = $gval['uniacid'].'_'.$gval['rid'].'_'.$gval['openid'];
@@ -119,7 +128,7 @@ class CrontabAction extends Action
             fclose($fp);
         }
 
-        echo json_encode($totalData);
+        echo '总条数：'.count($totalData);exit;
     }
 
     /**

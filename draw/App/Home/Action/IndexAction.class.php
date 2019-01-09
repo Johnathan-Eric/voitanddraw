@@ -6,7 +6,7 @@
  */
 namespace Home\Action;
 use Think\Action;
-//use Think\Cache\Driver\Redis;
+use Think\Cache\Driver\Redis;
 
 class IndexAction extends Action {
     private $_awNum,$_haKey,$_aKey,$_redis;
@@ -18,8 +18,7 @@ class IndexAction extends Action {
     public function _initialize() {
         $this->_awNum = 9;
         $this->_haKey = 'highA_';
-        $this->_redis = new \Redis();
-        $this->_redis->connect(C('REDIS_HOST'));
+        $this->_redis = new Redis();
     }
 
     /**
@@ -134,14 +133,6 @@ class IndexAction extends Action {
         }
 
         // 获取用户信息
-//        $uwhere['uniacid'] = array('eq', $request['uniacid']);
-//        $uwhere['rid'] = array('eq', $request['actid']);
-//        if (isset($request['uid']) && $request['uid']) {
-//            $uwhere['uid'] = array('eq', $request['uid']);
-//        } else {
-//            $uwhere['openid'] = array('eq', $request['openid']);
-//        }
-//        $user = M('Users')->where($uwhere)->field('uid,name,vote_num,status,nextnum,total_num')->find();
         $user = $this->getUser($request);
 
         // 获取抽奖机会次数（再累一次）
@@ -164,10 +155,10 @@ class IndexAction extends Action {
     private function getList($request) {
         // 获取活动的奖品信息
         $skey = $this->_haKey.$request['actid'];
-//        $isHave = $this->_redis->get($skey);
-//        if ($isHave) {
-//            return json_decode($isHave, true);
-//        }
+        $isHave = $this->_redis->get($skey);
+        if ($isHave) {
+            return $isHave;
+        }
 
         // 当前时间
         $nowTime = time();
