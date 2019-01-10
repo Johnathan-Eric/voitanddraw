@@ -13,7 +13,8 @@
 
 {/if}
 <li><a href="{php echo $this->createMobileUrl('prize', array('rid' => $rid))}" {if $_GPC['do'] == 'prize'}class="on"{/if}><div class='nav'><div class='is ispr'></div><p>奖品</p></div></a></li>
-<!--<li><a href="{php echo $this->createMobileUrl('ranking', array('rid' => $rid))}" {if $_GPC['do'] == 'ranking' }class="on"{/if} ><div class='nav'><div class='if ispr'></div><p>榜单</p></div></a></li>-->
+<li><a href="{php echo $this->createMobileUrl('ranking', array('rid' => $rid))}" {if $_GPC['do'] == 'ranking' }class="on"{/if} ><div class='nav'><div class='if ispr'></div><p>榜单</p></div></a></li>
+  {if $reply["voitstatus"] ==1}<li><a href="http://draw.{php echo substr($_W['siteroot'],7)}Home/Index/index/actid/{php echo $rid}/openid/{php echo $_W['openid']}" {if $_GPC['do'] == 'index' || $_GPC['do'] == '' }class="on"{/if}><div class='nav'><div style="width:22px;height:22px;background-image:url({MODULE_URL}/template/static/images/award.png);background-size:22px;overflow:hidden;margin:0 auto 5px"></div><p style="color:#999">抽奖(测试中)</p></div></a></li>{/if} 
 <!-- 自定义菜单start 
 图标大小建议 48*48，地址为 addons/tyzm_diamondvote/template/static/images/shield30.png
 -->

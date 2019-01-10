@@ -422,7 +422,7 @@
 		<div class="form-group">
 			<label class="col-sm-2 control-label" style="text-align:left;">风格设置</label>
 			<div class="form-controls col-sm-3">
-				<select name="template" class="form-control">
+				<select name="template" class="form-control" id="select_templatechoose">
 					{loop $template $temp}
 					<option value="{$temp}" {if $reply['style']['template'] == $temp}selected{/if}>{$temp}</option>
 					{/loop}
@@ -831,6 +831,17 @@ $('#btn_add_ad').bind('click', function(){
 		});
 	});
 //						
+//            
+//模板选择变化
+   $('#select_templatechoose').on('change',function(){
+//判断是否选取prompt属性，无返回值；
+    if($(this).val() && $(this).val()=="video"){
+        $('#div_videonumset').show();
+    }else{
+        $('#div_videonumset').hide(); 
+    }
+   }); 
+
 					});
 				});
                </script>
@@ -1212,7 +1223,32 @@ $('#btn_add_ad').bind('click', function(){
             <div class="help-block">不能小于1张！不能大于5张</div>
           </div>
       </div>
-
+      {if $reply['style']['template'] == "video"}
+      <div class="form-group" id="div_videonumset" >
+          <label class="control-label col-sm-2">上传视频</label>
+      <div class="control-label col-sm-4">
+            <div class="input-group">
+              <input class="form-control" type="number" value="{$reply['minupimg']}"name="minupvideo">
+              <span class="input-group-addon">至</span>
+              <input class="form-control" type="number" value="{$reply['maxupimg']}"name="maxupvideo">
+              <span class="input-group-addon">个</span>
+            </div>
+            <div class="help-block">不能小于1张！不能大于3个</div>
+          </div>
+      </div>
+      {else}
+      <div class="form-group" id="div_videonumset" style="display:hide" >
+          <label class="control-label col-sm-2">允许视频个数</label>
+      <div class="control-label col-sm-4">
+            <div class="input-group">
+              <input class="form-control" type="number" value="1"name="minupvideo">
+              <span class="input-group-addon">至</span>
+              <input class="form-control" type="number" value="3"name="maxupvideo">
+              <span class="input-group-addon">个</span>
+            </div>
+            <div class="help-block">不能小于1张！不能大于3个</div>
+          </div>
+      </div>
     <div class="form-group">
       <label class="control-label col-sm-2">上传图片模式</label>
       <div class="form-controls col-sm-8">
@@ -1221,6 +1257,8 @@ $('#btn_add_ad').bind('click', function(){
        <div class="help-block"></div>
       </div>
     </div>
+   {/if}
+
 		<div class="form-group">
           <label class="control-label col-sm-2">报名信息</label>
 			<div class="form-controls col-sm-10">

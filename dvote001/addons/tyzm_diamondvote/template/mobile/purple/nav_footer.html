@@ -17,7 +17,7 @@
 <!-- 自定义菜单start 
 图标大小建议 48*48，地址为 addons/tyzm_diamondvote/template/static/images/shield30.png
 -->
-<li><a href="http://draw.inkhome.net/Home/Index/index/actid/{php echo $rid}/uid/{php echo $_W['openid']}" {if $_GPC['do'] == 'index' || $_GPC['do'] == '' }class="on"{/if}><div class='nav'><div class='ih ispr'></div><p>抽奖-未开通</p></div></a></li>
+ {if $reply["voitstatus"] ==1}<li><a href="http://draw.{php echo substr($_W['siteroot'],7)}Home/Index/index/actid/{php echo $rid}/openid/{php echo $_W['openid']}" {if $_GPC['do'] == 'index' || $_GPC['do'] == '' }class="on"{/if}><div class='nav'><div style="width:22px;height:22px;background-image:url({MODULE_URL}/template/static/images/award.png);background-size:22px;overflow:hidden;margin:0 auto 5px"></div><p style="color:#999">抽奖(测试中)</p></div></a></li>{/if} 
 <!-- 自定义菜单end  -->
 </ul>
 </div>

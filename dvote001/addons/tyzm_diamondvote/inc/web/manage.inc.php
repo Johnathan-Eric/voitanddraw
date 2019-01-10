@@ -33,7 +33,7 @@ defined('IN_IA') or exit('Access Denied');
 				
 				$item['jointotal'] = pdo_fetchcolumn('SELECT COUNT(id) FROM ' . tablename($this->tablevoteuser) . " WHERE   rid = :rid  ", array(':rid' => $item['rid']));
 				$item['votetotal'] = pdo_fetchcolumn('SELECT COUNT(id) FROM ' . tablename($this->tablevotedata) . " WHERE   rid = :rid AND votetype=0 ", array(':rid' => $item['rid']));
-				$item['giftcount'] = pdo_fetchcolumn('SELECT sum(fee) FROM ' . tablename($this->tablegift) . " WHERE   rid = :rid AND ispay=1 ", array(':rid' => $item['rid']));
+				$item['giftcount'] = pdo_fetchcolumn('SELECT sum(fee) FROM ' . tablename($this->tablegift) . " WHERE   rid = :rid AND ispay=1  and is_ControlPanel = 0 ", array(':rid' => $item['rid']));
                 $item['giftcount']=!empty($item['giftcount'])?$item['giftcount']:0; 
 				$item['virtualpvtotal']=pdo_fetchcolumn("SELECT sum(vheat) FROM ".tablename($this->tablevoteuser)." WHERE rid = :rid ", array(':rid' => $item['rid']));
 				$item['pvtotal']=pdo_fetchcolumn("SELECT sum(pv_total) FROM ".tablename($this->tablecount)." WHERE rid = :rid ", array(':rid' => $item['rid']));

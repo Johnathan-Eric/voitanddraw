@@ -1,8 +1,8 @@
-<div style="height:50px;"></div>
+<!--<div style="height:50px;"></div>-->
 <div class="footer">
 <ul>
 
-<li><a href="{php echo $this->createMobileUrl('index', array('rid' => $rid))}" {if $_GPC['do'] == 'index' || $_GPC['do'] == '' }class="on"{/if}><div class='nav'><div class='ih ispr'></div><p>首页</p></div></a></li>
+<li><a href="{php echo $this->createMobileUrl('index', array('rid' => $rid))}" {if $_GPC['do'] == 'index' || $_GPC['do'] == '' }class="on"{/if}><div class='nav'><div class='ih ispr'></div><p>首页A</p></div></a></li>
 {if $myvoteid!="" }
 <li><a href="{php echo $this->createMobileUrl('view', array('rid' => $rid,'id' => $myvoteid))}" {if $_GPC['do'] == 'view'}class="on"{/if} ><div class='nav'><div class='ic ispr'></div><p>我的</p></div></a></li>
 {else}
@@ -12,8 +12,9 @@
 {/if}
 
 {/if}
-<li><a href="{php echo $this->createMobileUrl('prize', array('rid' => $rid))}" {if $_GPC['do'] == 'prize'}class="on"{/if}><div class='nav'><div class='is ispr'></div><p>奖品</p></div></a></li>
- <li><a href="{php echo $this->createMobileUrl('ranking', array('rid' => $rid))}" {if $_GPC['do'] == 'ranking' }class="on"{/if} ><div class='nav'><div class='if ispr'></div><p>榜单</p></div></a></li> 
+<li><a href="{php echo $this->createMobileUrl('prize', array('rid' => $rid))}" {if $_GPC['do'] == 'prize'}class="on"{/if}><div class='nav'><div class='is ispr'></div><p>奖品A</p></div></a></li>
+<li><a href="{php echo $this->createMobileUrl('ranking', array('rid' => $rid))}" {if $_GPC['do'] == 'ranking' }class="on"{/if} ><div class='nav'><div class='if ispr'></div><p>榜单</p></div></a></li>
+  
 <!-- 自定义菜单start 
 图标大小建议 48*48，地址为 addons/tyzm_diamondvote/template/static/images/shield30.png
 -->
