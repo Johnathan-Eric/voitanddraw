@@ -1347,3 +1347,15 @@ function fileLog($data, $fileName) {
     file_put_contents('./Uploads/'.$fileName, date('Ymd H:i:s').'--'.json_encode($data).PHP_EOL, FILE_APPEND);
 }
 
+/**
+ * 获取抽奖次数
+ * @param $voteNum 投票次数
+ * @param $pervote 活动兑换抽奖次数（每多少票兑换一次抽奖次数）
+ * @return float 抽奖次数
+ */
+function getAwardNum($voteNum, $pervote) {
+    if ($pervote <= 0 || $voteNum <= 0) {
+        return 0;
+    }
+    return floor($voteNum/$pervote);
+}

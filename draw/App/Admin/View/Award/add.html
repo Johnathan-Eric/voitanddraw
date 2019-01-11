@@ -47,7 +47,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red;">*</span>奖品类型：</label>
                     <div class="layui-input-inline">
-                        <select name="atype" required lay-verify="required">
+                        <select name="atype" lay-filter="atype">
                             <volist name="atypes" id="vo">
                                 <option value="{$key}" <if condition="$info['atype'] eq $key">selected="selected"</if>>{$vo}</option>
                             </volist>
@@ -77,20 +77,20 @@
                     </div>
                     <div class="layui-form-mid layui-word-aux">必选项</div>
                 </div>
-                <div class="layui-form-item">
+                <div class="layui-form-item div_level">
                     <label class="layui-form-label"><span style="color: red;">*</span>奖品级别：</label>
                     <div class="layui-input-block">
                         <input name="level" value="0" title="普通" checked type="radio">
                         <input name="level" value="1" title="高价" <if condition="$info['level'] eq 1">checked</if> type="radio">
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <div class="layui-form-item" id="div_name">
                     <label class="layui-form-label"><span style="color: red;">*</span>奖品名：&nbsp;&nbsp;&nbsp;</label>
                     <div class="layui-col-xs6">
                         <input type="text" name="name" value="{$info.name}" required lay-verify="required" placeholder="请输入奖品名" autocomplete="off" class="layui-input" style="width: 300px;">
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <div class="layui-form-item" id="div_stock">
                     <label class="layui-form-label"><span style="color: red;">*</span>库存：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="layui-input-block lay-col-x1">
                         <div style="width: 108px;" class="layui-inline layui-form-pane">
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <div class="layui-form-item" id="div_deliver">
                     <label class="layui-form-label"><span style="color: red;">*</span>是否需要发货：&nbsp;&nbsp;&nbsp;</label>
                     <div class="layui-col-xs6">
                         <input type="checkbox" <if condition="$info['deliver'] eq 0"><else/>checked</if> lay-filter="switchDeliver" lay-skin="switch" lay-text="ON|OFF">
@@ -152,7 +152,7 @@
                     </div>
                 </div>
 
-                <div class="layui-form-item">
+                <div class="layui-form-item" id="div_paynum" style="display: none;">
                     <label class="layui-form-label"><span style="color: #333;">*</span>消费金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="layui-input-block lay-col-x1">
                         <div style="width: 108px;" class="layui-inline layui-form-pane">
@@ -163,7 +163,7 @@
                     </div>
                 </div>
 
-                <div class="layui-form-item">
+                <div class="layui-form-item" id="div_limitnum" style="display: none;">
                     <label class="layui-form-label"><span style="color: #333;">*</span>达标人数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="layui-input-block lay-col-x1">
                         <div style="width: 108px;" class="layui-inline layui-form-pane">
@@ -251,37 +251,58 @@
                 $("input[name='deliver']").val(0);
             }
         });
+
+        // 奖品类型选择
+        form.on('select(atype)', function (data) {
+            showItem(data.value)
+        });
         
-         //监听提交
+        //监听提交
         form.on('submit(formSub)', function(data){
-                var date = data.field;
-                var url = window.location.href;
-                var stock = $("input[name='stock']").val();
-                if (stock <= 0) {
-                    layer.msg('库存数值必须大于0');return false;
-                }
-                date.content = layedit.getContent(contentIndex);
-                var lod_index = layer.load(1, {
-                        shade: [0.1,'#fff'] //0.1透明度的白色背景
-                });
-                $.post(url, date ,function(a){
-                        layer.close(lod_index);
-                        var jsonDate = jQuery.parseJSON(a);
-                        if(jsonDate.status == 1){
-                            layer.msg(jsonDate.msg,{
-                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                            }, function(){
-                                parent.location.reload();
-                                var index = parent.layer.getFrameIndex(window.name);  
-                                parent.layer.close(index);
-                            });
-                        }else{
-                            layer.msg(jsonDate.msg);
-                        }
-                });
+            var date = data.field;
+            var url = window.location.href;
+            var stock = $("input[name='stock']").val();
+            if (stock <= 0) {
+                layer.msg('库存数值必须大于0');return false;
+            }
+            date.content = layedit.getContent(contentIndex);
+            var lod_index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post(url, date ,function(a){
+                    layer.close(lod_index);
+                    var jsonDate = jQuery.parseJSON(a);
+                    if(jsonDate.status == 1){
+                        layer.msg(jsonDate.msg,{
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            parent.location.reload();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                    }else{
+                        layer.msg(jsonDate.msg);
+                    }
+            });
             return false;
         }); 
     });
+
+    // 显示隐藏填写选项
+    function showItem(atype) {
+        switch (atype){
+            case 1: // 普通奖品
+                $('#div_level').toggle();
+                break;
+            case 2: // 谢谢关注
+                $('.div_level').removeClass('layui-show');
+                $('.div_level').addClass('layui-hide');
+                break;
+            case 3: // 再来一次
+                $('#div_level').toggle();
+                break;
+        }
+    }
 
     layui.use('laydate', function(){
         var laydate = layui.laydate;
@@ -329,6 +350,5 @@
                 });
             }
         });
-        
     });
 </script>

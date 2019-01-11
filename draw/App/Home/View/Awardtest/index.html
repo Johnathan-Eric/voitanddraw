@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>抽奖测试</title>
+</head>
+<body>
+<div style="margin: 10px;">
+    <span>公共号：</span>
+    <span>
+        <select id="uniacid" style="width: 200px;">
+            <option value="-1">请选择</option>
+            <volist name="uniList" id="uvo">
+                <option value="{$uvo.uniacid}">{$uvo.name}</option>
+            </volist>
+        </select>
+    </span>
+</div>
+<div style="margin: 10px;">
+    <span>活动：</span>
+    <span>
+        <select id="rid" style="width: 200px;">
+            <option value="-1">请选择</option>
+        </select>
+    </span>
+    <span style="margin-left: 15px;">多少票兑换一次抽奖：<font id="pervote">0</font></span>
+</div>
+<div style="margin: 10px;">
+    <span>抽奖用户：</span>
+    <span>
+        <select id="uid" style="width: 200px;">
+            <option value="-1">请选择</option>
+        </select>
+    </span>
+    <span style="margin-left: 15px;">总票数：<font id="tvoteNum">0</font></span>
+</div>
+<div style="margin: 10px;">
+    <span>
+        总次数：<font id="totalNum">0</font>
+    </span>
+    <span style="margin-left: 15px;">
+        已用次数：<font id="usedNum">0</font>
+    </span>
+    <span style="margin-left: 15px;">
+        剩余次数：<font id="lastNum"></font>
+    </span>
+    <input type="hidden" id="openid" value="">
+</div>
+<div style="margin: 10px;">
+    <span><button onclick="doAward(1)">抽奖1次</button></span>
+    <span><button onclick="doAward(10)">抽奖10次</button></span>
+    <span><button onclick="doAward(100)">抽奖100次</button></span>
+</div>
+<div style="margin: 10px;">
+    <span>
+        <fieldset>
+            <legend>活动奖品信息</legend>
+            <div id="awardActs" style="padding: 10px;width: 600px;"></div>
+        </fieldset>
+    </span>
+    <span>
+        <fieldset>
+            <legend>中奖列表（个人）</legend>
+            <div id="awardUsers" style="padding: 10px;width: 600px;"></div>
+        </fieldset>
+    </span>
+    <span>
+        <fieldset>
+            <legend>抽奖次数日志</legend>
+            <div id="awardLogs" style="padding: 10px;width: 600px;"></div>
+        </fieldset>
+    </span>
+</div>
+</body>
+<script type="text/javascript">
+    // 根据公共号ID获取活动列表
+    $('#uniacid').change(function () {
+        var uniacid = $(this).val();
+        if (uniacid <= 0) {
+            $('#rid').empty();
+            $('#uid').empty();
+            $('#pervote').empty();
+            $('#awardActs').empty();
+            $('#lastNum').empty();
+            $('#tvoteNum').empty();
+            $('#totalNum').empty();
+            $('#usedNum').empty();
+            $('#awardUsers').empty();
+            $('#awardLogs').empty();
+            return false;
+        }
+        $.ajax({
+            type:"POST",
+            url:"/Home/Awardtest/getActList",
+            data:{uniacid:uniacid},
+            dataType:"json",
+            success:function(data) {
+                if (data.code == 200) {
+                    $('#rid').empty();
+                    $('#rid').append(data.list);
+                } else {
+                    // alert(data.msg);
+                    $('#rid').empty();
+                    $('#uid').empty();
+                    $('#pervote').empty();
+                    $('#awardActs').empty();
+                    $('#lastNum').empty();
+                    $('#tvoteNum').empty();
+                    $('#totalNum').empty();
+                    $('#usedNum').empty();
+                    $('#awardUsers').empty();
+                    $('#awardLogs').empty();
+                }
+            }
+        });
+    });
+
+    // 根据公共号ID和活动ID获取用户列表
+    $('#rid').change(function () {
+        var rid = $(this).val();
+        var uniacid = $('#uniacid').val();
+        if (!uniacid) {
+            alert('请选择公共号！');return false;
+        }
+        if (rid > 0) {
+            getActInfo(uniacid, rid);
+        } else {
+            $('#uid').empty();
+            $('#pervote').empty();
+            $('#awardActs').empty();
+            $('#lastNum').empty();
+            $('#tvoteNum').empty();
+            $('#totalNum').empty();
+            $('#usedNum').empty();
+            $('#awardUsers').empty();
+            $('#awardLogs').empty();
+        }
+    });
+
+    /**
+     * 获取活动信息和奖品信息
+     * @param uniacid
+     * @param rid
+     */
+    function getActInfo(uniacid, rid) {
+        $.ajax({
+            type:"POST",
+            url:"/Home/Awardtest/getUsersList",
+            data:{uniacid:uniacid,rid:rid},
+            dataType:"json",
+            success:function(data) {
+                if (data.code == 200) {
+                    // 用户列表
+                    $('#uid').empty();
+                    $('#uid').append(data.list);
+
+                    // 兑换数
+                    $('#pervote').empty();
+                    $('#pervote').html(data.pervote);
+
+                    // 活动奖品信息
+                    $('#awardActs').empty();
+                    $('#awardActs').html(data.awards);
+                } else {
+                    // alert(data.msg);
+                    $('#uid').empty();
+                    $('#pervote').empty();
+                    $('#awardActs').empty();
+                    $('#lastNum').empty();
+                    $('#tvoteNum').empty();
+                    $('#totalNum').empty();
+                    $('#usedNum').empty();
+                    $('#awardUsers').empty();
+                    $('#awardLogs').empty();
+                }
+            }
+        });
+    }
+
+    // 获取用户信息
+    $('#uid').change(function () {
+        var uid = $(this).val();
+        var uniacid = $('#uniacid').val();
+        var rid = $('#rid').val();
+        if (uid > 0) {
+            getUserInfo(uniacid, rid, uid);
+        } else {
+            $('#lastNum').empty();
+            $('#tvoteNum').empty();
+            $('#totalNum').empty();
+            $('#usedNum').empty();
+            $('#awardUsers').empty();
+            $('#awardLogs').empty();
+        }
+    });
+
+    /**
+     * 获取用户信息
+     * @param uniacid
+     * @param rid
+     * @param uid
+     */
+    function getUserInfo(uniacid, rid, uid) {
+        $.ajax({
+            type:"POST",
+            url:"/Home/Awardtest/getUsers",
+            data:{uniacid:uniacid,rid:rid,uid:uid},
+            dataType:"json",
+            success:function(data) {
+                if (data.code == 200) {
+                    // 剩余次数
+                    $('#lastNum').empty();
+                    $('#lastNum').html(data.info.lastNum);
+
+                    // 总票数
+                    $('#tvoteNum').empty();
+                    $('#tvoteNum').html(data.info.tvoteNum);
+
+                    // 总次数
+                    $('#totalNum').empty();
+                    $('#totalNum').html(data.info.totalNum);
+
+                    // 已用次数
+                    $('#usedNum').empty();
+                    $('#usedNum').html(data.info.total_num);
+
+                    // 中奖记录
+                    $('#awardUsers').empty();
+                    $('#awardUsers').html(data.awards);
+
+                    // 抽奖次数记录
+                    $('#awardLogs').empty();
+                    $('#awardLogs').html(data.numLogs);
+
+                    // openid
+                    $('#openid').val('');
+                    $('#openid').val(data.info.openid);
+                } else {
+                    // alert(data.msg);
+                    $('#lastNum').empty();
+                    $('#tvoteNum').empty();
+                    $('#totalNum').empty();
+                    $('#usedNum').empty();
+                    $('#awardUsers').empty();
+                    $('#awardLogs').empty();
+                }
+            }
+        });
+    }
+    
+    // 抽奖
+    function doAward(num) {
+        var uniacid = $('#uniacid').val();
+        if (uniacid <= 0) {
+            alert('请选择公共号！');return false;
+        }
+        var actid = $('#rid').val();
+        if (actid <= 0) {
+            alert('请选择活动！');return false;
+        }
+        var uid = $('#uid').val();
+        if (uid <= 0) {
+            alert('请选择抽奖用户！');return false;
+        }
+        var nickname = $('#uid').find('option:selected').text();
+        var openid = $('#openid').val();
+        $.ajax({
+            type: "POST",
+            url: "/Home/Index/doAward",
+            data: {uid: uid, actid: actid, num: num, uniacid: uniacid, nickname: nickname, openid: openid},
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200) {
+                    getActInfo(uniacid, actid);
+                    getUserInfo(uniacid, actid, uid);
+                }
+            }
+        });
+    }
+</script>
+</html>

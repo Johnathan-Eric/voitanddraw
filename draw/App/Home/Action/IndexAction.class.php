@@ -143,7 +143,7 @@ class IndexAction extends Action {
         $totalNum = isset($onceData['num']) ? $onceData['num'] : 0;
 
         // 用户的投票数计算的抽奖次数
-        $totalNum += floor($user['vote_num']/$pervote);
+        $totalNum += getAwardNum($user['vote_num'], $pervote);
 
         // 返回数据
         return array('uniacid' => $request['uniacid'], 'nickname' => $user['name'], 'totalNum' => $totalNum, 'uid' => $user['uid'], 'pervote' => $pervote, 'user' => $user);
@@ -417,29 +417,25 @@ class IndexAction extends Action {
                         }
                     }
                 }
-
+                
                 // 奖品ID对于的中奖率
                 $arr = $awData = array();
                 $atype2 = 0;
                 foreach ($newawList as $k => $value) {
                     if ($value['stock'] > 0) {
-                        $arr[$k] = (float)$value['pronum'];
-                        $awData[$k] = $value;
+                        $pronum = (float)$value['pronum'];
                         if ($value['atype'] == '2') {
                             $atype2 = $k;
                         }
+                        $arr[$k] = $pronum;
+                        $awData[$k] = $value;
                     }
                 }
 
-//                fileLog($newawList, 'arr.txt');
-//                fileLog($arr, 'arr.txt');
-
                 // 计算实际概率
-                $data = $this->getRand($arr);
+                $data = $this->getRand($arr, $atype2);
 
                 $rid = $data['key'];
-
-//                fileLog(array('rid' => $rid), 'arr.txt');
 
                 // 奖品ID
                 $aid = $awData[$rid]['id'];
@@ -447,15 +443,7 @@ class IndexAction extends Action {
 
                 // 判断中奖数量限制
                 $winnum = $awData[$rid]['winnum'];
-                if ($level == 1) { // 高价奖品次数判断
-                    if ($hawNums && $awInfo['user']['status'] == '1') { // 高价奖品只能获取一次,除非为用户设置允许再次获取奖品
-                        continue;
-                    } else { // 允许中奖,但是,下次抽奖次数必须大于总抽奖次数
-                        if ($awInfo['user']['status'] == '2' && $awInfo['user']['nextnum'] < $awInfo['user']['total_num']) {
-                            continue;
-                        }
-                    }
-                } else { // 普通奖品中奖次数判断
+                if ($level != 1) { // 普通奖品次数判断
                     if ($winnum > 0) {
                         if (isset($awNums[$awData[$rid]['id']]) && $awNums[$aid] >= $winnum) {
                             continue;
@@ -475,6 +463,7 @@ class IndexAction extends Action {
                     $log['thumb'] = $awData[$rid]['thumb'];
                     $log['atype'] = $awData[$rid]['atype'];
                     $log['level'] = $awData[$rid]['level'];
+                    $log['num'] = $num;
                     $logArr[] = $log;
 
                     // 库存数据
@@ -593,11 +582,15 @@ class IndexAction extends Action {
     /**
      * 抽奖算法
      **/
-    private function getRand($proArr){
+    private function getRand($proArr, $xxKey){
+        $tpNum = 10000; // 总出奖率
         $proSum = array_sum($proArr); //概率数组的总概率精度
-        $data['sum'] = $proSum;
+        if ($proSum < $tpNum && $xxKey > 0) {
+            $proArr[$xxKey] += $tpNum - $proSum;
+        }
+        $data['sum'] = $tpNum;
         foreach ($proArr as $k => $v) { //概率数组循环
-            $randNum = mt_rand(1, $proSum); //重点
+            $randNum = mt_rand(1, $tpNum); //重点
             if($randNum <= $v){ //重点
                 $data['key'] = $k;
                 if (isset($data[$k])) {
@@ -607,7 +600,7 @@ class IndexAction extends Action {
                 }
                 break;
             } else {
-                $proSum -= $v;
+                $tpNum -= $v;
             }
         }
         unset($proArr);
