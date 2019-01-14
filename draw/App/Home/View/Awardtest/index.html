@@ -273,6 +273,8 @@
                 if (data.code == 200) {
                     getActInfo(uniacid, actid);
                     getUserInfo(uniacid, actid, uid);
+                } else {
+                    alert(data.msg);
                 }
             }
         });

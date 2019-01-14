@@ -565,6 +565,14 @@ class IndexAction extends Action {
                 $dmsg .= '<div class="drawall" style="text-align: center;">谢谢关注，继续努力吆！</div>';
             }
 
+            // 统计抽奖次数日志
+            $numLog['uid'] = $request['uid'];
+            $numLog['rid'] = $request['actid'];
+            $numLog['addtime'] = time();
+            $numLog['uniacid'] = $request['uniacid'];
+            $numLog['num'] = $num;
+            M('AwardNumlog')->add($numLog);
+
             // 解锁
             flock($fp,LOCK_UN);
         } else {

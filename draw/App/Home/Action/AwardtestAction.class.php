@@ -172,13 +172,23 @@ class AwardtestAction extends Action
         $where['uid'] = array('eq', $request['uid']);
         $info = M('Users')->where($where)->field($fields)->find();
         if ($info) {
+            // 抽奖次数标识记录
+            $numLogs = '';
+            $numArr = M('AwardNumlog')->where($where)->field('num,count(num) as tnum')->order('id desc')->group('num')->select();
+            if ($numArr) {
+                foreach ($numArr as $nv) {
+                    $numLogs .= '<div>';
+                    $numLogs .= '抽奖'.$nv['num'].'次，抽了'.$nv['tnum'].'次';
+                    $numLogs .= '</div>';
+                }
+            }
+
             // 中奖记录
             unset($where['rid']);
             $where['cid'] = array('eq', $request['rid']);
             $awardLog = M('AwardLog')->where($where)->field('aname,level,addtime,num')->order('id desc')->select();
-            $awards = $numLogs = '';
+            $awards = '';
             if ($awardLog) {
-                $numArr = array();
                 foreach ($awardLog as $alval) {
                     // 中奖记录
                     $awards .= '<div>抽 '.$alval['num'].' 次，';
@@ -194,24 +204,9 @@ class AwardtestAction extends Action
                     $awards .= '名称：'.$alval['aname'].'，';
                     $awards .= '时间：'.date('Y-m-d H:i:s', $alval['addtime']).'；';
                     $awards .= '</div>';
-
-                    // 次数信息
-                    if (isset($numArr[$alval['num']])) {
-                        $numArr[$alval['num']] += 1;
-                    } else {
-                        $numArr[$alval['num']] = 1;
-                    }
                 }
 
-                // 抽奖次数标识记录
-                if ($numArr) {
-                    ksort($numArr);
-                    foreach ($numArr as $k => $nv) {
-                        $numLogs .= '<div>';
-                        $numLogs .= '抽奖'.$k.'次，抽了'.$nv.'次';
-                        $numLogs .= '</div>';
-                    }
-                }
+
             }
 
             // 剩余次数
