@@ -27,9 +27,10 @@
 					<!--<else />-->
 						<!--<img src="{$vo.thumb}" onclick="showInfo()" alt="{$vo.name}">-->
 					<!--</if>-->
-					<img id="img_{$vo.id}" src="{$vo.thumb}" onclick="showInfo({$vo.id})" style="cursor: pointer;" alt="{$vo.name}"/>
+					<!--<img id="img_{$vo.id}" src="{$vo.thumb}" onclick="showInfo({$vo.id})" style="cursor: pointer;" alt="{$vo.name}"/>-->
+                    <img id="img_{$vo.id}" src="{$vo.thumb}" onclick="showImg({$vo.id})" style="cursor: pointer;" alt="{$vo.name}"/>
 				</div>
-			</li>
+            </li>
 		</volist>
 	</ul>
 </div>
@@ -64,7 +65,7 @@
 	<div class="line"></div>
 </div>
 <div class="Rankings" style="height: 300px;">
-	<marquee behavior="scroll" direction="down">
+	<marquee behavior="scroll" direction="down" loop="infinite">
 	<ul>
 		<volist name="data.logs" id="lvo">
 			<li>
@@ -77,7 +78,8 @@
 <div> </div>
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;">
     <div id="innerdiv" style="position:absolute;">
-        <img id="bigimg" style="border:5px solid #fff;" src="" />
+        <div><img id="bigimg" style="border:5px solid #fff;" src="" /></div>
+        <div id="img_desc"></div>
     </div>
 </div>
 <div class="footertop"></div>
@@ -86,6 +88,7 @@
 	<a href="{$awardUrl}" class="{$homeClass}"><img src="__PUBLIC__/images/{$homePng}.png" /><p>抽奖</p></a>
 	<a href="{$myUrl}" class="{$myClass}"><img src="__PUBLIC__/images/{$myPng}.png" /><p>我的</p></a>
 </div>
+<script src="__PUBLIC__/layer/layer.js"></script>
 <script type="text/javascript">
 var lottery = {
 	index: -1,    //当前转动到哪个位置，起点位置
@@ -240,7 +243,10 @@ function showInfo(aid = 0) {
 	            if (data.code == 200) {
 	                // alert('奖品信息');
 	                var _this = $("#img_"+aid);//将当前的pimg元素作为_this传入函数  
-        			imgShow("#outerdiv", "#innerdiv", "#bigimg", _this); 
+        			imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+
+        			$('#img_desc').empty();
+                    $('#img_desc').html(data.content);
 	            }
 	        }
 	    });
@@ -250,7 +256,7 @@ function showInfo(aid = 0) {
         imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);  
 	}
 }
-
+// 显示图片
 function imgShow(outerdiv, innerdiv, bigimg, _this){
 	var src = _this.attr("src");//获取当前点击的pimg元素中的src属性
 	$(bigimg).attr("src", src);//设置#bigimg元素的src属性
@@ -288,5 +294,31 @@ function imgShow(outerdiv, innerdiv, bigimg, _this){
 	$(outerdiv).click(function(){ //再次点击淡出消失弹出层
 		$(this).fadeOut("fast");
 	});
+}
+
+// 显示奖品信息 aid:aid, uid:uid, actid:actid, openid:openid, uniacid:uniacid, nickname:nickname
+function showImg(aid) {
+    var index = layer.open({
+        type: 2,
+        title: '奖品信息',
+        content: '/Home/Index/showPic?aid='+aid+'&uid='+uid+'&actid='+actid+'&openid='+openid+'&uniacid='+uniacid+'&nickname='+nickname,
+        success: function(layero, index){
+            var body = layer.getChildFrame('body', index);
+            if(body.find("div").length == 0){
+                var parsedJson = jQuery.parseJSON(body.html());
+                if(parsedJson.error == 1){
+                    layer.close(index);
+                    layer.msg(parsedJson.msg);
+                }
+            }
+        }
+    });
+    layer.full(index);
+}
+
+/*关闭弹出框口*/
+function layer_close() {
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
 }
 </script>

@@ -28,7 +28,7 @@ class IndexAction extends Action {
         $request = I("request.");
 
         // 当前时间
-        $nowTime = time();
+//        $nowTime = time();
 
         // 查询活动是否过期
         $rwhere['rid'] = array('eq', $request['actid']);
@@ -64,6 +64,7 @@ class IndexAction extends Action {
         // 抽奖记录
         $where['uniacid'] = array('eq', $actInfo['uniacid']);
         $where['cid'] = array('eq', $request['actid']);
+        $where['atype'] = array('eq', 1);
         $data['logs'] = M('AwardLog')->where($where)->field('uid,uname,aname,addtime')->order('addtime desc')->select();
 
         // 获取用户抽奖次数信息
@@ -91,9 +92,6 @@ class IndexAction extends Action {
     public function showPic() {
         // 接收参数
         $request = I("request.");
-        $adlog['aid'] = $request['aid'];
-        $adlog['actid'] = $request['actid'];
-        $adlog['uniacid'] = $request['uniacid'];
 
         // 记录日志
         // 查看公众号活动下的奖品点击次数信息
@@ -103,21 +101,35 @@ class IndexAction extends Action {
         $aDataInfo = M('award_data')->where($awhere)->find();
         if ($aDataInfo) {
             $isTrue = M('award_data')->where($awhere)->setInc('num', 1);
+            unset($awhere);
         } else {
+            $adlog['aid'] = $request['aid'];
+            $adlog['actid'] = $request['actid'];
+            $adlog['uniacid'] = $request['uniacid'];
             $adlog['num'] = 1; // 点击次数
             $isTrue = M('award_data')->add($adlog);
+            unset($adlog);
         }
+
+        // 获取奖品信息
+        $where['uniacid'] = array('eq', $request['uniacid']);
+        $where['actid'] = array('eq', $request['actid']);
+        $where['id'] = array('eq', $request['aid']);
+        $info = M('Award')->where($where)->field('thumb,content')->find();
 
         // 返回数据
-        if ($isTrue) {
-            $return = array('code' => 200, 'msg' => '');
-        } else {
-            $return = array('code' => 201, 'msg' => '');
-        }
+//        if ($isTrue) {
+//            $return = array('code' => 200, 'msg' => '', 'content' => $info['content']);
+//        } else {
+//            $return = array('code' => 201, 'msg' => '');
+//        }
 
         // 返回结果
-        $this->ajaxReturn($return);
-        return;
+//        $this->ajaxReturn($return);
+//        return;
+        $info['content'] = htmlspecialchars_decode($info['content']);
+        $this->assign('info', $info);
+        $this->display('view');
     }
 
     /**
@@ -155,13 +167,15 @@ class IndexAction extends Action {
     private function getList($request) {
         // 获取活动的奖品信息
         $skey = $this->_haKey.$request['actid'];
-        $isHave = $this->_redis->get($skey);
-        if ($isHave) {
-            return $isHave;
+        $list = $this->_redis->get($skey);
+        if ($list) {
+            if ($request['index']) {
+                $lastData = $this->getAwardList($list, 1);
+            } else {
+                $lastData = $this->getAwardList($list);
+            }
+            return $lastData;
         }
-
-        // 当前时间
-        $nowTime = time();
 
         // 查询条件
         $where['uniacid'] = array('eq', $request['uniacid']);
@@ -170,36 +184,74 @@ class IndexAction extends Action {
         $fields = 'id,name,thumb,stock,pronum,atype,stime,etime,hurl,sendnum,winnum,level,limitnum,paynum';
         $order = 'listorder asc';
         $return = M('Award')->where($where)->field($fields)->order($order)->limit(9)->select();
-        $xxArr = $lastData = $highAward = array();
+        $lastData = array();
         if ($return) {
-            foreach ($return as $value) {
-                if ($value['stime'] > $nowTime || $value['etime'] < $nowTime) {
+            // 整理奖品信息
+            $data = array();
+            foreach ($return as $rval) {
+                $k = $request['actid'].'_'.$rval['id'];
+                $data[$k] = $rval;
+            }
+
+            // 存储奖品信息
+            $enData = json_encode($data);
+            $this->_redis->set($skey, $enData, C('DATA_CACHE_TIME'));
+
+            // 获取奖品信息
+            if ($request['index']) {
+                $lastData = $this->getAwardList($enData, 1);
+            } else {
+                $lastData = $this->getAwardList($enData);
+            }
+        }
+        return $lastData;
+    }
+
+    /**
+     * 抽奖奖品
+     * @param $data 奖品信息
+     * @return array
+     */
+    private function getAwardList($awardList, $is_index = 0) {
+        // 自定义变量
+        $lastData = $xxArr = array();
+
+        // 当前时间
+        $nowTime = time();
+
+        // 整理奖品信息
+        if (is_string($awardList)) {
+            $data = json_decode($awardList, true);
+        } else {
+            $data = $awardList;
+        }
+        if ($data) {
+            foreach ($data as $value) {
+                if (!$is_index && ($value['stime'] > $nowTime || $value['etime'] < $nowTime)) {
                     unset($value);
                 } else {
                     if ($value['atype'] == '2') {
+                        $value['thumb'] = '/Public/images/thanks.jpeg';
                         $xxArr = $value;
-                        continue;
+//                        continue;
                     } else if ($value['atype'] == '3') {
                         $value['thumb'] = '/Public/images/next.jpeg';
                     }
                     $lastData[] = $value;
                 }
             }
-        }
 
-        // 总数
-        $awTotal = count($lastData);
-        if ($awTotal < $this->_awNum) {
-            for($i = $awTotal; $i < $this->_awNum; $i ++) {
-                $tmp = $xxArr;
-                $tmp['atype'] = '2';
-                $tmp['thumb'] = '/Public/images/thanks.jpeg';
-                $lastData[$i] = $tmp;
+            // 总数
+            $awTotal = count($lastData);
+            if ($awTotal < $this->_awNum) {
+                for($i = $awTotal; $i < $this->_awNum; $i ++) {
+                    $tmp = $xxArr;
+                    $tmp['atype'] = '2';
+                    $tmp['thumb'] = '/Public/images/thanks.jpeg';
+                    $lastData[$i] = $tmp;
+                }
             }
         }
-
-        // 存储奖品信息
-        $this->_redis->set($skey, json_encode($lastData), C('DATA_CACHE_TIME'));
 
         return $lastData;
     }
@@ -417,7 +469,7 @@ class IndexAction extends Action {
                         }
                     }
                 }
-                
+
                 // 奖品ID对于的中奖率
                 $arr = $awData = array();
                 $atype2 = 0;
@@ -496,12 +548,20 @@ class IndexAction extends Action {
                 }
 
                 // 更新奖品库存数据(缓存)
-                foreach ($awList as &$awval) {
-                    if ($aid == $awval['id'] && $awval['stock'] > 0) {
-                        $awval['stock'] -= 1;
-                    }
+                $list = $this->_redis->get($skey);
+                if (isset($list[$request['actid'].'_'.$aid]) && $list[$request['actid'].'_'.$aid]['stock'] > 0) {
+                    fileLog($list[$request['actid'].'_'.$aid], 'newAward.txt');
+                    $list[$request['actid'].'_'.$aid]['stock'] -= 1;
+                    $newList = $list;
+                    fileLog($newList[$request['actid'].'_'.$aid], 'newAward.txt');
+                    $this->_redis->set($skey, json_encode($newList), C('DATA_CACHE_TIME'));
                 }
-                $this->_redis->set($skey, json_encode($awList), C('DATA_CACHE_TIME'));
+//                foreach ($list as &$awval) {
+//                    if ($aid == $awval['id'] && $awval['stock'] > 0) {
+//                        $awval['stock'] -= 1;
+//                    }
+//                }
+//                $this->_redis->set($skey, json_encode($list), C('DATA_CACHE_TIME'));
             }
             if ($logArr) {
                 M('AwardLog')->addAll($logArr);

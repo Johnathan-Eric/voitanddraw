@@ -181,7 +181,7 @@ class AwardAction extends AdminBaseAction {
         // 返回数据
         $this->assign('uniList', $uniList);
         $this->assign('actList', $actList);
-        $this->assign('tpnum', $tpnum);
+        $this->assign('tpnum', 10000);
         $this->assign('lists', $data['list']);
         $this->assign('_curr', $page);
         $this->assign('_total', $data['total']);
@@ -398,7 +398,8 @@ class AwardAction extends AdminBaseAction {
         foreach ($rArr as $rk => $rval) {
             $num = isset($lastArr[$rk]) ? $lastArr[$rk] : 0;
             $aradio = round($num / $sum, 8);
-            $msg .= '索引值：'.$rk.'; 出奖率：'.$bArr[$rk].'; 抽中次数：'.$num.'; 概率：'.$aradio.'; 实际概率：'.$rval.'<br>';
+//            $msg .= '索引值：'.$rk.'; 奖品：'.$awData[$rk]['name'].'; 出奖率：'.$bArr[$rk].'; 抽中次数：'.$num.'; 概率：'.$aradio.'; 实际概率：'.$rval.'<br>';
+            $msg .= '索引值：'.$rk.'; 奖品：'.$awData[$rk]['name'].'; 出奖率：'.$bArr[$rk].'; 抽中次数：'.$num.'; 概率：'.$aradio.'<br>';
         }
 
         $date = array("error"=>0,"msg"=>$msg);
@@ -409,7 +410,8 @@ class AwardAction extends AdminBaseAction {
      * 抽奖算法
      **/
     private function getRand($proArr){
-        $proSum = array_sum($proArr); //概率数组的总概率精度
+//        $proSum = array_sum($proArr); //概率数组的总概率精度
+        $proSum = 10000; //概率数组的总概率精度
         $data['sum'] = $proSum;
         foreach ($proArr as $k => $v) { //概率数组循环
             $randNum = mt_rand(1, $proSum); //重点

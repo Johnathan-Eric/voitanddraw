@@ -44,17 +44,17 @@
                                 <input type="text" name="keyword" placeholder="收件人名称" value="{$request['keyword']}" autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                        <div class="layui-inline" style="text-align: left;">
-                            <label class="layui-form-label">是否发件：</label>
-                            <div class="layui-input-inline">
-                                <select name="status">
-                                    <option value="">全部</option>
-                                    <volist name="statusList" id="vo">
-                                        <option value="{$key}" <if condition="$key eq $request['status']">selected="selected"</if>>{$vo}</option>
-                                    </volist>
-                                </select>
-                            </div>
-                        </div>
+                        <!--<div class="layui-inline" style="text-align: left;">-->
+                            <!--<label class="layui-form-label">是否发件：</label>-->
+                            <!--<div class="layui-input-inline">-->
+                                <!--<select name="status">-->
+                                    <!--<option value="">全部</option>-->
+                                    <!--<volist name="statusList" id="vo">-->
+                                        <!--<option value="{$key}" <if condition="$key eq $request['status']">selected="selected"</if>>{$vo}</option>-->
+                                    <!--</volist>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </form>
             </div>
@@ -95,7 +95,7 @@
                             <th style="text-align: center;">地址</th>
                             <th style="text-align: center;">邮政编码</th>
                             <th style="text-align: center;">添加时间</th>
-                            <th style="text-align: center;">是否发件</th>
+                            <!--<th style="text-align: center;">是否发件</th>-->
                             <th style="text-align: center;">操作</th>
                         </tr> 
                     </thead>
@@ -108,9 +108,9 @@
                                 <td>{$vo.address}</td>
                                 <td>{$vo.postcode}</td>
                                 <td>{$vo.addtime|date='Y-m-d H:m:s',###}</td>
-                                <td>
-                                    <input type="checkbox" value='{$vo.id}' <if condition="$vo['status'] eq 1">checked</if> lay-filter="switchStatus" lay-skin="switch" lay-text="ON|OFF">
-                                </td>
+                                <!--<td>-->
+                                    <!--<input type="checkbox" value='{$vo.id}' <if condition="$vo['status'] eq 1">checked</if> lay-filter="switchStatus" lay-skin="switch" lay-text="ON|OFF">-->
+                                <!--</td>-->
                                 <td>
                                     <a href="javascript:void(0);" onclick="lay_full('编辑地址','{:U($acc['addr_edit']['auth_path'],'id='.$vo['id'])}','1200','600')">编辑</a>
                                 </td>
