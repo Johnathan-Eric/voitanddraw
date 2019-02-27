@@ -81,7 +81,11 @@ class Captcha {
 	
 		$length = strlen($phrase);
 		for ($i=0; $i<$length; $i++) {
-			$box = imagettfbbox($size, 0, $font, $phrase[$i]);
+			$textColor = array($this->rand(0, 150), $this->rand(0, 150), $this->rand(0, 150));
+		    $col = imagecolorallocate($image, $textColor[0], $textColor[1], $textColor[2]);
+		    $size2 = $size + rand(-2,2);
+
+			$box = imagettfbbox($size2, 0, $font, $phrase[$i]);
 			$w = $box[2] - $box[0];
 			$angle = $this->rand(-$this->maxAngle, $this->maxAngle);
 			$offset = $this->rand(-$this->maxOffset, $this->maxOffset);
