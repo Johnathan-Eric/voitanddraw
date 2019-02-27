@@ -79,7 +79,7 @@ class AwlogsAction extends AdminBaseAction
                 $val['atype'] = $this->atypes[$val['atype']];
 
                 // 奖品等级
-                $val['level'] = $this->awardLevel[$val['level']];
+                $val['levelname'] = $this->awardLevel[$val['level']];
             }
         }
 

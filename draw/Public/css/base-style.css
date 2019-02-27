@@ -56,7 +56,7 @@ a:focus, input, button, select, textarea{outline:0 none}
 
 .draw .item.active { background-image: url(../images/bg2.png); }
 .draw .img { width:3.775rem; height:3.775rem; vertical-align: middle; text-align: center; margin:0px auto }
-.draw .img img{ width:1.86rem; height:1.66rem;text-align: center; margin:0px auto;vertical-align: middle; position:relative; top:26%}
+.draw .img img{width: 4.09rem;height: 3.32rem;text-align: center;vertical-align: middle;position: relative;border-radius: 12px;margin-left: -4px;}
 
 .draw .item { background-image: url(../images/bg1.png); background-size: 100% 100%; float:left; margin-left:4.6%; margin-bottom:4.6%; width:27%; text-align:center }
 .loterycont{ text-align:center; color:#c12131; font-size:0.68rem; margin:0.6rem 0}

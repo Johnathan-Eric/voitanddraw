@@ -82,7 +82,7 @@ return array(
 //    'REDIS_TIMEOUT'			=> '300',//超时时间
 //    'REDIS_PERSISTENT'		=> false,//是否长连接 false=短连接
 //    'REDIS_AUTH'			=> '',//AUTH认证密码
-//    'DATA_CACHE_TIME'       => 10, // 失效时间
+    'DATA_CACHE_TIME'       => 10000, // 失效时间
 
 
 	//语言包设置

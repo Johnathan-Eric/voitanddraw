@@ -1331,6 +1331,7 @@ function makeOrderSn() {
 	srand((double)microtime()*1000000);//create a random number feed.
 	$ychar="0,1,2,3,4,5,6,7,8,9";
 	$list=explode(",",$ychar);
+    $authnum = '';
 	for($i = 0; $i < 6; $i ++){
 		$randnum = rand(0, 9); // 10+26;
 		$authnum .= $list[$randnum];

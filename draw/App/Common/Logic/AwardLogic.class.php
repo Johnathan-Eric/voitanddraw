@@ -11,7 +11,7 @@ class AwardLogic {
 	 * 获取列表
 	 * @param array $where 查询条件
 	 **/
-	public function searchData($where, $page = 1, $listRows = 10, $order = 'id desc') {
+	public function searchData($where, $page = 1, $listRows = 10, $order = 'listorder asc') {
 
 		// 获取列表
 		$fields = 'id,thumb,pronum,online,listorder,stime,etime,actid,stock,name,atype,winnum,limitnum,paynum,level';

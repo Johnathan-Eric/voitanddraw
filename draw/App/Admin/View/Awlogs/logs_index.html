@@ -144,7 +144,11 @@
                                 <td>{$vo.title}</td>
                                 <td>{$vo.uname}</td>
                                 <td>{$vo.atype}</td>
-                                <td>{$vo.level}</td>
+                                <if condition="$vo['level'] eq 1">
+                                    <td style="color: red;">{$vo.levelname}</td>
+                                    <else/>
+                                    <td>{$vo.levelname}</td>
+                                </if>
                                 <td><img src="{$vo.thumb}" class="view-img"></td>
                                 <td>{$vo.aname}</td>
                                 <td>{$vo.addtime|date='Y-m-d H:m:s',###}</td>
