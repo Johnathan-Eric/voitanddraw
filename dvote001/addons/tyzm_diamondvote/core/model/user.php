@@ -147,4 +147,27 @@ class Tyzm_User{
 		$data = $acc->sendCustomNotice($send);
     }
 
-}
+	function sendkfimage($openid){//发送信息
+			global $_GPC,$_W;
+			$send['touser'] = trim($openid); 
+			$send['fromusername'] = 'YISHUPINGTAI';
+			$send['createtime'] = TIMESTAMP; 
+			$send['msgtype'] = 'image';   
+			$send['image']['mediaid'] ='EttIibAFUYngR0LU8JjpmzkwFWb3sy5xxjVEGQd7yX7PTpcGiaLyicas0uwa0fP4RFS2DKqejoKbXwm2Yhorc0Uog'; 
+<xml><ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[image]]></MsgType><Image><MediaId><![CDATA[%s]]></MediaId></Image></xml>
+
+			$acc = WeAccount::create($_W['uniacid']); 
+			$data = $acc->sendCustomNotice($send);
+	    }
+	}
+
+	function sendkfimage($openid){//发送信息
+			global $_GPC,$_W; 
+			$send['touser'] = trim($openid); 
+			$send['msgtype'] = 'image';
+			$send['image'] = array('mediaid' =>'EttIibAFUYngR0LU8JjpmzkwFWb3sy5xxjVEGQd7yX7PTpcGiaLyicas0uwa0fP4RFS2DKqejoKbXwm2Yhorc0Uog');
+  
+			$acc = WeAccount::create($_W['uniacid']); 
+			$data = $acc->sendCustomNotice($send);
+	    }
